@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/startAlarm"
+        android:layout_width="179dp"
+        android:layout_height="116dp"
+        android:text="StartAlarm"
+        tools:layout_editor_absoluteX="116dp"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="147dp"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/setAlarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SetAlarm" />
+
+</LinearLayout>
