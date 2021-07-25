@@ -57,7 +57,7 @@ public class Explaination extends FragmentActivity {
             imageViews[i] = new ImageView(this);
             imageViews[i].setImageResource(R.drawable.shape_page_control_default);
             layoutParams= new LinearLayout.LayoutParams(imageWidth, imageHeight);
-            layoutParams.setMargins(150, 0, 150, 0);
+            layoutParams.setMargins(210, 0, 210, 0);
             imageViews[i].setLayoutParams(layoutParams);
             layout.addView(imageViews[i]);
         }
