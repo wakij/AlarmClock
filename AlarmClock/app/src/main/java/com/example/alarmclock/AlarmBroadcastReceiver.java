@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 //これはアラーム信号を受け取るためのスクリプトです
+//これは確認用です。
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     @Override
