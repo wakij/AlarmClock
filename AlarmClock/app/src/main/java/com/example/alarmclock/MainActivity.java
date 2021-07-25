@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        View decor = getWindow().getDecorView();
+        // hide navigation bar, hide status bar
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         Button startbtn = this.findViewById(R.id.startAlarm);
         Button setbtn = this.findViewById((R.id.setAlarm));
         TextView text = this.findViewById(R.id.text);

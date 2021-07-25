@@ -16,6 +16,10 @@ public class title extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title);
 
+        View decor = getWindow().getDecorView();
+        // hide navigation bar, hide status bar
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         String DB_FULL_PATH = "data/data/" + getPackageName() + "/myDatabase1.db";
         Button titlebtn =  findViewById(R.id.titlebtn);
 
