@@ -34,6 +34,8 @@ public class Wakeup extends AppCompatActivity {
 //        editAlarmName = findViewById(R.id.alarm_name);
         backbtn = findViewById(R.id.backbtn);
 
+        timePicker.setIs24HourView(true); //24時間表記する
+
         setbtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override

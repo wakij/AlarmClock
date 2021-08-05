@@ -6,14 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Wakeup">
 
-    <TimePicker
-        android:id="@+id/time_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <EditText-->
+    <!--    <EditText-->
 <!--        android:id="@+id/alarm_name"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
@@ -23,6 +16,17 @@
 <!--        android:text="無題"-->
 <!--        app:layout_constraintStart_toStartOf="@+id/setbtn"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/time_picker" />-->
+
+    <TimePicker
+        android:id="@+id/time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+        android:layout_marginTop="56dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/setbtn"
