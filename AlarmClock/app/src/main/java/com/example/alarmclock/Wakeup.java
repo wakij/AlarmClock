@@ -21,6 +21,7 @@ public class Wakeup extends AppCompatActivity {
     int hour;
     int minutes;
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -33,6 +34,8 @@ public class Wakeup extends AppCompatActivity {
         setbtn = findViewById(R.id.setbtn);
 //        editAlarmName = findViewById(R.id.alarm_name);
         backbtn = findViewById(R.id.backbtn);
+
+
 
         timePicker.setIs24HourView(true); //24時間表記する
 

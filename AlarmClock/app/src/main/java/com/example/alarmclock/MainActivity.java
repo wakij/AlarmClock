@@ -23,6 +23,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button startbtn = this.findViewById(R.id.startAlarm);
         Button setbtn = this.findViewById((R.id.setAlarm));
+        Button footbtn = this.findViewById(R.id.button);
         TextView text = this.findViewById(R.id.text);
 
         startbtn.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +66,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        footbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), footstepcount.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
