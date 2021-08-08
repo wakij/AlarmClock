@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +17,7 @@ public class title extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title);
 
-        View decor = getWindow().getDecorView();
-        // hide navigation bar, hide status bar
-        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
 
         String DB_FULL_PATH = "data/data/" + getPackageName() + "/myDatabase1.db";
         ImageButton title =  findViewById(R.id.imageButton2);

@@ -2,15 +2,21 @@ package com.example.alarmclock;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -22,9 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View decor = getWindow().getDecorView();
-        // hide navigation bar, hide status bar
-        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        //        hide statusbars
+        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
 
         Button startbtn = this.findViewById(R.id.startAlarm);
         Button setbtn = this.findViewById((R.id.setAlarm));
@@ -60,4 +65,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

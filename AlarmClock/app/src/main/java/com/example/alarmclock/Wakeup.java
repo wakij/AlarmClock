@@ -3,6 +3,7 @@ package com.example.alarmclock;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -25,9 +26,8 @@ public class Wakeup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wakeup);
 
-        View decor = getWindow().getDecorView();
-        // hide navigation bar, hide status bar
-        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+//        hide statusbars
+        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
 
         timePicker = findViewById(R.id.time_picker);
         setbtn = findViewById(R.id.setbtn);
