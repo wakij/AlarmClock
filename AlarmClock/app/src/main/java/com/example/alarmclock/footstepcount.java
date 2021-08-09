@@ -20,7 +20,7 @@ public class footstepcount extends AppCompatActivity implements SensorEventListe
     float d0,d = 0f;
     int stepcount = 0;
 //    フィルタリング係数 0<a<1
-    float a = 0.65f;
+    float a = 0.90f;
 
 
 
