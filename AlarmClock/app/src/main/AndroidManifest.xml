@@ -22,6 +22,7 @@
             android:process=":remote"/>
         <activity android:name=".Wakeup"/>
         <activity android:name=".footstepcount"/>
+        <activity android:name=".ring"/>
     </application>
 
 </manifest>

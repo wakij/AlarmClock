@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Button startbtn = this.findViewById(R.id.startAlarm);
         Button setbtn = this.findViewById((R.id.setAlarm));
         Button footbtn = this.findViewById(R.id.button);
+        Button ringbtn = this.findViewById(R.id.button2);
         TextView text = this.findViewById(R.id.text);
 
         startbtn.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), footstepcount.class);
+                startActivity(intent);
+            }
+        });
+
+        ringbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), ring.class);
                 startActivity(intent);
             }
         });
