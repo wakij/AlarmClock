@@ -22,15 +22,16 @@ public class ring extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ring);
 
-        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);	// デフォルトのuriを取得.
-        // 着信音取得.
-        Ringtone ringtone = RingtoneManager.getRingtone(mContext, uri);	// ringtoneを取得.
+
 
 
 
 
         // mContextの初期化.
         mContext = this;	// mContextにthisをセット.
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);	// デフォルトのuriを取得.
+        Ringtone ringtone = RingtoneManager.getRingtone(mContext, uri);	// ringtoneを取得.
+
 
         // button1の初期化.
         Button button1 = (Button)findViewById(R.id.button1);	// button1を取得.
@@ -38,9 +39,6 @@ public class ring extends MainActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                // デフォルトのURIを取得.
-
                 // 着信音再生.
                 ringtone.play();	// ringtone.playで再生.
             }
@@ -52,9 +50,6 @@ public class ring extends MainActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                // デフォルトのURIを取得.
-
                 // 着信音再生.
                 ringtone.stop();	// ringtone.playで再生.
             }
