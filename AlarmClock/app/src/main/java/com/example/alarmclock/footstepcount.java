@@ -22,7 +22,11 @@ public class footstepcount extends AppCompatActivity implements SensorEventListe
 //    フィルタリング係数 0<a<1
     float a = 0.90f;
 
+   public footstepcount(){
+       sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+       sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+   }
 
 
     @Override
@@ -30,14 +34,14 @@ public class footstepcount extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.footstepcount);
 
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         stepTextView = (TextView) findViewById(R.id.counter);
     }
 
     public void onSensorChanged(SensorEvent sensorEvent){
         float[] value = sensorEvent.values;
         float sum= (float)Math.sqrt(Math.pow(value[0],2) + Math.pow(value[1],2) + Math.pow(value[2],2));
+
 
         if (first){
             first = false;
@@ -49,6 +53,10 @@ public class footstepcount extends AppCompatActivity implements SensorEventListe
             if (up && d < d0){
                 up = false;
                 stepcount++;
+
+
+
+
             }
             else if(!up&& d>d0){
                 up = true;

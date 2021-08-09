@@ -1,5 +1,7 @@
 package com.example.alarmclock;
 
+
+import com.example.alarmclock.footstepcount;
 import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -15,6 +17,9 @@ public class ring extends MainActivity {
 
     // メンバフィールドの定義.
     Context mContext = null;	// mContextをnullで初期化.
+
+
+     footstepcount foot=null;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -41,6 +46,8 @@ public class ring extends MainActivity {
             public void onClick(View v) {
                 // 着信音再生.
                 ringtone.play();	// ringtone.playで再生.
+                foot = new footstepcount();
+                foot.clickStartButton(v);
             }
 
         });
@@ -51,16 +58,18 @@ public class ring extends MainActivity {
             @Override
             public void onClick(View v) {
                 // 着信音再生.
-                ringtone.stop();	// ringtone.playで再生.
+                if(foot.stepcount<2) {
+                    ringtone.stop();    // ringtone.playで再生.
+                }
             }
 
         });
 
 
 
-    }
-
-
 
 
     }
+
+
+}
