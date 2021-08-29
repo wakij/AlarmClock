@@ -17,11 +17,6 @@
         tools:layout_editor_absoluteX="116dp"
         tools:layout_editor_absoluteY="374dp" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="147dp"
-        android:text="TextView" />
 
     <Button
         android:id="@+id/setAlarm"
@@ -30,16 +25,5 @@
         android:text="SetAlarm"
         />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="footstepcount" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 </LinearLayout>

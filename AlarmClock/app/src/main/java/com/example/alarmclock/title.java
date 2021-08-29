@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.ImageButton;
+import com.example.alarmclock.MainActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,21 +18,15 @@ public class title extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title);
 
-        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+        MainActivity main = new MainActivity();
 
-        String DB_FULL_PATH = "data/data/" + getPackageName() + "/myDatabase1.db";
+//        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+
         ImageButton title =  findViewById(R.id.imageButton2);
 
         title.setOnClickListener(v -> {
-            try {
-                SQLiteDatabase checkDB = SQLiteDatabase.openDatabase(DB_FULL_PATH,null,SQLiteDatabase.OPEN_READONLY);
-                checkDB.close();
-                Intent intent= new Intent(getApplication(),MainActivity.class);
-                startActivity(intent);
-            } catch (Exception e){
-                Intent intent = new Intent(getApplication(),Explaination.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getApplication(),Explaination.class);
+            startActivity(intent);
 
         });
     }

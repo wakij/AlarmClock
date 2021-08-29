@@ -27,7 +27,7 @@ public class Explaination extends FragmentActivity {
         setContentView(R.layout.explaination);
 
         //        hide statusbars
-        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+//        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
 
         pager = findViewById(R.id.pager);
         adapter = new ExplainationPageStateAdapter(this);

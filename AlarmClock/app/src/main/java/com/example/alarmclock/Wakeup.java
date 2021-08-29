@@ -28,7 +28,7 @@ public class Wakeup extends AppCompatActivity {
         setContentView(R.layout.wakeup);
 
 //        hide statusbars
-        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+//        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
 
         timePicker = findViewById(R.id.time_picker);
         setbtn = findViewById(R.id.setbtn);
