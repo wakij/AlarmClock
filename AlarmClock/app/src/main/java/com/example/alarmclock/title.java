@@ -23,16 +23,9 @@ public class title extends AppCompatActivity {
         ImageButton title =  findViewById(R.id.imageButton2);
 
         title.setOnClickListener(v -> {
-            try {
-                SQLiteDatabase checkDB = SQLiteDatabase.openDatabase(DB_FULL_PATH,null,SQLiteDatabase.OPEN_READONLY);
-                checkDB.close();
-                Intent intent= new Intent(getApplication(),MainActivity.class);
-                startActivity(intent);
-            } catch (Exception e){
-                Intent intent = new Intent(getApplication(),Explaination.class);
-                startActivity(intent);
-            }
 
+            Intent intent = new Intent(getApplication(),Explaination.class);
+            startActivity(intent);
         });
     }
 }

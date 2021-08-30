@@ -1,6 +1,8 @@
 package com.example.alarmclock;
 
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,6 +12,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,11 +21,12 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ring extends AppCompatActivity implements SensorEventListener{
+public class ring extends Service implements SensorEventListener{
 
     SensorManager sensorManager;
     Sensor sensor;
-    TextView stepTextView;
+
+    int NEED_STEP = 1;
 
     boolean first = true;
     boolean up = false;
@@ -39,48 +43,33 @@ public class ring extends AppCompatActivity implements SensorEventListener{
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ring);
+    public void onCreate() {
+        super.onCreate();
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        stepTextView = (TextView) findViewById(R.id.counter);
-
         // mContextの初期化.
         mContext = this;	// mContextにthisをセット.
         uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);	// デフォルトのuriを取得.
         ringtone = RingtoneManager.getRingtone(mContext, uri);	// ringtoneを取得.
-
-
-        // button1の初期化.
-        Button button1 = (Button)findViewById(R.id.button1);	// button1を取得.
-        button1.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                startSensor(); //歩数計測を始める
-                // 着信音再生.
-                ringtone.play();	// ringtone.playで再生.
-            }
-
-        });
-
-        Button button2 = (Button)findViewById(R.id.button2);	// button1を取得.
-        button2.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                // 着信音再生.
-                if(stepcount>1) {
-                    ringtone.stop();    // ringtone.playで再生.
-                    stopSensor(); //計測を終了する
-                }
-            }
-
-        });
-
+        ringtone.play();
+        startSensor();
+        return START_NOT_STICKY;
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
     public void onSensorChanged(SensorEvent sensorEvent){
         float[] value = sensorEvent.values;
         float sum= (float)Math.sqrt(Math.pow(value[0],2) + Math.pow(value[1],2) + Math.pow(value[2],2));
@@ -96,9 +85,9 @@ public class ring extends AppCompatActivity implements SensorEventListener{
             if (up && d < d0){
                 up = false;
                 stepcount++;
-                if (stepcount > 1){
+                if (stepcount > NEED_STEP){
                     ringtone.stop();
-                    stopSensor();
+                    stopSelf();
                 }
             }
             else if(!up&& d>d0){
@@ -106,17 +95,9 @@ public class ring extends AppCompatActivity implements SensorEventListener{
                 d0 = d;
             }
         }
-        stepTextView.setText(stepcount + "歩");
     }
     public void onAccuracyChanged(Sensor sensor,int accuracy){
 
-    }
-    protected void onResume(){
-        super.onResume();
-    }
-    protected void onPause(){
-        super.onPause();
-        sensorManager.unregisterListener(this);
     }
     public void startSensor(){
         sensorManager.registerListener(this,sensor,sensorManager.SENSOR_DELAY_GAME);
@@ -124,8 +105,5 @@ public class ring extends AppCompatActivity implements SensorEventListener{
     public void restartSensor(){
         first = true;
         stepcount = 0;
-    }
-    public void stopSensor(){
-        this.onPause();
     }
 }

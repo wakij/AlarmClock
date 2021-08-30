@@ -34,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button startbtn = this.findViewById(R.id.startAlarm);
         Button setbtn = this.findViewById((R.id.setAlarm));
-        Button footbtn = this.findViewById(R.id.button);
-        Button ringbtn = this.findViewById(R.id.button2);
-        TextView text = this.findViewById(R.id.text);
+
 
         startbtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -46,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 //                時間をセットする
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.add(Calendar.SECOND, 10);
+                calendar.add(Calendar.SECOND, 5);
 
 //                明示的なブロードキャスト
                 Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
@@ -64,22 +62,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), Wakeup.class);
-                startActivity(intent);
-            }
-        });
-
-        footbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), footstepcount.class);
-                startActivity(intent);
-            }
-        });
-
-        ringbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), ring.class);
                 startActivity(intent);
             }
         });

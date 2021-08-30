@@ -13,9 +13,13 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent){
         Toast.makeText(context,"Received", Toast.LENGTH_LONG).show();
 
-        Intent startActivityIntent = new Intent(context, Wakeup.class);
-        startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(startActivityIntent);
+        Intent serviveIntent = new Intent(context, ring.class);
+        context.startService(serviveIntent);
+
+
+//        Intent startActivityIntent = new Intent(context, Wakeup.class);
+//        startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(startActivityIntent);
     }
 }
 
