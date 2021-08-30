@@ -8,15 +8,7 @@ import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -31,30 +23,20 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    // メンバフィールドの定義.
-    Context mContext = null;    // mContextをnullで初期化.
-    Uri uri;
-    Ringtone ringtone;
-
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // mContextの初期化.
-        mContext = this;    // mContextにthisをセット.
-        uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);    // デフォルトのuriを取得.
-        ringtone = RingtoneManager.getRingtone(mContext, uri);    // ringtoneを取得.
-
-
         //        hide statusbars
-//        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
 
         Button startbtn = this.findViewById(R.id.startAlarm);
         Button setbtn = this.findViewById((R.id.setAlarm));
-
+        Button footbtn = this.findViewById(R.id.button);
+        Button ringbtn = this.findViewById(R.id.button2);
+        TextView text = this.findViewById(R.id.text);
 
         startbtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -71,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                if (am != null) {
+                if (am != null){
                     am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
                     Toast.makeText(getApplicationContext(), "Set Alarm", Toast.LENGTH_LONG).show();
                 }
@@ -82,6 +64,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), Wakeup.class);
+                startActivity(intent);
+            }
+        });
+
+        footbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), footstepcount.class);
+                startActivity(intent);
+            }
+        });
+
+        ringbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), ring.class);
                 startActivity(intent);
             }
         });

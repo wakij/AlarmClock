@@ -21,7 +21,8 @@
         <receiver android:name=".AlarmBroadcastReceiver"
             android:process=":remote"/>
         <activity android:name=".Wakeup"/>
-        <service android:name=".ring"></service>
+        <activity android:name=".footstepcount"/>
+        <activity android:name=".ring"/>
     </application>
 
 </manifest>
