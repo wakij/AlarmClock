@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         helper = new SampDatabaseHelper(this);
 
         // データベースを検索する項目を定義
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_HOUR, DBContract.DBEntry.COLUMN_NAME_MINUTES };
+        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME,  };
 
         // 読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getReadableDatabase()){
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     null, null, null, null, null);
 
             // 検索結果から取得する項目を定義
-            String[] from = {DBContract.DBEntry.COLUMN_NAME_HOUR};
+            String[] from = {DBContract.DBEntry.COLUMN_NAME_TIME};
 
             // データを設定するレイアウトのフィールドを定義
             int[] to = {R.id.title};
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent  = new Intent(MainActivity.this, TextActivity.class);
 
                     intent.putExtra(DBContract.DBEntry._ID, cursor.getInt(0));
-                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_HOUR, cursor.getString(1));
-                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_MINUTES, cursor.getString(2));
+                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, cursor.getString(1));
+
 
                     // アクティビティを起動
                     startActivity(intent);
