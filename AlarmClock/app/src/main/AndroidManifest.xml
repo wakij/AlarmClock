@@ -16,12 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Explaination"/>
         <activity android:name=".MainActivity"/>
-        <receiver android:name=".AlarmBroadcastReceiver"
-            android:process=":remote"/>
-        <activity android:name=".Wakeup"/>
-        <service android:name=".ring"></service>
+
+        <activity android:name=".TextActivity">
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">AlarmClock</string>
-    <string name="finish">2</string>
-    <string name="now_sending">3</string>
-    <string name="start">4</string>
-    <string name="button1_text">ring</string>
-    <string name="button2_text">ring2</string>
+    <string name="app_name">SampRecyclerView</string>
+    <string name="contents">コンテンツ</string>
+    <string name="reg">登録</string>
+    <string name="del">削除</string>
+    <string name="move">移動</string>
+    <string name="title">タイトル</string>
+    <string name="cancel">キャンセル</string>
 </resources>
