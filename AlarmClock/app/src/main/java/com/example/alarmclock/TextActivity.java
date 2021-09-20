@@ -41,23 +41,29 @@ public class TextActivity extends AppCompatActivity {
         backbtn = findViewById(R.id.backbtn);
 
 
-        // インテントを取得
-       Intent intent = getIntent();
+
+            // インテントを取得
+            Intent intent = getIntent();
 //
 //        //intentのデータを取得(データがない場合、第２引数の 0 が返る)
-        id = intent.getIntExtra(DBContract.DBEntry._ID,0);
-        String time = intent.getStringExtra(DBContract.DBEntry.COLUMN_NAME_TIME);
-      //  Log.i("test",time);
-     //   String [] hour_minutes=time.split(":");
-//
-//
-//        // データ更新の場合
-//        if (id > 0){
-//            timePicker.setHour(Integer.parseInt(String.valueOf(hour_minutes)));
-//
-//        }
-  }
+            id = intent.getIntExtra(DBContract.DBEntry._ID, 0);
 
+            if(id!=0){
+            String time = intent.getStringExtra(DBContract.DBEntry.COLUMN_NAME_TIME);
+
+            String[] hour_minutes = time.split(":");
+//
+//
+            // データ更新の場合
+            if (id > 0) {
+                timePicker.setHour(Integer.parseInt(String.valueOf(hour_minutes[0])));
+                timePicker.setMinute(Integer.parseInt((String.valueOf((hour_minutes[1])))));
+//
+            }
+
+
+        }
+    }
         // 「設定」ボタン　タップ時に呼び出されるメソッド
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void btnReg_onClick(View view) {
