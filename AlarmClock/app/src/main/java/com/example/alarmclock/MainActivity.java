@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     Cursor cursor = (Cursor)av.getItemAtPosition(position);
 
                     // テキスト登録画面 Activity へのインテントを作成
-                    Intent intent  = new Intent(MainActivity.this, com.example.alarmclock.TextActivity.class);
+                    Intent intent  = new Intent(MainActivity.this, TextActivity.class);
 
                     intent.putExtra(DBContract.DBEntry._ID, cursor.getInt(0));
                     intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TITLE, cursor.getString(1));
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     public void fab_reg_onClick(View view) {
 
         // テキスト登録画面 Activity へのインテントを作成
-        Intent intent  = new Intent(MainActivity.this, com.example.alarmclock.TextActivity.class);
+        Intent intent  = new Intent(MainActivity.this, TextActivity.class);
 
         // アクティビティを起動
         startActivity(intent);
