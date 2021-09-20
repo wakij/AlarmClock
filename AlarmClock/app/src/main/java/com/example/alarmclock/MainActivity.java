@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private SampDatabaseHelper helper = null;
     MainListAdapter sc_adapter;
 
+
+
+
+
+
     // アクティビティの初期化処理
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         helper = new SampDatabaseHelper(this);
 
         // データベースを検索する項目を定義
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TITLE, DBContract.DBEntry.COLUMN_NAME_CONTENTS };
+        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_HOUR, DBContract.DBEntry.COLUMN_NAME_MINUTES };
 
         // 読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getReadableDatabase()){
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     null, null, null, null, null);
 
             // 検索結果から取得する項目を定義
-            String[] from = {DBContract.DBEntry.COLUMN_NAME_TITLE};
+            String[] from = {DBContract.DBEntry.COLUMN_NAME_HOUR};
 
             // データを設定するレイアウトのフィールドを定義
             int[] to = {R.id.title};
@@ -83,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent  = new Intent(MainActivity.this, com.example.alarmclock.TextActivity.class);
 
                     intent.putExtra(DBContract.DBEntry._ID, cursor.getInt(0));
-                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TITLE, cursor.getString(1));
-                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_CONTENTS, cursor.getString(2));
+                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_HOUR, cursor.getString(1));
+                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_MINUTES, cursor.getString(2));
 
                     // アクティビティを起動
                     startActivity(intent);
