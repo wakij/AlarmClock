@@ -46,19 +46,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_main, viewGroup, false);
 
-        final ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = viewGroup.getContext();
-                int position = viewHolder.getBindingAdapterPosition();
-//                Log.i("test", Integer.valueOf(position).toString());
-                Intent intent = new Intent(context, TextActivity.class);
-                intent.putExtra(DBContract.DBEntry._ID, position);
-                intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, loadDataSet.get(position));
-                context.startActivity(intent);
-            }
-        });
+//        final ViewHolder viewHolder = new ViewHolder(view);
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Context context = viewHolder.itemView.getContext();
+//                int position = viewHolder.getBindingAdapterPosition();
+////                Log.i("test", Integer.valueOf(position).toString());
+//                Intent intent = new Intent(context, TextActivity.class);
+//                intent.putExtra(DBContract.DBEntry._ID, position);
+//                intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, loadDataSet.get(position));
+//                context.startActivity(intent);
+//            }
+//        });
 
 
         return new ViewHolder(view);
@@ -72,18 +72,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         text.setText(loadDataSet.get(position));
         text.setMovementMethod(new ScrollingMovementMethod());
 
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //ここにクリック処理を書く
-//
-//                Context context = v.getContext();
-//                Intent intent = new Intent(context, TextActivity.class);
-//                intent.putExtra(DBContract.DBEntry._ID, position);
-//                intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, loadDataSet.get(position));
-//                context.startActivity(intent);
-//            }
-//        });
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ここにクリック処理を書く
+                Context context = v.getContext();
+                Intent intent = new Intent(context, TextActivity.class);
+                intent.putExtra(DBContract.DBEntry._ID, 1);
+                intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, loadDataSet.get(position));
+                context.startActivity(intent);
+            }
+        });
 
     }
     @Override
