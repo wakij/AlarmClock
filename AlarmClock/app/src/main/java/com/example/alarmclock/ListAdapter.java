@@ -1,6 +1,8 @@
 package com.example.alarmclock;
 
 import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -44,6 +46,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_main, viewGroup, false);
 
+        final ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = viewGroup.getContext();
+                int position = viewHolder.getBindingAdapterPosition();
+//                Log.i("test", Integer.valueOf(position).toString());
+                Intent intent = new Intent(context, TextActivity.class);
+                intent.putExtra(DBContract.DBEntry._ID, position);
+                intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, loadDataSet.get(position));
+                context.startActivity(intent);
+            }
+        });
+
+
         return new ViewHolder(view);
     }
 
@@ -55,14 +72,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         text.setText(loadDataSet.get(position));
         text.setMovementMethod(new ScrollingMovementMethod());
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //ここにクリック処理を書く
-
-                Log.i("test", String.valueOf(position));
-            }
-        });
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //ここにクリック処理を書く
+//
+//                Context context = v.getContext();
+//                Intent intent = new Intent(context, TextActivity.class);
+//                intent.putExtra(DBContract.DBEntry._ID, position);
+//                intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, loadDataSet.get(position));
+//                context.startActivity(intent);
+//            }
+//        });
 
     }
     @Override
@@ -72,6 +93,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     public void removeAt(int position){
         loadDataSet.remove(position);
+        //削除を反映
         notifyItemRemoved(position);
     }
 
