@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class TextActivity extends AppCompatActivity {
 
@@ -107,17 +108,23 @@ public class TextActivity extends AppCompatActivity {
             }
         }
 
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
         // Calendarを使って現在の時間をミリ秒で取得
         calendar.setTimeInMillis(System.currentTimeMillis());
 
         long time1 = calendar.getTimeInMillis();
+
         // 5秒後に設定
         calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+
         calendar.set(Calendar.MINUTE, timePicker.getMinute());
 
+        calendar.getTimeInMillis();
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Log.e("time",String.valueOf(calendar.getTimeInMillis()/1000));
+
         long time2 = calendar.getTimeInMillis();
-        Log.e("test",String.valueOf((time2 - time1) / 1000));
+
 
 
 
