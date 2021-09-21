@@ -119,13 +119,13 @@ public class TextActivity extends AppCompatActivity {
         // Calendarを使って現在の時間をミリ秒で取得
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        Log.e("test",String.valueOf(calendar.getTimeInMillis()/1000));
+        long time1 = calendar.getTimeInMillis();
         // 5秒後に設定
-//        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-//        calendar.set(Calendar.MINUTE, timePicker.getMinute());
+        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+        calendar.set(Calendar.MINUTE, timePicker.getMinute());
 
-        Log.e("test",String.valueOf(calendar.getTimeInMillis()/1000));
-
+        long time2 = calendar.getTimeInMillis();
+        Log.e("test",String.valueOf((time2 - time1) / 1000));
 
 
 
