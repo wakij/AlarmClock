@@ -31,6 +31,11 @@ public class AlarmStop extends AppCompatActivity {
     }
 
     public void onBack(View view){
+        TextActivity ta = new TextActivity();
+        if (ta.am != null)
+        {
+            ta.am.cancel(ta.pending);
+        }
         finish();
     }
 

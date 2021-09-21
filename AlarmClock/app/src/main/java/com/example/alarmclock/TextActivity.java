@@ -24,21 +24,14 @@ import java.util.Calendar;
 
 public class TextActivity extends AppCompatActivity {
 
-
-
-
-
-
-
     private int id = 0;
-
-
-
-
 
     private Button setbtn = null;
 
     private Button backbtn = null;
+    public AlarmManager am;
+    public PendingIntent pending;
+
 
 
 
@@ -93,7 +86,6 @@ public class TextActivity extends AppCompatActivity {
 
 
 
-
         // 入力欄に入力されたタイトルとコンテンツを取得
         String time    = Integer.valueOf(timePicker.getHour()).toString()+":"+Integer.valueOf(timePicker.getMinute()).toString();
 
@@ -132,22 +124,23 @@ public class TextActivity extends AppCompatActivity {
         //明示的なBroadCast
         Intent intent = new Intent(getApplicationContext(),
                 AlarmBroadcastReceiver.class);
-        PendingIntent pending = PendingIntent.getBroadcast(
-                getApplicationContext(), 0, intent, 0);
+        pending = PendingIntent.getBroadcast(
+                getApplicationContext(), id, intent, 0);
 
 
 
         // アラームをセットする
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am = (AlarmManager) getSystemService(ALARM_SERVICE);
 
 
-        //am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-        //      1000 * 60 * 20, pending);
+
 
 
 
         if(am != null){
             am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                    1000 * 60 * 1, pending);
 
             Toast.makeText(getApplicationContext(),
                     "Set Alarm ", Toast.LENGTH_SHORT).show();
