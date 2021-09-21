@@ -1,6 +1,9 @@
 package com.example.alarmclock;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -11,17 +14,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+
 public class TextActivity extends AppCompatActivity {
+
+
+
+
+
+
+
     private int id = 0;
+
+
+
+
 
     private Button setbtn = null;
 
     private Button backbtn = null;
+
+
 
 
     private TimePicker timePicker = null;
@@ -35,6 +54,7 @@ public class TextActivity extends AppCompatActivity {
         // ビューオブジェクトを取得
 
         timePicker = findViewById(R.id.time_picker);
+        timePicker.setIs24HourView(true);
 
         setbtn = findViewById(R.id.setbtn);
 //
@@ -95,8 +115,49 @@ public class TextActivity extends AppCompatActivity {
             }
         }
 
-        // TextActivityを終了
-        finish();
+        Calendar calendar = Calendar.getInstance();
+        // Calendarを使って現在の時間をミリ秒で取得
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        Log.e("test",String.valueOf(calendar.getTimeInMillis()/1000));
+        // 5秒後に設定
+//        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+//        calendar.set(Calendar.MINUTE, timePicker.getMinute());
+
+        Log.e("test",String.valueOf(calendar.getTimeInMillis()/1000));
+
+
+
+
+        //明示的なBroadCast
+        Intent intent = new Intent(getApplicationContext(),
+                AlarmBroadcastReceiver.class);
+        PendingIntent pending = PendingIntent.getBroadcast(
+                getApplicationContext(), 0, intent, 0);
+
+
+
+        // アラームをセットする
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+
+        //am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        //      1000 * 60 * 20, pending);
+
+
+
+        if(am != null){
+            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+
+            Toast.makeText(getApplicationContext(),
+                    "Set Alarm ", Toast.LENGTH_SHORT).show();
+        }
+
+
+    finish();
+
+
+
     }
 
     // 「戻る」ボタン　タップ時に呼び出されるメソッド
@@ -109,3 +170,7 @@ public class TextActivity extends AppCompatActivity {
 
 
 }
+
+
+
+
