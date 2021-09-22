@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 
+
 import androidx.annotation.RequiresApi;
 
 public class FootStep extends Service implements SensorEventListener {
@@ -47,6 +48,8 @@ public class FootStep extends Service implements SensorEventListener {
         // mContext縺ｮ蛻晄悄蛹・
 
 
+        startSensor();
+
         return START_NOT_STICKY;
     }
 
@@ -64,6 +67,33 @@ public class FootStep extends Service implements SensorEventListener {
         float[] value = sensorEvent.values;
         float sum = (float) Math.sqrt(Math.pow(value[0], 2) + Math.pow(value[1], 2) + Math.pow(value[2], 2));
 
+
+
+
+        if (first){
+            first = false;
+            up = true;
+            d0 = a * sum;
+        }else{
+            //繝ｭ繝ｼ繝代せ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ 譎らｳｻ蛻励・邏ｰ縺九＞繝・・繧ｿ繧貞ｹｳ貊大喧
+            d =  a * sum + (1 - a) * d0;
+            if (up && d < d0){
+                up = false;
+                stepcount++;
+                if (stepcount > NEED_STEP){
+
+                   SoundService soundservice = new SoundService();
+
+
+                   soundservice.stop();
+                   stopSelf();
+                }
+            }
+            else if(!up&& d>d0){
+                up = true;
+                d0 = d;
+            }
+        }
 
     }
 

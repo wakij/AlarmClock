@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
 
     MediaPlayer mediaPlayer;
+    public SoundService soundService;
 
     public SoundService() {
     }

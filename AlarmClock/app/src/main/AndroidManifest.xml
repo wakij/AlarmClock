@@ -24,7 +24,7 @@
         <activity android:name=".TextActivity">
         </activity>
 
-
+<!--        <activity android:name=".AlarmStop"/>-->
         <receiver android:name=".AlarmBroadcastReceiver"
             android:process=":remote" />
 
