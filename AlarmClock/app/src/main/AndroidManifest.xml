@@ -3,6 +3,7 @@
     package="com.example.alarmclock">
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -31,6 +32,8 @@
 
         <receiver android:name=".AlarmBroadcastReceiver"
             android:process=":remote" />
+
+        <service android:name=".ring"/>
 
 
 

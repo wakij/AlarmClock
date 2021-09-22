@@ -105,6 +105,16 @@ public class TextActivity extends AppCompatActivity {
         Log.e("time",String.valueOf(calendar.getTimeInMillis()/1000));
 
 
+        // 比較(確証はないので実際に機能するかは分かりませんが（笑）
+        int diff = calendar.compareTo(calendar);
+
+        // 日付を設定
+        if(diff <= 0){
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+        }
+
+
+
         //明示的なBroadCast
         Intent intent = new Intent(getApplicationContext(),
                 AlarmBroadcastReceiver.class);
