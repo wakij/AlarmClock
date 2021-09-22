@@ -26,6 +26,7 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE "+ DBContract.DBEntry.TABLE_NAME + " (" +
                         DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
                         DBContract.DBEntry.COLUMN_NAME_TIME + " TEXT default '', " +
+                        DBContract.DBEntry.SWITCH_CONDITION+ " TEXT default '',"+
                         DBContract.DBEntry.COLUMN_NAME_UPDATE + " INTEGER DEFAULT (datetime(CURRENT_TIMESTAMP,'localtime'))) ");
 
         // トリガーを作成

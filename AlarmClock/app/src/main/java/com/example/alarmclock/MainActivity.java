@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         helper = new SampDatabaseHelper(this);
 
         // データベースを検索する項目を定義
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME};
+        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
         onswiped();
 
         // 読み込みモードでデータベースをオープン

@@ -12,6 +12,8 @@ public final class DBContract {
         // BaseColumns インターフェースを実装することで、内部クラスは_IDを継承できる
         public static final String TABLE_NAME           = "samp_tbl";
         public static final String COLUMN_NAME_TIME    = "time";
+        public static final String SWITCH_CONDITION = "switch_conditions";
         public static final String COLUMN_NAME_UPDATE   = "up_date";
+
     }
 }

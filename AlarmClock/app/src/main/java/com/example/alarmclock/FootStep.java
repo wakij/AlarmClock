@@ -12,6 +12,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 
 import androidx.annotation.RequiresApi;
@@ -82,10 +83,10 @@ public class FootStep extends Service implements SensorEventListener {
                 stepcount++;
                 if (stepcount > NEED_STEP){
 
-                   SoundService soundservice = new SoundService();
+                  Intent intent=new Intent(getApplication().getApplicationContext(),SoundService.class);
+                  stopService(intent);
 
 
-                   soundservice.stop();
                    stopSelf();
                 }
             }

@@ -79,7 +79,7 @@ public class TextActivity extends AppCompatActivity {
                 // データ新規登録
                 db.insert(DBContract.DBEntry.TABLE_NAME, null, cv);
 //                登録したデータのidを取得
-                String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME};
+                String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
                 Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[] {time}
                         , null, null, null, null);
                 if (cursor.moveToFirst())
