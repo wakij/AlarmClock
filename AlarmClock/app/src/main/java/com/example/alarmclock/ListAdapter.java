@@ -115,7 +115,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         on_off.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AlarmManager am = TextActivity.am;
+//                AlarmManager am = TextActivity.am;
+                AlarmManager am = MainActivity.am;
                 try (SQLiteDatabase db = helper.getWritableDatabase()) {
                     Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
                             , null, null, null, null);

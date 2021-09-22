@@ -29,7 +29,7 @@ public class TextActivity extends AppCompatActivity {
     private int id = 0;
     private Button setbtn = null;
     private Button backbtn = null;
-    public static AlarmManager am;
+    public  AlarmManager am;
     public PendingIntent pending;
     private TimePicker timePicker = null;
 
@@ -127,12 +127,13 @@ public class TextActivity extends AppCompatActivity {
         Log.e("test",String.valueOf(id));
 
         // アラームをセットする
-        am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am = MainActivity.am;
 
         if(am != null){
 //            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     1000 * 60 * 1, pending);
+            Log.e("apple","getAm");
             Toast.makeText(getApplicationContext(),
                     "Set Alarm ", Toast.LENGTH_SHORT).show();
         }

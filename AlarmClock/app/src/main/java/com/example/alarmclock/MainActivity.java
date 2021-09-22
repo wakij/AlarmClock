@@ -1,6 +1,9 @@
 package com.example.alarmclock;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static ListAdapter adapter;
     private Resources res;
     private Drawable deleteIcon;
-    private MainListAdapter sc_adapter;
+    public static AlarmManager am;
 
 //    MainListAdapter sc_adapter;
 
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        am = (AlarmManager) getSystemService(ALARM_SERVICE);
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
@@ -55,9 +59,8 @@ public class MainActivity extends AppCompatActivity {
         // データベースを検索する項目を定義
         String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
         onswiped();
-
         // 読み込みモードでデータベースをオープン
-        try (SQLiteDatabase db = helper.getReadableDatabase()){
+        try (SQLiteDatabase db = helper.getWritableDatabase()){
 
             // データベースを検索
             Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, null,
@@ -80,63 +83,10 @@ public class MainActivity extends AppCompatActivity {
             adapter = new ListAdapter(timeList);
             recyclerView.setAdapter(adapter);
 
-            ItemSwipeController swipeController = new ItemSwipeController(0,ItemTouchHelper.LEFT){
-                @Override
-                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    adapter.removeAt(viewHolder.getBindingAdapterPosition());
-                }
-            };
-
-            res = getApplicationContext().getResources();
-            deleteIcon = ResourcesCompat.getDrawable(res, R.drawable.dustbox, null);
-            Bitmap orgBitmap = ((BitmapDrawable) deleteIcon).getBitmap();
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(orgBitmap, 30, 30, false);
-            deleteIcon =  new BitmapDrawable(res, resizedBitmap);
-            swipeController.setDeleteIcon(deleteIcon);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-            itemTouchHelper.attachToRecyclerView(recyclerView);
-
             //RecycleViewを枠線をいれる
             RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
             recyclerView.addItemDecoration(itemDecoration);
 
-
-
-
-            // 検索結果から取得する項目を定義
-//            String[] from = {DBContract.DBEntry.COLUMN_NAME_TIME};
-
-            // データを設定するレイアウトのフィールドを定義
-//            int[] to = {R.id.title};
-
-            // ListViewの1行分のレイアウト(row_main.xml)と検索結果を関連付け
-//            sc_adapter = new MainListAdapter(
-//                    this, R.layout.row_main, cursor, from, to,0);
-
-            // activity_main.xmlに定義したListViewオブジェクトを取得
-//            ListView list = findViewById(R.id.mainList);
-
-            // ListViewにアダプターを設定
-//            list.setAdapter(sc_adapter);
-
-            // リストの項目をクリックしたときの処理
-//            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                public void onItemClick(AdapterView av, View view, int position, long id) {
-//
-//                    //　クリックされた行のデータを取得
-//                    Cursor cursor = (Cursor)av.getItemAtPosition(position);
-//
-//                    // テキスト登録画面 Activity へのインテントを作成
-//                    Intent intent  = new Intent(MainActivity.this, TextActivity.class);
-//
-//                    intent.putExtra(DBContract.DBEntry._ID, cursor.getInt(0));
-//                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, cursor.getString(1));
-//
-//
-//                    // アクティビティを起動
-//                    startActivity(intent);
-//                }
-//            });
         }
     }
 
@@ -265,8 +215,23 @@ public class MainActivity extends AppCompatActivity {
 
                 try (SQLiteDatabase db = helper.getWritableDatabase()) {
 //                        db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry._ID+" = ?", new String[] {String.valueOf(position + 1)});
+//                    AlarmManager am = TextActivity.am;
+                    String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
+                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
+                            , null, null, null, null);
+                    if (cursor.moveToFirst())
+                    {
+                        int id = cursor.getInt(0);
+                        Intent intent = new Intent(getApplicationContext(), BroadcastReceiver.class);
+                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), id, intent, 0);
+                        am.cancel(pending);
+                    }
+
+                    cursor.close();
+
+
                     db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry.COLUMN_NAME_TIME+" = ?", new String[] {text});
-                    Log.i("test", String.valueOf(4));
+//                    Log.i("test", String.valueOf(4));
                 } catch (Exception e)
                 {
                     Log.i("test","don't open the db");
