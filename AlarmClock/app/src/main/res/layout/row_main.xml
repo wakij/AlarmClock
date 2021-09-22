@@ -8,12 +8,21 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="100dp"
         android:gravity="center_vertical"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:layout_marginEnd="240dp"
+        android:layout_marginRight="240dp" />
 
-<!--    <ImageButton-->
+    <Switch
+        android:id="@+id/on_off"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:checked="true" />
+
+    <!--    <ImageButton-->
 <!--        android:id="@+id/button_delete"-->
 <!--        android:layout_width="50dp"-->
 <!--        android:layout_height="70dp"-->

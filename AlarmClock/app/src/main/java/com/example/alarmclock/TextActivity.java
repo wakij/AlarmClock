@@ -29,7 +29,7 @@ public class TextActivity extends AppCompatActivity {
     private int id = 0;
     private Button setbtn = null;
     private Button backbtn = null;
-    public AlarmManager am;
+    public static AlarmManager am;
     public PendingIntent pending;
     private TimePicker timePicker = null;
 
@@ -121,6 +121,9 @@ public class TextActivity extends AppCompatActivity {
         //明示的なBroadCast
         Intent intent = new Intent(getApplicationContext(),
                 AlarmBroadcastReceiver.class);
+
+        intent.putExtra(DBContract.DBEntry._ID, id);
+
         pending = PendingIntent.getBroadcast(
                 getApplicationContext(), id, intent, 0);
 
@@ -130,9 +133,9 @@ public class TextActivity extends AppCompatActivity {
         am = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         if(am != null){
-            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-//                    1000 * 60 * 1, pending);
+//            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    1000 * 60 * 1, pending);
             Toast.makeText(getApplicationContext(),
                     "Set Alarm ", Toast.LENGTH_SHORT).show();
         }
@@ -144,6 +147,15 @@ public class TextActivity extends AppCompatActivity {
         // TextActivityを終了
         finish();
     }
+
+    //Alarmをキャンセルする
+//    public void cancelAlarm(int id)
+//    {
+//        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+//        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),id, intent, 0);
+//        pending.cancel();
+//        am.cancel(pending);
+//    }
 
 
 
