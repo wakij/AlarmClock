@@ -104,9 +104,12 @@ public class TextActivity extends AppCompatActivity {
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         Log.e("time",String.valueOf(calendar.getTimeInMillis()/1000));
 
+// 現在時刻を取得
+        Calendar nowCalendar = Calendar.getInstance();
+        nowCalendar.setTimeInMillis(System.currentTimeMillis());
 
         // 比較(確証はないので実際に機能するかは分かりませんが（笑）
-        int diff = calendar.compareTo(calendar);
+        int diff = calendar.compareTo(nowCalendar);
 
         // 日付を設定
         if(diff <= 0){
