@@ -73,6 +73,7 @@ public class TextActivity extends AppCompatActivity {
             // ContentValuesは、項目名と値をセットで保存できるオブジェクト
             ContentValues cv = new ContentValues();
             cv.put(DBContract.DBEntry.COLUMN_NAME_TIME, time);
+            cv.put(DBContract.DBEntry.SWITCH_CONDITION, "true");
 
             //新規登録mode
             if(id == 0) {
@@ -116,13 +117,9 @@ public class TextActivity extends AppCompatActivity {
             calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
         }
 
-
-
         //明示的なBroadCast
         Intent intent = new Intent(getApplicationContext(),
                 AlarmBroadcastReceiver.class);
-
-        intent.putExtra(DBContract.DBEntry._ID, id);
 
         pending = PendingIntent.getBroadcast(
                 getApplicationContext(), id, intent, 0);
