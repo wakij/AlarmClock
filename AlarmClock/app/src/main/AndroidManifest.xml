@@ -24,19 +24,12 @@
         <activity android:name=".TextActivity">
         </activity>
 
-        <activity android:name=".AlarmStop">
-
-        </activity>
-
-
 
         <receiver android:name=".AlarmBroadcastReceiver"
             android:process=":remote" />
 
-        <service android:name=".ring"/>
-
-
-
+        <service android:name=".SoundService"/>
+        <service android:name=".FootStep"/>
 
 
     </application>
