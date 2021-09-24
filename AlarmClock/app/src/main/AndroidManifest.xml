@@ -30,6 +30,10 @@
 
         <service android:name=".SoundService"/>
         <service android:name=".FootStep"/>
+        <activity android:name=".usage"/>
+        <activity android:name=".question"/>
+        <activity android:name=".Help"/>
+       <activity android:name=".WebShow"></activity>
 
 
     </application>
