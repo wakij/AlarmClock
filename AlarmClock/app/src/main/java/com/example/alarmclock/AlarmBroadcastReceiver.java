@@ -11,6 +11,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent){
         Toast.makeText(context,"Received", Toast.LENGTH_LONG).show();
 
+
         Intent serviveIntent = new Intent(context, SoundService.class);
         context.startService(serviveIntent);
 

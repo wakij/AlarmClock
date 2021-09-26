@@ -29,8 +29,6 @@ public class TextActivity extends AppCompatActivity {
     private int id = 0;
     private Button setbtn = null;
     private Button backbtn = null;
-    public  AlarmManager am;
-    public PendingIntent pending;
     private TimePicker timePicker = null;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -93,50 +91,8 @@ public class TextActivity extends AppCompatActivity {
                 db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
             }
         }
-
-//        alarmに時間を登録するためにCalenderを設定
-//        下記のようにしないとjavaの種類によっては9時間ずれる
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-        // Calendarを使って現在の時間をミリ秒で取得
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-        calendar.set(Calendar.MINUTE, timePicker.getMinute());
-        calendar.getTimeInMillis();
-        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Log.e("time",String.valueOf(calendar.getTimeInMillis()/1000));
-
-// 現在時刻を取得
-        Calendar nowCalendar = Calendar.getInstance();
-        nowCalendar.setTimeInMillis(System.currentTimeMillis());
-
-        // 比較(確証はないので実際に機能するかは分かりませんが（笑）
-        int diff = calendar.compareTo(nowCalendar);
-
-        // 日付を設定
-        if(diff <= 0){
-            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-        }
-
-        //明示的なBroadCast
-        Intent intent = new Intent(getApplicationContext(),
-                AlarmBroadcastReceiver.class);
-
-        pending = PendingIntent.getBroadcast(
-                getApplicationContext(), id, intent, 0);
-
-        Log.e("test",String.valueOf(id));
-
-        // アラームをセットする
-        am = MainActivity.am;
-
-        if(am != null){
-//            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    1000 * 60 * 1, pending);
-            Log.e("apple","getAm");
-            Toast.makeText(getApplicationContext(),
-                    "Set Alarm ", Toast.LENGTH_SHORT).show();
-        }
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmHelper.setAlarm(am, getApplicationContext(), timePicker.getHour(), timePicker.getMinute(), id);
         finish();
     }
 
@@ -146,14 +102,7 @@ public class TextActivity extends AppCompatActivity {
         finish();
     }
 
-    //Alarmをキャンセルする
-//    public void cancelAlarm(int id)
-//    {
-//        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-//        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),id, intent, 0);
-//        pending.cancel();
-//        am.cancel(pending);
-//    }
+
 
 
 

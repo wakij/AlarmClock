@@ -32,8 +32,7 @@ import java.util.TimeZone;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    //    private String[] loadDataSet;
-    private ArrayList<String> loadDataSet;
+    private ArrayList<AlarmInfo> alarmLInfoList;
     private SampDatabaseHelper helper = null;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -49,8 +48,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         }
     }
 
-    public ListAdapter(ArrayList<String> dataSet){
-        loadDataSet = dataSet;
+//    public ListAdapter(ArrayList<String> dataSet){
+//        loadDataSet = dataSet;
+//    }
+    public ListAdapter(ArrayList<AlarmInfo> dataSet){
+        alarmLInfoList = dataSet;
     }
 
     @NonNull
@@ -66,63 +68,40 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         //テキストの設定
         TextView textView = viewHolder.getTextView();
-        String text = loadDataSet.get(position);
+//        String text = loadDataSet.get(position);
+        String text = alarmLInfoList.get(position).getTime();
         textView.setText(text);
         textView.setMovementMethod(new ScrollingMovementMethod());
 
         //dbの用意
         Context context = viewHolder.itemView.getContext();
         helper = new SampDatabaseHelper(context);
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
+//        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
 
         Switch on_off = viewHolder.itemView.findViewById(R.id.on_off);
 
         //スイッチの状態を反映
-        try (SQLiteDatabase db = helper.getReadableDatabase()) {
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
-                    , null, null, null, null);
-            if (cursor.moveToFirst()) {
-                //同じ設定時間が複数あった場合にうまく機能しない可能性あり
-                boolean isSwitchOn = Boolean.valueOf(cursor.getString(2));
-                on_off.setChecked(isSwitchOn);
-            }
-        }
+        boolean isSwitchOn = Boolean.valueOf(alarmLInfoList.get(position).getIsSwitchOn());
+        on_off.setChecked(isSwitchOn);
+
 
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try (SQLiteDatabase db = helper.getReadableDatabase()) {
-                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
-                            , null, null, null, null);
-                    if (cursor.moveToFirst()) {
-                        //同じ設定時間が複数あった場合にうまく機能しない可能性あり
-                        int id = cursor.getInt(0);
-                        boolean isSwitchOn = Boolean.valueOf(cursor.getString(2));
-                        Log.e("test", String.valueOf(id));
-                        Intent intent = new Intent(context, TextActivity.class);
-                        intent.putExtra(DBContract.DBEntry._ID, id);
-                        intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, text);
-                        context.startActivity(intent);
-                    }
-                }
+                Intent intent = new Intent(context, TextActivity.class);
+                intent.putExtra(DBContract.DBEntry._ID, alarmLInfoList.get(position).getId());
+                intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, text);
+                context.startActivity(intent);
             }
         });
-
-
-
 
         on_off.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                AlarmManager am = TextActivity.am;
-                AlarmManager am = MainActivity.am;
                 try (SQLiteDatabase db = helper.getWritableDatabase()) {
-                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
-                            , null, null, null, null);
-                    if (cursor.moveToFirst()) {
                         //同じ設定時間が複数あった場合にうまく機能しない可能性あり
-                        int id = cursor.getInt(0);
+                        int id = alarmLInfoList.get(position).getId();
                         Log.e("test", String.valueOf(id));
                         //明示的なintet alarmを有効化する時も無効化する時も使う
                         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
@@ -132,80 +111,43 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                             ContentValues cv = new ContentValues();
                             cv.put(DBContract.DBEntry.SWITCH_CONDITION, "true");
                             db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
-                            String[] hour_minutes = text.split(":");
-                            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-                            // Calendarを使って現在の時間をミリ秒で取得
-                            calendar.setTimeInMillis(System.currentTimeMillis());
-                            calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(hour_minutes[0]));
-                            calendar.set(Calendar.MINUTE, Integer.valueOf(hour_minutes[1]));
-                            calendar.getTimeInMillis();
-                            calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-                            Log.e("time",String.valueOf(calendar.getTimeInMillis()/1000));
-
-                            // 現在時刻を取得
-                            Calendar nowCalendar = Calendar.getInstance();
-                            nowCalendar.setTimeInMillis(System.currentTimeMillis());
-
-                            // 比較(確証はないので実際に機能するかは分かりませんが（笑）
-                            int diff = calendar.compareTo(nowCalendar);
-
-                            // 日付を設定
-                            if(diff <= 0){
-                                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-                            }
-
-
-                            intent.putExtra(DBContract.DBEntry._ID, id);
-
-                            PendingIntent pending = PendingIntent.getBroadcast(
-                                    context, id, intent, 0);
-
-                            Log.e("test",String.valueOf(id));
-
-                            // アラームをセットする
-                            am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-                            if(am != null){
-//            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-                                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                                        1000 * 60 * 1, pending);
-                                Toast.makeText(context,
-                                        "Set Alarm ", Toast.LENGTH_SHORT).show();
-                            }
+                            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                            AlarmInfo alarmData = alarmLInfoList.get(position);
+                            AlarmHelper.setAlarm(am, context, alarmData.getHour(), alarmData.getMinutes(), alarmData.getId());
                         }
                         //alarmの無効化
                         else
                         {
+                            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                             ContentValues cv = new ContentValues();
                             cv.put(DBContract.DBEntry.SWITCH_CONDITION, "false");
                             db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
                             if (am != null)
                             {
-                                PendingIntent pending = PendingIntent.getBroadcast(context, id, intent, 0);
+                                PendingIntent pending = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                                 am.cancel(pending);
-                                Log.e("test","Alarmをキャンセルしました");
                             }
                         }
                     }
                 }
-            }
         });
 
 
     }
     @Override
-    public int getItemCount(){
-        return loadDataSet.size();
+    public int getItemCount()
+    {
+        return alarmLInfoList.size();
     }
 
-    public void removeAt(int position){
-        loadDataSet.remove(position);
-        //削除を反映
+    public void removeAt(int position)
+    {
+        alarmLInfoList.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void addItem(String item){
-        loadDataSet.add(item);
+    public void addItem(AlarmInfo alarmData)
+    {
+        alarmLInfoList.add(alarmData);
     }
-
 }

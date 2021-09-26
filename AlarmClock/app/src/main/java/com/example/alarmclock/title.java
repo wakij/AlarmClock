@@ -37,7 +37,7 @@ public class title extends AppCompatActivity {
 
 
                 b.setOnClickListener(v -> {
-                    Intent intent = new Intent(getApplication(), Help.class);
+                    Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
 
                 });

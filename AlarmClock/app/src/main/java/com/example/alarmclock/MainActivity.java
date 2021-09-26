@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static ListAdapter adapter;
     private Resources res;
     private Drawable deleteIcon;
-    public static AlarmManager am;
-
-//    MainListAdapter sc_adapter;
+    private AlarmManager am;
 
 
     // アクティビティの初期化処理
@@ -48,46 +46,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        am = (AlarmManager) getSystemService(ALARM_SERVICE);
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(rLayoutManager);
-//        onShow();
-        helper = new SampDatabaseHelper(this);
-
+        onShow();
         // データベースを検索する項目を定義
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
         onswiped();
-        // 読み込みモードでデータベースをオープン
-        try (SQLiteDatabase db = helper.getWritableDatabase()){
-
-            // データベースを検索
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, null,
-                    null, null, null, null, null);
-
-            //データベースに格納されている全データを格納するリスト
-            ArrayList<String> timeList = new ArrayList<>();
-            if (cursor.moveToFirst())
-            {
-                String time = cursor.getString(1);
-                timeList.add(time);
-            }
-            while(cursor.moveToNext())
-            {
-                String time = cursor.getString(1);
-                timeList.add(time);
-            }
-            cursor.close();
-
-            adapter = new ListAdapter(timeList);
-            recyclerView.setAdapter(adapter);
-
-            //RecycleViewを枠線をいれる
-            RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-            recyclerView.addItemDecoration(itemDecoration);
-
-        }
+        //RecycleViewを枠線をいれる
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
 
@@ -96,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        am = (AlarmManager) getSystemService(ALARM_SERVICE);
         // データを一覧表示
         onShow();
         onswiped();
@@ -109,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         helper = new SampDatabaseHelper(this);
 
         // データベースを検索する項目を定義
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME};
+        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
 
         // 読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getReadableDatabase()){
@@ -119,86 +87,30 @@ public class MainActivity extends AppCompatActivity {
                     null, null, null, null, null);
 
             //データベースに格納されている全データを格納するリスト
-            ArrayList<String> timeList = new ArrayList<>();
+//            ArrayList<String> timeList = new ArrayList<>();
+            ArrayList<AlarmInfo> alarmLists = new ArrayList<>();
             if (cursor.moveToFirst())
             {
+                int id = cursor.getInt(0);
                 String time = cursor.getString(1);
-                timeList.add(time);
+                String isSwitchOn = cursor.getString(2);
+                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn);
+                alarmLists.add(alarmData);
+
             }
             while(cursor.moveToNext())
             {
+                int id = cursor.getInt(0);
                 String time = cursor.getString(1);
-                timeList.add(time);
+                String isSwitchOn = cursor.getString(2);
+                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn);
+                alarmLists.add(alarmData);
             }
             cursor.close();
 
-
-
-            adapter = new ListAdapter(timeList);
+            adapter = new ListAdapter(alarmLists);
             recyclerView.setAdapter(adapter);
 
-//            ItemSwipeController swipeController = new ItemSwipeController(0,ItemTouchHelper.LEFT){
-//                @Override
-//                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                    int position = viewHolder.getBindingAdapterPosition();
-//                    adapter.removeAt(position);
-//                    try (SQLiteDatabase db = helper.getWritableDatabase()) {
-////                        db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry._ID+" = ?", new String[] {String.valueOf(position + 1)});
-//                        db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry._ID+" = ?", new String[] {String.valueOf(position + 1)});
-//                        Log.i("test", String.valueOf(position + 1));
-//                    } catch (Exception e)
-//                    {
-//                        Log.i("test","don't open the db");
-//                    }
-//                }
-//            };
-
-//            res = getApplicationContext().getResources();
-//            deleteIcon = ResourcesCompat.getDrawable(res, R.drawable.dustbox, null);
-//            Bitmap orgBitmap = ((BitmapDrawable) deleteIcon).getBitmap();
-//            Bitmap resizedBitmap = Bitmap.createScaledBitmap(orgBitmap, 30, 30, false);
-//            deleteIcon =  new BitmapDrawable(res, resizedBitmap);
-//            swipeController.setDeleteIcon(deleteIcon);
-//            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-//            itemTouchHelper.attachToRecyclerView(recyclerView);
-
-
-
-
-            // 検索結果から取得する項目を定義
-//            String[] from = {DBContract.DBEntry.COLUMN_NAME_TIME};
-
-            // データを設定するレイアウトのフィールドを定義
-//            int[] to = {R.id.title};
-
-            // ListViewの1行分のレイアウト(row_main.xml)と検索結果を関連付け
-//            sc_adapter = new MainListAdapter(
-//                    this, R.layout.row_main, cursor, from, to,0);
-
-            // activity_main.xmlに定義したListViewオブジェクトを取得
-//            ListView list = findViewById(R.id.mainList);
-
-            // ListViewにアダプターを設定
-//            list.setAdapter(sc_adapter);
-
-            // リストの項目をクリックしたときの処理
-//            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                public void onItemClick(AdapterView av, View view, int position, long id) {
-//
-//                    //　クリックされた行のデータを取得
-//                    Cursor cursor = (Cursor)av.getItemAtPosition(position);
-//
-//                    // テキスト登録画面 Activity へのインテントを作成
-//                    Intent intent  = new Intent(MainActivity.this, TextActivity.class);
-//
-//                    intent.putExtra(DBContract.DBEntry._ID, cursor.getInt(0));
-//                    intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, cursor.getString(1));
-//
-//
-//                    // アクティビティを起動
-//                    startActivity(intent);
-//                }
-//            });
         }
     }
 
@@ -211,30 +123,28 @@ public class MainActivity extends AppCompatActivity {
                 adapter.removeAt(position);
                 TextView textView = viewHolder.itemView.findViewById(R.id.title);
                 String text = textView.getText().toString();
-
-
                 try (SQLiteDatabase db = helper.getWritableDatabase()) {
-//                        db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry._ID+" = ?", new String[] {String.valueOf(position + 1)});
-//                    AlarmManager am = TextActivity.am;
                     String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
                     Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
                             , null, null, null, null);
                     if (cursor.moveToFirst())
                     {
                         int id = cursor.getInt(0);
-                        Intent intent = new Intent(getApplicationContext(), BroadcastReceiver.class);
-                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), id, intent, 0);
-                        am.cancel(pending);
+
+                        if (am != null)
+                        {
+                            Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+                            Log.e("intent1",intent.toString());
+                            Log.e("apple","id: " + String.valueOf(id));
+                            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            am.cancel(pending);
+                        }
                     }
 
-                    cursor.close();
-
-
                     db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry.COLUMN_NAME_TIME+" = ?", new String[] {text});
-//                    Log.i("test", String.valueOf(4));
                 } catch (Exception e)
                 {
-                    Log.i("test","don't open the db");
+                    Log.e("test","don't open the db");
                 }
             }
         };
