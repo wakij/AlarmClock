@@ -13,11 +13,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
@@ -56,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
         //RecycleViewを枠線をいれる
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
+//        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+        View decor = getWindow().getDecorView();
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
+
 
 
 
@@ -167,6 +175,24 @@ public class MainActivity extends AppCompatActivity {
         Intent intent  = new Intent(MainActivity.this, TextActivity.class);
 
         // アクティビティを起動
+        startActivity(intent);
+    }
+
+    public void toUsage(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, usage.class);
+        startActivity(intent);
+    }
+
+    public void toQuestion(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, question.class);
+        startActivity(intent);
+    }
+
+    public void toWebShow(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, WebShow.class);
         startActivity(intent);
     }
 }

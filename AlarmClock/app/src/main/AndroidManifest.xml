@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -26,14 +27,20 @@
 
 <!--        <activity android:name=".AlarmStop"/>-->
         <receiver android:name=".AlarmBroadcastReceiver"
-            android:process=":remote" />
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
 
         <service android:name=".SoundService"/>
         <service android:name=".FootStep"/>
         <activity android:name=".usage"/>
         <activity android:name=".question"/>
         <activity android:name=".Help"/>
-       <activity android:name=".WebShow"></activity>
+        <activity android:name=".WebShow" />
+        <activity android:name=".stopAlarm"/>
 
 
     </application>

@@ -57,6 +57,17 @@ public class AlarmHelper {
         }
     }
 
+    public static void setAlarm(AlarmManager am, Context context, String time, int id, String isSwitchOn)
+    {
+        if (Boolean.valueOf(isSwitchOn))
+        {
+            String[] hour_minutes = time.split(":");
+            int hour = Integer.parseInt(hour_minutes[0]);
+            int minutes = Integer.parseInt(hour_minutes[1]);
+            setAlarm(am, context, hour, minutes, id);
+        }
+    }
+
 //    public static void SetAlarm(Context context, String time, int id)
 //    {
 //        String[] hour_minutes = time.split(":");
@@ -64,6 +75,7 @@ public class AlarmHelper {
 //        int minute = Integer.parseInt(hour_minutes[1]);
 //        AlarmSetting(context, hour, minute, id);
 //    }
+
 
 
 }
