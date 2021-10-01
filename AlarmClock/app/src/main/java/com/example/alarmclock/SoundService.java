@@ -1,16 +1,34 @@
 package com.example.alarmclock;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
+import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS;
 
 public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
 
     MediaPlayer mediaPlayer;
+    private int repeat_time = 1; //繰り返される回数
     public SoundService soundService;
+    private NotificationManager notificationManager;
+    private AudioManager audioManager;
+    private int volume;
+    private int defaultVolume = 5;
+    private int count = 0;
 
     public SoundService() {
     }
@@ -20,12 +38,19 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         super.onCreate();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 参考 https://smartomaizu.com/ringtones/sozai/775.html
         mediaPlayer = MediaPlayer.create(this, R.raw.app_src_main_res_raw_wakeup);
         mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setLooping(false);
+        audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        volume = intent.getIntExtra("volume",5);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
         play();
+        Log.e("apple","count :" + String.valueOf(count));
         return START_NOT_STICKY;
     }
 
@@ -57,8 +82,15 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     // 再生が終わる度に音量を上げてループ再生
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         play();
+//        play();
+//        if (count == 3)
+//        {
+//            stopSelf();
+//        }
+//        stopSelf();
     }
 }

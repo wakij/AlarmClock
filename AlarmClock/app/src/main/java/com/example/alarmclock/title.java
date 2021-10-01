@@ -28,7 +28,9 @@ public class title extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title);
 
-        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+//        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+        View decor = getWindow().getDecorView();
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 
         ImageButton b = findViewById(R.id.imageButton2);
