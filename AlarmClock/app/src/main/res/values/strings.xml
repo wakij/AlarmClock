@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SampRecyclerView</string>
+    <string name="app_name"></string>
     <string name="contents">コンテンツ</string>
     <string name="reg">登録</string>
     <string name="del">削除</string>
