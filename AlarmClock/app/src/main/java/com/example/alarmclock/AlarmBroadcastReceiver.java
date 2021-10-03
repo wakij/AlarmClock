@@ -53,15 +53,46 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         }
         else
         {
-            Intent serviveIntent = new Intent(context, SoundService.class);
-            context.startService(serviveIntent);
+            SampDatabaseHelper helper = new SampDatabaseHelper(context);
+            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL};
+            try(SQLiteDatabase db = helper.getReadableDatabase())
+            {
+                Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
+                        null, null, null, null, null);
 
-            Intent serviceIntent2 =new Intent(context,FootStep.class);
-            context.startService((serviceIntent2));
+                //moveToFirstで、カーソルを検索結果セットの先頭行に移動
+                //検索結果が0件の場合、falseが返る
+                if (cursor.moveToFirst()){
+                    int needStep = Integer.parseInt(cursor.getString(1));
+                    int soundLevel = Integer.parseInt(cursor.getString(2));
 
-            Intent startActivityIntent = new Intent(context, stopAlarm.class);
-            startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(startActivityIntent);
+
+                    Intent serviveIntent = new Intent(context, SoundService.class);
+                    serviveIntent.putExtra("soundLevel", soundLevel);
+                    context.startService(serviveIntent);
+
+                    Intent serviceIntent2 =new Intent(context,FootStep.class);
+                    serviceIntent2.putExtra("needStep", needStep);
+                    context.startService((serviceIntent2));
+
+                    Intent startActivityIntent = new Intent(context, stopAlarm.class);
+                    startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(startActivityIntent);
+
+                }
+            }catch (Exception e)
+            {
+                Intent serviveIntent = new Intent(context, SoundService.class);
+                context.startService(serviveIntent);
+
+                Intent serviceIntent2 =new Intent(context,FootStep.class);
+                context.startService((serviceIntent2));
+
+                Intent startActivityIntent = new Intent(context, stopAlarm.class);
+                startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(startActivityIntent);
+            }
+
         }
 
 

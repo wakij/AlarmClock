@@ -42,15 +42,14 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/deletebutton"
+            android:id="@+id/setAlarmButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:onClick="toUsage"
             app:srcCompat="@android:drawable/ic_menu_recent_history" />
 
         <ImageView
-            android:id="@+id/menubutton"
+            android:id="@+id/statusButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -58,11 +57,10 @@
             app:srcCompat="@android:drawable/ic_menu_view" />
 
         <ImageView
-            android:id="@+id/helpbutton"
+            android:id="@+id/helpButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="toWebShow"
             app:srcCompat="@android:drawable/ic_menu_info_details" />
 
 

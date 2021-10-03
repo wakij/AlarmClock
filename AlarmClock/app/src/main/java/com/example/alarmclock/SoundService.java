@@ -30,6 +30,7 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     private int volume;
     private int defaultVolume = 5;
     private int SnoozeCount = 0;
+    private int soundLevel = 1;
 
     public SoundService() {
     }
@@ -43,6 +44,8 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 参考 https://smartomaizu.com/ringtones/sozai/775.html
+        soundLevel = intent.getIntExtra("soundLevel", 1);
+        Log.e("apple",String.valueOf(soundLevel));
         count = 0; //カウントのリセット
         mediaPlayer = MediaPlayer.create(this, R.raw.app_src_main_res_raw_wakeup);
         mediaPlayer.setOnCompletionListener(this);

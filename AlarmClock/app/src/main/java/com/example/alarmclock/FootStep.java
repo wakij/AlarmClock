@@ -46,8 +46,9 @@ public class FootStep extends Service implements SensorEventListener {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //intentからNEED_STEPを受け取る。
-
+        NEED_STEP = intent.getIntExtra("needStep",1);
         startSensor();
+        Log.e("apple", String.valueOf(NEED_STEP));
 
         return START_NOT_STICKY;
     }
