@@ -15,5 +15,13 @@ public final class DBContract {
         public static final String SWITCH_CONDITION = "switch_conditions";
         public static final String COLUMN_NAME_UPDATE   = "up_date";
 
+
+        public static final String TABLE_NAME2           = "samp_tbl2";
+        public static final String COLUMN_NAME_FOOT_COUNT    = "foot_count";
+        public static final String COLUMN_SOUND_LEVEL= "sound_level";
+
+
+
+
     }
 }

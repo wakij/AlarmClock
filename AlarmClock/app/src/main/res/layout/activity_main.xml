@@ -20,9 +20,9 @@
         android:id="@+id/fab_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="92dp"
         android:clickable="true"
         android:contentDescription="@string/reg"
         android:focusable="true"
@@ -44,26 +44,26 @@
         <ImageView
             android:id="@+id/deletebutton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_delete"
-            android:onClick="toUsage"/>
+            android:onClick="toUsage"
+            app:srcCompat="@android:drawable/ic_menu_recent_history" />
 
         <ImageView
             android:id="@+id/menubutton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_manage"
-            android:onClick="toQuestion"/>
+            android:onClick="toLevelShow"
+            app:srcCompat="@android:drawable/ic_menu_view" />
 
         <ImageView
             android:id="@+id/helpbutton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_help"
-            android:onClick="toWebShow"/>
+            android:onClick="toWebShow"
+            app:srcCompat="@android:drawable/ic_menu_info_details" />
 
 
     </LinearLayout>

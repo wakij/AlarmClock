@@ -29,12 +29,34 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
                         DBContract.DBEntry.SWITCH_CONDITION+ " TEXT default '',"+
                         DBContract.DBEntry.COLUMN_NAME_UPDATE + " INTEGER DEFAULT (datetime(CURRENT_TIMESTAMP,'localtime'))) ");
 
+
+
+
         // トリガーを作成
         db.execSQL(
                 "CREATE TRIGGER trigger_samp_tbl_update AFTER UPDATE ON " + DBContract.DBEntry.TABLE_NAME +
                         " BEGIN "+
                         " UPDATE " + DBContract.DBEntry.TABLE_NAME + " SET up_date = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid; "+
                         " END;");
+
+
+//テーブル作成２
+        db.execSQL(
+                "CREATE TABLE "+ DBContract.DBEntry.TABLE_NAME2 + " (" +
+                        DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
+                        DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT + " TEXT default '', " +
+                        DBContract.DBEntry.COLUMN_SOUND_LEVEL+ " TEXT default '') ");
+
+
+
+
+//        db.execSQL(
+//                "CREATE TRIGGER trigger_samp_tbl_update AFTER UPDATE ON " + DBContract.DBEntry.TABLE_NAME2 +
+//                        " BEGIN "+
+//                        " UPDATE " + DBContract.DBEntry.TABLE_NAME2 + " SET up_date = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid; "+
+//                        " END;");
+
+
     }
 
     // データベースをバージョンアップした時、テーブルを削除してから再作成
@@ -42,5 +64,16 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.DBEntry.TABLE_NAME);
         onCreate(db);
+
+        db.execSQL("DROP TABLE IF EXISTS " + DBContract.DBEntry.TABLE_NAME2);
+        onCreate(db);
+
+
+
+
     }
+
+
+
+
 }

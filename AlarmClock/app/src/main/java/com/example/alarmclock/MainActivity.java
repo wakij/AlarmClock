@@ -184,9 +184,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toQuestion(View view)
+    public void toLevelShow(View view)
     {
-        Intent intent = new Intent(MainActivity.this, question.class);
+        Intent intent = new Intent(MainActivity.this, LevelShow.class);
         startActivity(intent);
     }
 
