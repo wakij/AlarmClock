@@ -22,13 +22,14 @@ import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTIN
 public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
 
     MediaPlayer mediaPlayer;
-    private int repeat_time = 1; //繰り返される回数
+    private int repeat_time = 3; //繰り返される回数
+    private int count = 0; //再生する回数
     public SoundService soundService;
     private NotificationManager notificationManager;
     private AudioManager audioManager;
     private int volume;
     private int defaultVolume = 5;
-    private int count = 0;
+    private int SnoozeCount = 0;
 
     public SoundService() {
     }
@@ -42,6 +43,7 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 参考 https://smartomaizu.com/ringtones/sozai/775.html
+        count = 0; //カウントのリセット
         mediaPlayer = MediaPlayer.create(this, R.raw.app_src_main_res_raw_wakeup);
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setLooping(false);
@@ -50,7 +52,6 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         volume = intent.getIntExtra("volume",5);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
         play();
-        Log.e("apple","count :" + String.valueOf(count));
         return START_NOT_STICKY;
     }
 
@@ -85,12 +86,16 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        play();
-//        play();
-//        if (count == 3)
-//        {
-//            stopSelf();
-//        }
-//        stopSelf();
+        if (repeat_time > count)
+        {
+            volume += 2;
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
+            play();
+            count ++;
+        }
+        else
+        {
+            stop(); //再生を停止
+        }
     }
 }

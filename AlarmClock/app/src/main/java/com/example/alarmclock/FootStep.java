@@ -28,7 +28,6 @@ public class FootStep extends Service implements SensorEventListener {
     boolean up = false;
     float d0, d = 0f;
     int stepcount = 0;
-    //    繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ菫よ焚 0<a<1
     float a = 0.90f;
 
 
@@ -46,8 +45,7 @@ public class FootStep extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        // mContext縺ｮ蛻晄悄蛹・
-
+        //intentからNEED_STEPを受け取る。
 
         startSensor();
 
@@ -76,18 +74,14 @@ public class FootStep extends Service implements SensorEventListener {
             up = true;
             d0 = a * sum;
         }else{
-            //繝ｭ繝ｼ繝代せ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ 譎らｳｻ蛻励・邏ｰ縺九＞繝・・繧ｿ繧貞ｹｳ貊大喧
             d =  a * sum + (1 - a) * d0;
             if (up && d < d0){
                 up = false;
                 stepcount++;
                 if (stepcount > NEED_STEP){
-
-                  Intent intent=new Intent(getApplication().getApplicationContext(),SoundService.class);
-                  stopService(intent);
-
-
-                   stopSelf();
+                    Intent intent=new Intent(getApplication().getApplicationContext(),SoundService.class);
+                    stopService(intent);
+                    stopSelf();
                 }
             }
             else if(!up&& d>d0){
