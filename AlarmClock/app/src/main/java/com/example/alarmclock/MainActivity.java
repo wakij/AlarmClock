@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toUsage(View view)
     {
-        Intent intent = new Intent(MainActivity.this, usage.class);
+        Intent intent = new Intent(MainActivity.this, WebShow.class);
         startActivity(intent);
     }
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toWebShow(View view)
     {
-        Intent intent = new Intent(MainActivity.this, WebShow.class);
+        Intent intent = new Intent(MainActivity.this, usage.class);
         startActivity(intent);
     }
 }
