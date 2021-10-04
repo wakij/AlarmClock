@@ -25,8 +25,6 @@ public class AnimationArc extends Animation {
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation transformation) {
         float angle = oldAngle + ((newAngle - oldAngle) * interpolatedTime);
-        Log.e("test",String.valueOf(angle));
-
         arc.setAngle(angle);
         arc.requestLayout();
     }

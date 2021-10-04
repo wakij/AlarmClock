@@ -63,9 +63,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 //moveToFirstで、カーソルを検索結果セットの先頭行に移動
                 //検索結果が0件の場合、falseが返る
                 if (cursor.moveToFirst()){
-                    int needStep = Integer.parseInt(cursor.getString(1));
-                    int soundLevel = Integer.parseInt(cursor.getString(2));
-
+                    int needStep = Integer.parseInt(cursor.getString(0));
+                    int soundLevel = Integer.parseInt(cursor.getString(1));
 
                     Intent serviveIntent = new Intent(context, SoundService.class);
                     serviveIntent.putExtra("soundLevel", soundLevel);
@@ -82,6 +81,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 }
             }catch (Exception e)
             {
+                Log.e("aaaaa",e.toString());
                 Intent serviveIntent = new Intent(context, SoundService.class);
                 context.startService(serviveIntent);
 
