@@ -4,8 +4,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -22,7 +25,7 @@ import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTIN
 public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
 
     MediaPlayer mediaPlayer;
-    private int repeat_time = 3; //繰り返される回数
+    private int repeat_time = 1; //繰り返される回数
     private int count = 0; //再生する回数
     public SoundService soundService;
     private NotificationManager notificationManager;
@@ -45,7 +48,6 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 参考 https://smartomaizu.com/ringtones/sozai/775.html
         soundLevel = intent.getIntExtra("soundLevel", 0);
-        Log.e("soundLevel",String.valueOf(soundLevel));
         count = 0; //カウントのリセット
         mediaPlayer = MediaPlayer.create(this, R.raw.app_src_main_res_raw_wakeup);
         mediaPlayer.setOnCompletionListener(this);
@@ -55,13 +57,38 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         volume = intent.getIntExtra("volume",5);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
         play();
+        Log.e("music","play");
         return START_NOT_STICKY;
     }
 
+    //stopselfで呼ばれる
     @Override
     public void onDestroy() {
         super.onDestroy();
         stop();
+        SampDatabaseHelper helper = new SampDatabaseHelper(getApplicationContext());
+        try(SQLiteDatabase db = helper.getWritableDatabase())
+        {
+//            初めに現在の経験値を取得
+            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL, DBContract.DBEntry.EXPERIENCE};
+            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
+                    null, null, null, null, null);
+            int experience = Integer.parseInt(cursor.getString(3));
+            experience += count * 50;
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.DBEntry.EXPERIENCE, String.valueOf(experience));
+            if (cursor.moveToFirst())
+            {
+                db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(0)});
+            }
+            else
+            {
+                db.insert(DBContract.DBEntry.TABLE_NAME2, null, cv);
+            }
+        }catch (Exception e)
+        {
+            Log.e( "aaaaaa",e.toString());
+        }
     }
 
     @Nullable
@@ -99,6 +126,7 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         else
         {
             stop(); //再生を停止
+            stopSelf();
         }
     }
 }

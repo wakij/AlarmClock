@@ -6,12 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onReceive(Context context, Intent intent){
         Toast.makeText(context,"Received", Toast.LENGTH_LONG).show();
@@ -54,7 +58,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         else
         {
             SampDatabaseHelper helper = new SampDatabaseHelper(context);
-            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL};
+            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL, DBContract.DBEntry.EXPERIENCE};
             try(SQLiteDatabase db = helper.getReadableDatabase())
             {
                 Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,

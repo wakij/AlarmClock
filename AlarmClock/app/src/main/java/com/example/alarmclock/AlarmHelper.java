@@ -8,8 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -18,6 +21,7 @@ import java.util.TimeZone;
 public class AlarmHelper {
 
     //編集と新規登録
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void setAlarm(AlarmManager am, Context context, int hour, int minute, int id)
     {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
@@ -48,15 +52,16 @@ public class AlarmHelper {
                 context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if(am != null){
-//            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    1000 * 60 * 1, pending);
+            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                    1000 * 60 * 1, pending);
 
             Toast.makeText(context,
                     "Set Alarm ", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void setAlarm(AlarmManager am, Context context, String time, int id, String isSwitchOn)
     {
         if (Boolean.valueOf(isSwitchOn))

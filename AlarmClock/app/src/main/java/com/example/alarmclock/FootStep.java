@@ -49,6 +49,7 @@ public class FootStep extends Service implements SensorEventListener {
         NEED_STEP = intent.getIntExtra("needStep",0);
         Log.e("needStep",String.valueOf(NEED_STEP));
         startSensor();
+        Log.e("ProcessName",getApplication().getPackageName());
 
         return START_NOT_STICKY;
     }
@@ -67,9 +68,6 @@ public class FootStep extends Service implements SensorEventListener {
         float[] value = sensorEvent.values;
         float sum = (float) Math.sqrt(Math.pow(value[0], 2) + Math.pow(value[1], 2) + Math.pow(value[2], 2));
 
-
-
-
         if (first){
             first = false;
             up = true;
@@ -80,7 +78,7 @@ public class FootStep extends Service implements SensorEventListener {
                 up = false;
                 stepcount++;
                 if (stepcount > NEED_STEP){
-                    Intent intent=new Intent(getApplication().getApplicationContext(),SoundService.class);
+                    Intent intent = new Intent(getApplication().getApplicationContext(),SoundService.class);
                     stopService(intent);
                     stopSelf();
                 }
