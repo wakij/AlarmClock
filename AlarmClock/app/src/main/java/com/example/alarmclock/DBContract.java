@@ -18,8 +18,8 @@ public final class DBContract {
 
         public static final String TABLE_NAME2           = "samp_tbl2";
         public static final String COLUMN_NAME_FOOT_COUNT    = "foot_count";
-        public static final String COLUMN_SOUND_LEVEL= "sound_level";
-        public static final String EXPERIENCE = "experience";
+        public static final String COLUMN_SOUND_LEVEL_FORMER= "sound_level_former";
+        public static final String COLUMU_SOUND_LEVEL_LATTER= "sound_level_latter";
 
 
 

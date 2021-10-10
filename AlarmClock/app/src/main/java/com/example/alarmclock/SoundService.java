@@ -69,22 +69,22 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         SampDatabaseHelper helper = new SampDatabaseHelper(getApplicationContext());
         try(SQLiteDatabase db = helper.getWritableDatabase()) {
 //            初めに現在の経験値を取得
-            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL, DBContract.DBEntry.EXPERIENCE};
+            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
             Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
                     null, null, null, null, null);
             if (cursor.moveToFirst())
             {
-                int experience = Integer.parseInt(cursor.getString(3));
-                experience += count * 50;
+                int sound_level_latter = Integer.parseInt(cursor.getString(3));
+                sound_level_latter += count * 50;
                 ContentValues cv = new ContentValues();
-                cv.put(DBContract.DBEntry.EXPERIENCE, String.valueOf(experience));
+                cv.put(DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
                 db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(0)});
             }
             else
             {
-                int experience = count * 50;
+                int sound_level_latter = count * 50;
                 ContentValues cv = new ContentValues();
-                cv.put(DBContract.DBEntry.EXPERIENCE, String.valueOf(experience));
+                cv.put(DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
                 db.insert(DBContract.DBEntry.TABLE_NAME2, null, cv);
             }
         }catch (Exception e)

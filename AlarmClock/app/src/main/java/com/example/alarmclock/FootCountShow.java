@@ -73,7 +73,7 @@ public class FootCountShow extends AppCompatActivity {
     protected void onShow() {
 
         //  データベースから取得する項目を設定
-        String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL};
+        String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER,DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
 
 //         読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getReadableDatabase()) {

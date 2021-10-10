@@ -45,8 +45,8 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE "+ DBContract.DBEntry.TABLE_NAME2 + " (" +
                         DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
                         DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT + " TEXT default '500', " +
-                        DBContract.DBEntry.COLUMN_SOUND_LEVEL+ " TEXT default '1', " +
-                        DBContract.DBEntry.EXPERIENCE + " TEXT default '0') ");
+                        DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER+ " TEXT default '1', " +
+                        DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER+ " TEXT default '0') ");
 
 
 

@@ -58,7 +58,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         else
         {
             SampDatabaseHelper helper = new SampDatabaseHelper(context);
-            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL, DBContract.DBEntry.EXPERIENCE};
+            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
             try(SQLiteDatabase db = helper.getReadableDatabase())
             {
                 Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
