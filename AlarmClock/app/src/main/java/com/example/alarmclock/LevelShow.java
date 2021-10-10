@@ -1,6 +1,7 @@
 package com.example.alarmclock;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -29,9 +30,13 @@ public class LevelShow extends AppCompatActivity {
 
     private ProgressBar bar;
     private  int percent;
-    private int sound_level_former=0;
-    private int sound_level_latter=1;
+    private int sound_level_former=70;
+    private int sound_level_latter=350;
+    private int sound_level;
+    private  int diff;
 
+
+    private  ObjectAnimator objectAnimator;
 
 
 
@@ -52,6 +57,7 @@ public class LevelShow extends AppCompatActivity {
 
 
 
+
         SampDatabaseHelper helper = new SampDatabaseHelper(getApplicationContext());
         try(SQLiteDatabase db = helper.getReadableDatabase()) {
 //            初めに現在の経験値を取得
@@ -60,8 +66,8 @@ public class LevelShow extends AppCompatActivity {
                     null, null, null, null, null);
             if (cursor.moveToFirst())
             {
-                sound_level_former = Integer.parseInt(cursor.getString(3));
-                sound_level_latter= Integer.parseInt(cursor.getString(2));
+                sound_level_former = Integer.parseInt(cursor.getString(2));
+                sound_level_latter= Integer.parseInt(cursor.getString(3));
 
             }
 
@@ -81,39 +87,96 @@ public class LevelShow extends AppCompatActivity {
 
 
 
-        bar.setProgress(percent,true);
-
-        onProgressAnimation(sound_level_latter%100);
+        bar.setProgress(percent,false);
 
 
+        diff=sound_level_latter-sound_level_former;
+
+        sound_level=sound_level_former/100;
 
 
-
-        AlphaAnimation animation_alpha = new AlphaAnimation( 1, 0 );
-
-        animation_alpha.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                // アニメーションの開始時に呼ばれます
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-                // アニメーションの繰り返し時に呼ばれます。
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                // アニメーションの終了時に呼ばれます
+        if(sound_level_former/100==sound_level_latter/100){
+           onProgressAnimation(sound_level_latter%100);
+           diff=0;
+        }else{
+           onProgressAnimation(100);
+           int sa=((sound_level_former/100)+1)*100-sound_level_former;
+            diff=diff-sa;
+            sound_level++;
+        }
 
 
-
-
-            }
+//        if(objectAnimator==null){
+//            Log.e("title",String.valueOf(level));
+//        }else{
+//            Log.e("aaaa",String.valueOf(level));
+//        }
 
 
 
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            // アニメーション開始で呼ばれる
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            Log.d("debug","onAnimationStart()");
+                        }
+
+                        // アニメーションがキャンセルされると呼ばれる
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                            Log.d("debug","onAnimationCancel()");
+                        }
+
+                        // アニメーション終了時
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            Log.d("debug","onAnimationEnd()");
+
+
+                            level.setText("LEVEL" + sound_level);
+
+                            if(diff!=0) {
+
+                                bar.setProgress(0, false);
+
+                                if (diff>=100){
+                                    onProgressAnimation(100);
+                                    diff=diff-100;
+                                    sound_level++;
+
+                                }else {
+                                 onProgressAnimation(diff);
+                                }
+
+
+                            }
+
+
+
+
+                        }
+
+                        // 繰り返しでコールバックされる
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                            Log.d("debug","onAnimationRepeat()");
+                        }
+
+//                         // アニメーション中断
+//                         @Override
+//                         public void onAnimationPause(Animator animation) {
+//                            Log.d("debug", "onAnimationPause()");
+//                         }
+//
+//                         // アニメーション中断からの再開
+//                         @Override
+//                         public void onAnimationResume(Animator animation) {
+//                            Log.d("debug", "onAnimationResume()");
+//                         }
         });
+
+
+
 
     }
 
@@ -127,10 +190,10 @@ public class LevelShow extends AppCompatActivity {
 
 
     private void onProgressAnimation(int percent){
-        Animator animation = ObjectAnimator.ofInt(bar,"progress",percent);
-        animation.setDuration(1000); // 0.5秒間でアニメーションする
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
+        objectAnimator = ObjectAnimator.ofInt(bar,"progress",percent);
+        objectAnimator.setDuration(1000); // 0.5秒間でアニメーションする
+        objectAnimator.setInterpolator(new DecelerateInterpolator());
+        objectAnimator.start();
     }
 
 
@@ -146,6 +209,8 @@ public class LevelShow extends AppCompatActivity {
      }
 
 }
+
+
 
 
 
