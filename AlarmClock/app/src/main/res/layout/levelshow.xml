@@ -6,22 +6,6 @@
     android:layout_height="match_parent">
 
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="158dp"
-        android:layout_marginLeft="158dp"
-        android:layout_marginTop="656dp"
-        android:layout_marginEnd="159dp"
-        android:layout_marginRight="159dp"
-        android:onClick="onSave"
-        android:text="100歩"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <!--    <Button-->
     <!--        android:id="@+id/back_btn"-->
     <!--        android:layout_width="wrap_content"-->
@@ -33,82 +17,16 @@
     <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="616dp"
-        android:layout_marginEnd="252dp"
-        android:layout_marginRight="252dp"
-        android:text="@string/start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginRight="36dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="onSave3"
-        android:text="500歩"
+    <com.example.alarmclock.Arc
+        android:id="@+id/arc"
+        android:layout_width="412dp"
+        android:layout_height="393dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="onSave2"
-        android:text="300歩"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="175dp"
-        android:layout_marginLeft="175dp"
-        android:layout_marginTop="704dp"
-        android:layout_marginEnd="180dp"
-        android:layout_marginRight="180dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.example.alarmclock.Arc
-        android:id="@+id/arc"
-        android:layout_width="385dp"
-        android:layout_height="367dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376" />
-
-    <Button
-        android:id="@+id/button_reset"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="244dp"
-        android:layout_marginLeft="244dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/reset"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <TextView
         android:id="@+id/level"
@@ -120,10 +38,35 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/arc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/arc"
-        app:layout_constraintVertical_bias="0.506" />
+        app:layout_constraintVertical_bias="0.496" />
 
 
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="280dp"
+        android:layout_marginLeft="280dp"
+        android:layout_marginBottom="76dp"
+        android:onClick="backbtn"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="348dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="68dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/button6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

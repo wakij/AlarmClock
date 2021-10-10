@@ -42,6 +42,7 @@
         <activity android:name=".WebShow" />
         <activity android:name=".stopAlarm"/>
         <activity android:name=".LevelShow"/>
+        <activity android:name=".FootCountShow"/>
 
 
     </application>

@@ -181,8 +181,15 @@ public class MainActivity extends AppCompatActivity {
 //    public void toUsage(View view)
 //    {
 //        Intent intent = new Intent(MainActivity.this, WebShow.class);
+
 //        startActivity(intent);
 //    }
+
+
+    public void tofootcountShow(View view){
+        Intent intent = new Intent(MainActivity.this, FootCountShow.class);
+        startActivity(intent);
+    }
 
     public void toLevelShow(View view)
     {
@@ -192,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toWebShow(View view)
     {
-        Intent intent = new Intent(MainActivity.this, WebShow.class);
+        Intent intent = new Intent(MainActivity.this, Help.class);
         startActivity(intent);
     }
 }

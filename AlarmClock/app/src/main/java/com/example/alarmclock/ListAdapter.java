@@ -15,6 +15,8 @@ import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -114,6 +116,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                             AlarmInfo alarmData = alarmLInfoList.get(position);
                             AlarmHelper.setAlarm(am, context, alarmData.getHour(), alarmData.getMinutes(), alarmData.getId());
+
+
+                            TextView textView = viewHolder.getTextView();
+                            textView.setTextColor(0xffff0000);
+
                         }
                         //alarmの無効化
                         else
@@ -122,6 +129,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                             ContentValues cv = new ContentValues();
                             cv.put(DBContract.DBEntry.SWITCH_CONDITION, "false");
                             db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
+                            TextView textView = viewHolder.getTextView();
+                            textView.setTextColor(0xff23ce34);
+
                             if (am != null)
                             {
                                 PendingIntent pending = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -150,4 +160,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     {
         alarmLInfoList.add(alarmData);
     }
+
+
 }
