@@ -67,28 +67,31 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         super.onDestroy();
         stop();
         SampDatabaseHelper helper = new SampDatabaseHelper(getApplicationContext());
-        try(SQLiteDatabase db = helper.getWritableDatabase())
-        {
+        try(SQLiteDatabase db = helper.getWritableDatabase()) {
 //            初めに現在の経験値を取得
             String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL, DBContract.DBEntry.EXPERIENCE};
             Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
                     null, null, null, null, null);
-            int experience = Integer.parseInt(cursor.getString(3));
-            experience += count * 50;
-            ContentValues cv = new ContentValues();
-            cv.put(DBContract.DBEntry.EXPERIENCE, String.valueOf(experience));
             if (cursor.moveToFirst())
             {
+                int experience = Integer.parseInt(cursor.getString(3));
+                experience += count * 50;
+                ContentValues cv = new ContentValues();
+                cv.put(DBContract.DBEntry.EXPERIENCE, String.valueOf(experience));
                 db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(0)});
             }
             else
             {
+                int experience = count * 50;
+                ContentValues cv = new ContentValues();
+                cv.put(DBContract.DBEntry.EXPERIENCE, String.valueOf(experience));
                 db.insert(DBContract.DBEntry.TABLE_NAME2, null, cv);
             }
         }catch (Exception e)
         {
             Log.e( "aaaaaa",e.toString());
         }
+
     }
 
     @Nullable

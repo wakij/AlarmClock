@@ -63,7 +63,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             {
                 Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
                         null, null, null, null, null);
-
                 //moveToFirstで、カーソルを検索結果セットの先頭行に移動
                 //検索結果が0件の場合、falseが返る
                 if (cursor.moveToFirst()){
@@ -81,7 +80,18 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                     Intent startActivityIntent = new Intent(context, stopAlarm.class);
                     startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(startActivityIntent);
+                }
+                else
+                {
+                    Intent serviveIntent = new Intent(context, SoundService.class);
+                    context.startService(serviveIntent);
 
+                    Intent serviceIntent2 =new Intent(context,FootStep.class);
+                    context.startService((serviceIntent2));
+
+                    Intent startActivityIntent = new Intent(context, stopAlarm.class);
+                    startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(startActivityIntent);
                 }
             }catch (Exception e)
             {
