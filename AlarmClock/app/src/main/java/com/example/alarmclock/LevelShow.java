@@ -92,7 +92,14 @@ public class LevelShow extends AppCompatActivity {
 
         diff=sound_level_latter-sound_level_former;
 
-        sound_level=sound_level_former/100;
+
+        if(sound_level_former<100){
+            sound_level=(sound_level_former/100)+1;
+        }else{
+            sound_level=sound_level_former/100;
+        }
+
+
 
 
         if(sound_level_former/100==sound_level_latter/100){
@@ -103,15 +110,8 @@ public class LevelShow extends AppCompatActivity {
            int sa=((sound_level_former/100)+1)*100-sound_level_former;
             diff=diff-sa;
             sound_level++;
+            level.setText("LEVEL" + sound_level);
         }
-
-
-//        if(objectAnimator==null){
-//            Log.e("title",String.valueOf(level));
-//        }else{
-//            Log.e("aaaa",String.valueOf(level));
-//        }
-
 
 
         objectAnimator.addListener(new Animator.AnimatorListener() {
@@ -133,7 +133,7 @@ public class LevelShow extends AppCompatActivity {
                             Log.d("debug","onAnimationEnd()");
 
 
-                            level.setText("LEVEL" + sound_level);
+
 
                             if(diff!=0) {
 
@@ -143,6 +143,7 @@ public class LevelShow extends AppCompatActivity {
                                     onProgressAnimation(100);
                                     diff=diff-100;
                                     sound_level++;
+                                    level.setText("LEVEL" + sound_level);
 
                                 }else {
                                  onProgressAnimation(diff);
@@ -191,7 +192,7 @@ public class LevelShow extends AppCompatActivity {
 
     private void onProgressAnimation(int percent){
         objectAnimator = ObjectAnimator.ofInt(bar,"progress",percent);
-        objectAnimator.setDuration(1000); // 0.5秒間でアニメーションする
+        objectAnimator.setDuration(5000); // 0.5秒間でアニメーションする
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
     }
