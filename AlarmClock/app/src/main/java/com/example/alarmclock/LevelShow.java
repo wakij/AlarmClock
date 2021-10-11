@@ -3,6 +3,7 @@ package com.example.alarmclock;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -115,7 +116,9 @@ public class LevelShow extends AppCompatActivity {
             sound_level++;
 //            level.setText("LEVEL" + (sound_level + 1));
         }
-        objectAnimator.setRepeatCount(10);
+
+        objectAnimator.setRepeatCount(5);
+
 
 
         objectAnimator.addListener(new Animator.AnimatorListener() {
@@ -135,12 +138,12 @@ public class LevelShow extends AppCompatActivity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             Log.e("dddddd","破壊");
+                            Log.e("Process",String.valueOf(bar.getProgress()));
                         }
 
                         // 繰り返しでコールバックされる
                         @Override
                         public void onAnimationRepeat(Animator animation) {
-                            Log.e("boolean",String.valueOf(objectAnimator.isRunning()));
 
                             if(diff!=0) {
 
@@ -148,19 +151,17 @@ public class LevelShow extends AppCompatActivity {
                                 level.setText("LEVEL" + (sound_level + 1));
 
                                 if (diff>=100){
-                                    onProgressAnimation(100);
                                     diff=diff-100;
                                     sound_level++;
-
+                                    onProgressAnimation(100);
                                 }else {
-                                    Log.e("aaaaaaaaaa",String.valueOf(diff));
                                     onProgressAnimation(diff);
+                                    Log.e("Process",String.valueOf(bar.getProgress()));
                                     diff = 0;
+//                                    objectAnimator.end();
                                 }
                             }else
                             {
-                                objectAnimator.end();
-                                Log.e("boolean",String.valueOf(objectAnimator.isRunning()));
                             }
                         }
 
@@ -197,7 +198,7 @@ public class LevelShow extends AppCompatActivity {
 
     private void onProgressAnimation(int percent){
         objectAnimator = ObjectAnimator.ofInt(bar,"progress",percent);
-        objectAnimator.setDuration(5000); // 0.5秒間でアニメーションする
+        objectAnimator.setDuration(2000); // 0.5秒間でアニメーションする
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
     }
