@@ -78,7 +78,7 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
                 sound_level_latter += count * 50;
                 ContentValues cv = new ContentValues();
                 cv.put(DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
-                db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(0)});
+                db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(1)});
             }
             else
             {

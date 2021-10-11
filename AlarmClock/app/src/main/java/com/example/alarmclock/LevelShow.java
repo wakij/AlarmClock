@@ -78,7 +78,8 @@ public class LevelShow extends AppCompatActivity {
 
 
 
-
+        sound_level_former=70;
+        sound_level_latter=350;
 
         bar = (ProgressBar)findViewById(R.id.progressBar1);
         bar.setMax(100);
@@ -90,14 +91,16 @@ public class LevelShow extends AppCompatActivity {
         bar.setProgress(percent,false);
 
 
+
         diff=sound_level_latter-sound_level_former;
 
 
-        if(sound_level_former<100){
-            sound_level=(sound_level_former/100)+1;
-        }else{
-            sound_level=sound_level_former/100;
-        }
+//        if(sound_level_former<100){
+//            sound_level=(sound_level_former/100)+1;
+//        }else{
+//            sound_level=sound_level_former/100;
+//        }
+        sound_level = sound_level_former/100;
 
 
 
@@ -110,57 +113,55 @@ public class LevelShow extends AppCompatActivity {
            int sa=((sound_level_former/100)+1)*100-sound_level_former;
             diff=diff-sa;
             sound_level++;
-            level.setText("LEVEL" + sound_level);
+//            level.setText("LEVEL" + (sound_level + 1));
         }
+        objectAnimator.setRepeatCount(10);
 
 
         objectAnimator.addListener(new Animator.AnimatorListener() {
             // アニメーション開始で呼ばれる
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            Log.d("debug","onAnimationStart()");
+                            Log.e("debug","onAnimationStart()");
                         }
 
                         // アニメーションがキャンセルされると呼ばれる
                         @Override
                         public void onAnimationCancel(Animator animation) {
-                            Log.d("debug","onAnimationCancel()");
+                            Log.e("debug","onAnimationCancel()");
                         }
 
                         // アニメーション終了時
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            Log.d("debug","onAnimationEnd()");
-
-
-
-
-                            if(diff!=0) {
-
-                                bar.setProgress(0, false);
-
-                                if (diff>=100){
-                                    onProgressAnimation(100);
-                                    diff=diff-100;
-                                    sound_level++;
-                                    level.setText("LEVEL" + sound_level);
-
-                                }else {
-                                 onProgressAnimation(diff);
-                                }
-
-
-                            }
-
-
-
-
+                            Log.e("dddddd","破壊");
                         }
 
                         // 繰り返しでコールバックされる
                         @Override
                         public void onAnimationRepeat(Animator animation) {
-                            Log.d("debug","onAnimationRepeat()");
+                            Log.e("boolean",String.valueOf(objectAnimator.isRunning()));
+
+                            if(diff!=0) {
+
+                                bar.setProgress(0, false);
+                                level.setText("LEVEL" + (sound_level + 1));
+
+                                if (diff>=100){
+                                    onProgressAnimation(100);
+                                    diff=diff-100;
+                                    sound_level++;
+
+                                }else {
+                                    Log.e("aaaaaaaaaa",String.valueOf(diff));
+                                    onProgressAnimation(diff);
+                                    diff = 0;
+                                }
+                            }else
+                            {
+                                objectAnimator.end();
+                                Log.e("boolean",String.valueOf(objectAnimator.isRunning()));
+                            }
                         }
 
 //                         // アニメーション中断
@@ -183,9 +184,13 @@ public class LevelShow extends AppCompatActivity {
 
 
 //    public void hogeButton(View v){
-//        percent =50 ;
-//        bar.setProgress(percent);
-
+////        percent =50 ;
+////        bar.setProgress(percent);
+//        if (objectAnimator != null)
+//        {
+//            Log.e("aaaaaaaaaa","いないよ");
+//        }
+//
 //
 //    }
 
@@ -200,12 +205,23 @@ public class LevelShow extends AppCompatActivity {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void backbtn(View view){
+        if (objectAnimator != null)
+        {
+            if (objectAnimator.getListeners() != null)
+            {
+                Log.e("aaaaaaaaaaa","Aa");
+            }
+
+        }
 
 ////
+//        Log.e("isRunning",String.valueOf(objectAnimator.isRunning()));
+//        Log.e("isStarted",String.valueOf(objectAnimator.isStarted()));
+//        Log.e("isPaused",String.valueOf(objectAnimator.isPaused()));
 
-
-        finish();
+//        finish();
 
      }
 
