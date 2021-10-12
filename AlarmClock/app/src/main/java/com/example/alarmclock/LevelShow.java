@@ -117,7 +117,7 @@ public class LevelShow extends AppCompatActivity {
 //            level.setText("LEVEL" + (sound_level + 1));
         }
 
-        objectAnimator.setRepeatCount(5);
+        objectAnimator.setRepeatCount(10);
 
 
 
@@ -137,7 +137,6 @@ public class LevelShow extends AppCompatActivity {
                         // アニメーション終了時
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            Log.e("dddddd","破壊");
                             Log.e("Process",String.valueOf(bar.getProgress()));
                         }
 
@@ -153,15 +152,16 @@ public class LevelShow extends AppCompatActivity {
                                 if (diff>=100){
                                     diff=diff-100;
                                     sound_level++;
-                                    onProgressAnimation(100);
+                                    objectAnimator.setIntValues(100);
                                 }else {
-                                    onProgressAnimation(diff);
-                                    Log.e("Process",String.valueOf(bar.getProgress()));
+                                    objectAnimator.setIntValues(diff);
                                     diff = 0;
-//                                    objectAnimator.end();
+
                                 }
                             }else
                             {
+                                Log.e("aaaaaaaa","終了");
+                                objectAnimator.end();
                             }
                         }
 
@@ -208,21 +208,21 @@ public class LevelShow extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void backbtn(View view){
-        if (objectAnimator != null)
-        {
-            if (objectAnimator.getListeners() != null)
-            {
-                Log.e("aaaaaaaaaaa","Aa");
-            }
-
-        }
+//        if (objectAnimator != null)
+//        {
+//            if (objectAnimator.getListeners() != null)
+//            {
+//                Log.e("aaaaaaaaaaa","Aa");
+//            }
+//
+//        }
 
 ////
 //        Log.e("isRunning",String.valueOf(objectAnimator.isRunning()));
 //        Log.e("isStarted",String.valueOf(objectAnimator.isStarted()));
 //        Log.e("isPaused",String.valueOf(objectAnimator.isPaused()));
 
-//        finish();
+        finish();
 
      }
 
