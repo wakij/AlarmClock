@@ -32,7 +32,7 @@ public class LevelShow extends AppCompatActivity {
     private ProgressBar bar;
     private  int percent;
     private int sound_level_former=70;
-    private int sound_level_latter=350;
+    private int sound_level_latter=80;
     private int sound_level;
     private  int diff;
 
@@ -79,8 +79,8 @@ public class LevelShow extends AppCompatActivity {
 
 
 
-        sound_level_former=70;
-        sound_level_latter=350;
+        sound_level_former=30;
+        sound_level_latter=250;
 
         bar = (ProgressBar)findViewById(R.id.progressBar1);
         bar.setMax(100);
@@ -95,29 +95,28 @@ public class LevelShow extends AppCompatActivity {
 
         diff=sound_level_latter-sound_level_former;
 
-
-//        if(sound_level_former<100){
-//            sound_level=(sound_level_former/100)+1;
-//        }else{
-//            sound_level=sound_level_former/100;
-//        }
         sound_level = sound_level_former/100;
 
 
 
 
-        if(sound_level_former/100==sound_level_latter/100){
-           onProgressAnimation(sound_level_latter%100);
-           diff=0;
-        }else{
-           onProgressAnimation(100);
-           int sa=((sound_level_former/100)+1)*100-sound_level_former;
+
+        if(sound_level_former/100==sound_level_latter/100)
+        {
+            onProgressAnimation(sound_level_latter%100);
+            objectAnimator.setDuration(20 * diff);
+            Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+            diff=0;
+        }
+        else
+        {
+            onProgressAnimation(100);
+            int sa=((sound_level_former/100)+1)*100-sound_level_former;
+            objectAnimator.setDuration(20 * sa);
             diff=diff-sa;
             sound_level++;
-//            level.setText("LEVEL" + (sound_level + 1));
         }
 
-        objectAnimator.setRepeatCount(10);
 
 
 
@@ -137,45 +136,37 @@ public class LevelShow extends AppCompatActivity {
                         // アニメーション終了時
                         @Override
                         public void onAnimationEnd(Animator animation) {
+//                            objectAnimator.start();
                             Log.e("Process",String.valueOf(bar.getProgress()));
+                            if(diff!=0) {
+                                Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+                                level.setText("LEVEL" + (sound_level + 1));
+                                if (diff>=100){
+                                    diff=diff-100;
+                                    sound_level++;
+                                    Log.e("calc",String.valueOf(20 * 100));
+//                                    objectAnimator.setDuration(10000);
+                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+                                    objectAnimator.setIntValues(0,100);
+                                    objectAnimator.setDuration(100 * 20);
+                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+                                }else {
+                                    objectAnimator.setIntValues(0,diff);
+                                    objectAnimator.setDuration(diff * 20);
+                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+                                    diff = 0;
+                                }
+                                Log.e("duration",String.valueOf(objectAnimator.getDuration()));
+                                objectAnimator.start();
+                            }else
+                            {
+                                Log.e("aaaaaaaa","終了");
+                            }
                         }
 
                         // 繰り返しでコールバックされる
                         @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                            if(diff!=0) {
-
-                                bar.setProgress(0, false);
-                                level.setText("LEVEL" + (sound_level + 1));
-
-                                if (diff>=100){
-                                    diff=diff-100;
-                                    sound_level++;
-                                    objectAnimator.setIntValues(100);
-                                }else {
-                                    objectAnimator.setIntValues(diff);
-                                    diff = 0;
-
-                                }
-                            }else
-                            {
-                                Log.e("aaaaaaaa","終了");
-                                objectAnimator.end();
-                            }
-                        }
-
-//                         // アニメーション中断
-//                         @Override
-//                         public void onAnimationPause(Animator animation) {
-//                            Log.d("debug", "onAnimationPause()");
-//                         }
-//
-//                         // アニメーション中断からの再開
-//                         @Override
-//                         public void onAnimationResume(Animator animation) {
-//                            Log.d("debug", "onAnimationResume()");
-//                         }
+                        public void onAnimationRepeat(Animator animation) {}
         });
 
 
@@ -198,7 +189,6 @@ public class LevelShow extends AppCompatActivity {
 
     private void onProgressAnimation(int percent){
         objectAnimator = ObjectAnimator.ofInt(bar,"progress",percent);
-        objectAnimator.setDuration(2000); // 0.5秒間でアニメーションする
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
     }
@@ -206,8 +196,11 @@ public class LevelShow extends AppCompatActivity {
 
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void backbtn(View view){
+//        objectAnimator.resume();
+//        objectAnimator.setDuration(10000);
 //        if (objectAnimator != null)
 //        {
 //            if (objectAnimator.getListeners() != null)
@@ -229,7 +222,7 @@ public class LevelShow extends AppCompatActivity {
 }
 
 
-
+//repeatではなくstartを使う
 
 
 
