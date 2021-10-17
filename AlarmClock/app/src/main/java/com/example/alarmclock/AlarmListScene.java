@@ -103,7 +103,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 int id = cursor.getInt(0);
                 String time = cursor.getString(1);
                 String isSwitchOn = cursor.getString(2);
-                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn);
+                String memo=cursor.getString(3);
+                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
                 alarmLists.add(alarmData);
 
             }
@@ -112,7 +113,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 int id = cursor.getInt(0);
                 String time = cursor.getString(1);
                 String isSwitchOn = cursor.getString(2);
-                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn);
+                String memo=cursor.getString(3);
+                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
                 alarmLists.add(alarmData);
             }
             cursor.close();

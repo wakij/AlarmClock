@@ -27,6 +27,7 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
                         DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
                         DBContract.DBEntry.COLUMN_NAME_TIME + " TEXT default '', " +
                         DBContract.DBEntry.SWITCH_CONDITION+ " TEXT default '',"+
+                        DBContract.DBEntry.MEMO+ " TEXT default '',"+
                         DBContract.DBEntry.COLUMN_NAME_UPDATE + " INTEGER DEFAULT (datetime(CURRENT_TIMESTAMP,'localtime'))) ");
 
 

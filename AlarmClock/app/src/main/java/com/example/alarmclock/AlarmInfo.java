@@ -6,8 +6,10 @@ public class AlarmInfo {
     private int hour;
     private int minutes;
     private String isSwitchOn;
+    private String memo;
 
-    AlarmInfo(int _id, String _time, String _isSwitchOn)
+    AlarmInfo(int _id, String _time, String _isSwitchOn ,String Memo)
+
     {
         id = _id;
         time = _time;
@@ -15,6 +17,7 @@ public class AlarmInfo {
         hour = Integer.parseInt(hour_minutes[0]);
         minutes = Integer.parseInt(hour_minutes[1]);
         isSwitchOn = _isSwitchOn;
+        memo=Memo;
     }
 
     AlarmInfo(int _id, int _hour, int _minutes, String _isSwitchOn)
@@ -31,6 +34,7 @@ public class AlarmInfo {
     public int getMinutes(){return minutes;}
     public String getTime(){return time;}
     public String getIsSwitchOn(){return isSwitchOn;}
+    public String getMemo(){return memo;}
 
     //    public void setId(int _id){id = _id;}
     public void setHour(int _hour){hour = _hour;}

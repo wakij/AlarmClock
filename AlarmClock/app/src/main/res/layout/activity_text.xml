@@ -21,9 +21,9 @@
         android:id="@+id/time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="32dp"
         android:timePickerMode="spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,11 +32,11 @@
         android:id="@+id/setbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="設定"
+        android:layout_marginTop="420dp"
         android:onClick="btnReg_onClick"
+        android:text="設定"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.133"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_picker" />
 
@@ -44,14 +44,28 @@
         android:id="@+id/backbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:text="戻る"
+        android:layout_marginTop="664dp"
         android:onClick="onBack"
+        android:text="戻る"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setbtn" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-
+    <EditText
+        android:id="@+id/editContents"
+        android:layout_width="312dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginLeft="53dp"
+        android:layout_marginBottom="128dp"
+        android:background="@drawable/frame_border"
+        android:gravity="top"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine|text"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/setbtn"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

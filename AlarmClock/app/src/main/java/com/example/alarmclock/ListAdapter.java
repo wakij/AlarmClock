@@ -75,6 +75,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         textView.setText(text);
         textView.setMovementMethod(new ScrollingMovementMethod());
 
+        String memo=alarmLInfoList.get(position).getMemo();
+
         //dbの用意
         Context context = viewHolder.itemView.getContext();
         helper = new SampDatabaseHelper(context);
@@ -94,6 +96,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 Intent intent = new Intent(context, TextActivity.class);
                 intent.putExtra(DBContract.DBEntry._ID, alarmLInfoList.get(position).getId());
                 intent.putExtra(DBContract.DBEntry.COLUMN_NAME_TIME, text);
+                intent.putExtra(DBContract.DBEntry.MEMO,memo);
                 context.startActivity(intent);
             }
         });
