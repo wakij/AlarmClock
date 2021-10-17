@@ -1,5 +1,6 @@
 package com.example.alarmclock;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -24,8 +25,8 @@ import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTIN
 
 public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
 
-    MediaPlayer mediaPlayer;
-    private int repeat_time = 1; //繰り返される回数
+    public static MediaPlayer mediaPlayer;
+    private int repeat_time = 10; //繰り返される回数
     private int count = 0; //再生する回数
     public SoundService soundService;
     private NotificationManager notificationManager;
@@ -132,4 +133,14 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
             stopSelf();
         }
     }
+    public void pauseMusic()
+    {
+        mediaPlayer.pause();
+    }
+
+    public static MediaPlayer getMediaPlayer()
+    {
+        return mediaPlayer;
+    }
+
 }

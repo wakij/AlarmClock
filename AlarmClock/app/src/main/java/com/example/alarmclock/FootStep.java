@@ -7,12 +7,15 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.TextView;
 
 
 import androidx.annotation.RequiresApi;
@@ -22,13 +25,15 @@ public class FootStep extends Service implements SensorEventListener {
     SensorManager sensorManager;
     Sensor sensor;
 
-    int NEED_STEP = 1;
+    int NEED_STEP = 10;
 
     boolean first = true;
     boolean up = false;
     float d0, d = 0f;
     int stepcount = 0;
     float a = 0.90f;
+    private MediaPlayer mediaPlayer;
+    private Handler handler;
 
 
 
@@ -50,7 +55,7 @@ public class FootStep extends Service implements SensorEventListener {
         Log.e("needStep",String.valueOf(NEED_STEP));
         startSensor();
         Log.e("ProcessName",getApplication().getPackageName());
-
+        mediaPlayer = SoundService.getMediaPlayer();
         return START_NOT_STICKY;
     }
 
@@ -72,11 +77,13 @@ public class FootStep extends Service implements SensorEventListener {
             first = false;
             up = true;
             d0 = a * sum;
+            handler = new Handler(getMainLooper());
         }else{
             d =  a * sum + (1 - a) * d0;
             if (up && d < d0){
                 up = false;
                 stepcount++;
+                pauseMusic();
                 if (stepcount > NEED_STEP){
                     Intent intent = new Intent(getApplication().getApplicationContext(),SoundService.class);
                     stopService(intent);
@@ -104,5 +111,24 @@ public class FootStep extends Service implements SensorEventListener {
         stepcount = 0;
     }
 
+    private void pauseMusic()
+    {
+        int step_former = stepcount;
+        if (mediaPlayer.isPlaying())
+        {
+            mediaPlayer.pause();
+        }
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int step_latter = stepcount;
+                if (step_former == step_latter)
+                {
+                    mediaPlayer.start();
+                }
+            }
+        }, 5000);
+
+    }
 
 }
