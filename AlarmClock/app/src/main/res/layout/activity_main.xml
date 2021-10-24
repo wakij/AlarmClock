@@ -41,40 +41,35 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
-            android:id="@+id/setAlarmButton"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_recent_history" />
-
-        <ImageView
-            android:id="@+id/footcountButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="tofootcountShow"
-            app:srcCompat="@android:drawable/ic_menu_myplaces" />
-
-        <ImageView
-            android:id="@+id/statusButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="toLevelShow"
-            app:srcCompat="@android:drawable/ic_menu_view" />
-
-        <ImageView
-            android:id="@+id/helpButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="toWebShow"
-            app:srcCompat="@android:drawable/ic_menu_info_details" />
 
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="タブ１"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="タブ２"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="タブ３"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="タブ4"/>
 
 
+            </com.google.android.material.tabs.TabLayout>
 
 
     </LinearLayout>

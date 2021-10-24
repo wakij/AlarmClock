@@ -20,6 +20,7 @@ import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +33,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private Resources res;
     private Drawable deleteIcon;
     private AlarmManager am;
+    private TabLayout tabLayout;
 
 
     // アクティビティの初期化処理
@@ -63,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
 //        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        tabLayout=findViewById(R.id.tab_layout);
+
+
     }
 
 
