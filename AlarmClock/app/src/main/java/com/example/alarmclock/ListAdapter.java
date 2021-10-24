@@ -118,7 +118,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                             db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
                             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                             AlarmInfo alarmData = alarmLInfoList.get(position);
-                            AlarmHelper.setAlarm(am, context, alarmData.getHour(), alarmData.getMinutes(), alarmData.getId());
+                            AlarmHelper.setAlarm(am, context, alarmData.getHour(), alarmData.getMinutes(), alarmData.getId(), alarmData.getMemo());
 
 
                             TextView textView = viewHolder.getTextView();

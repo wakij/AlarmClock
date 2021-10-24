@@ -43,6 +43,7 @@
         <activity android:name=".stopAlarm"/>
         <activity android:name=".LevelShow"/>
         <activity android:name=".FootCountShow"/>
+        <activity android:name=".Main"/>
 
 
     </application>

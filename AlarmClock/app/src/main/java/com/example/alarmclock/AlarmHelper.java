@@ -22,7 +22,7 @@ public class AlarmHelper {
 
     //編集と新規登録
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static void setAlarm(AlarmManager am, Context context, int hour, int minute, int id)
+    public static void setAlarm(AlarmManager am, Context context, int hour, int minute, int id, String memo)
     {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
         // Calendarを使って現在の時間をミリ秒で取得
@@ -48,6 +48,9 @@ public class AlarmHelper {
         Intent intent = new Intent(context,
                 AlarmBroadcastReceiver.class);
 
+        intent.putExtra("memo",memo);
+        intent.putExtra("id",id);
+
         PendingIntent pending = PendingIntent.getBroadcast(
                 context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -62,14 +65,14 @@ public class AlarmHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static void setAlarm(AlarmManager am, Context context, String time, int id, String isSwitchOn)
+    public static void setAlarm(AlarmManager am, Context context, String time, int id, String isSwitchOn, String memo)
     {
         if (Boolean.valueOf(isSwitchOn))
         {
             String[] hour_minutes = time.split(":");
             int hour = Integer.parseInt(hour_minutes[0]);
             int minutes = Integer.parseInt(hour_minutes[1]);
-            setAlarm(am, context, hour, minutes, id);
+            setAlarm(am, context, hour, minutes, id, memo);
         }
     }
 

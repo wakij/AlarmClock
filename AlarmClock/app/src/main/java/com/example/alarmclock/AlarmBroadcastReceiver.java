@@ -1,6 +1,10 @@
 package com.example.alarmclock;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +24,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent){
         Toast.makeText(context,"Received", Toast.LENGTH_LONG).show();
 
-
-
 //        //アプリが再起動されたら
         if (intent.getAction() != null) {
             if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
@@ -29,7 +31,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 SampDatabaseHelper helper = new SampDatabaseHelper(context);
 
                 // データベースを検索する項目を定義
-                String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
+                String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION, DBContract.DBEntry.MEMO};
 
                 // 読み込みモードでデータベースをオープン
                 try (SQLiteDatabase db = helper.getReadableDatabase()) {
@@ -43,18 +45,21 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                         int id = cursor.getInt(0);
                         String time = cursor.getString(1);
                         String isSwitchOn = cursor.getString(2);
-                        AlarmHelper.setAlarm(am, context, time, id, isSwitchOn);
+                        String memo = cursor.getString(3);
+                        AlarmHelper.setAlarm(am, context, time, id, isSwitchOn, memo);
                     }
                     while (cursor.moveToNext()) {
                         int id = cursor.getInt(0);
                         String time = cursor.getString(1);
                         String isSwitchOn = cursor.getString(2);
-                        AlarmHelper.setAlarm(am, context, time, id, isSwitchOn);
+                        String memo = cursor.getString(3);
+                        AlarmHelper.setAlarm(am, context, time, id, isSwitchOn, memo);
                     }
                     cursor.close();
                 }
             }
         }
+        //設定していた時間になってアラーム信号を受信した時
         else
         {
             SampDatabaseHelper helper = new SampDatabaseHelper(context);
@@ -65,6 +70,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                         null, null, null, null, null);
                 //moveToFirstで、カーソルを検索結果セットの先頭行に移動
                 //検索結果が0件の場合、falseが返る
+//                アラーム停止までに必要な歩数など必要な情報が記録されていたら
                 if (cursor.moveToFirst()){
                     int needStep = Integer.parseInt(cursor.getString(0));
                     int soundLevel = Integer.parseInt(cursor.getString(1));
@@ -93,6 +99,32 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                     startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(startActivityIntent);
                 }
+                String memo = intent.getStringExtra("memo");
+                int id = intent.getIntExtra("id",0);
+                NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel("default","おはようございます",NotificationManager.IMPORTANCE_DEFAULT);
+                    channel.setDescription(memo);
+                    channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE); //ロック画面に表示
+                    if (notificationManager != null)
+                    {
+                        PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        notificationManager.createNotificationChannel(channel);
+                        Notification notification = new Notification.Builder(context, "default")
+                                .setContentTitle("おはようございます")
+                                // android標準アイコンから
+                                .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+                                .setContentText(memo)
+                                .setAutoCancel(true)
+                                .setContentIntent(notifyPendingIntent)
+                                .setWhen(System.currentTimeMillis())
+                                .build();
+
+                        notificationManager.notify(R.string.app_name, notification);
+                    }
+
+
+                }
             }catch (Exception e)
             {
                 Log.e("aaaaa",e.toString());
@@ -106,14 +138,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(startActivityIntent);
             }
-
         }
-
-
-
-//        Intent startActivityIntent = new Intent(context, AlarmStop.class);
-//        startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        context.startActivity(startActivityIntent);
     }
 }
 

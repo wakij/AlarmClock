@@ -11,7 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -31,6 +35,9 @@ public class TextActivity extends AppCompatActivity {
     private Button backbtn = null;
     private TimePicker timePicker = null;
     private EditText editContents;
+    private ConstraintLayout mConstraintLayout;
+    private InputMethodManager inputMethodManager;
+    private String memo;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -46,6 +53,9 @@ public class TextActivity extends AppCompatActivity {
         setbtn = findViewById(R.id.setbtn);
         backbtn = findViewById(R.id.backbtn);
         editContents=findViewById(R.id.editContents);
+        mConstraintLayout = findViewById(R.id.constrain_layout);
+        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
 
 
 
@@ -60,7 +70,7 @@ public class TextActivity extends AppCompatActivity {
         if(id>0){
 
             String time = intent.getStringExtra(DBContract.DBEntry.COLUMN_NAME_TIME);
-            String memo = intent.getStringExtra(DBContract.DBEntry.MEMO);
+            memo = intent.getStringExtra(DBContract.DBEntry.MEMO);
             String[] hour_minutes = time.split(":");
             timePicker.setHour(Integer.parseInt(String.valueOf(hour_minutes[0])));
             timePicker.setMinute(Integer.parseInt((String.valueOf((hour_minutes[1])))));
@@ -115,7 +125,7 @@ public class TextActivity extends AppCompatActivity {
             }
         }
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        AlarmHelper.setAlarm(am, getApplicationContext(), timePicker.getHour(), timePicker.getMinute(), id);
+        AlarmHelper.setAlarm(am, getApplicationContext(), timePicker.getHour(), timePicker.getMinute(), id, memo);
         finish();
     }
 
@@ -125,10 +135,14 @@ public class TextActivity extends AppCompatActivity {
         finish();
     }
 
-
-
-
-
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //キーボードを隠す
+        inputMethodManager.hideSoftInputFromWindow(mConstraintLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        //背景にフォーカスを移す
+        mConstraintLayout.requestFocus();
+        return false;
+    }
 }
 
 
