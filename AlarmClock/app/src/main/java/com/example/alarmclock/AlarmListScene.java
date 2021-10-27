@@ -55,8 +55,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rLayoutManager);
         //RecycleViewを枠線をいれる
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(itemDecoration);
+//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+//        recyclerView.addItemDecoration(itemDecoration);
         am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         onShow();
         onswiped();

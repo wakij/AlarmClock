@@ -14,18 +14,31 @@ public class AnimationArc extends Animation {
 
     // アニメーション角度
     private float oldAngle;
-    private float newAngle;
+    private float endAngle;
+    private float initAngle;
 
-    AnimationArc(Arc arc, int newAngle) {
+    AnimationArc(Arc arc, float endAngle, float initAngle) {
         this.oldAngle = arc.getAngle();
-        this.newAngle = newAngle;
+        this.endAngle = endAngle;
         this.arc = arc;
+        this.initAngle = initAngle;
     }
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation transformation) {
-        float angle = oldAngle + ((newAngle - oldAngle) * interpolatedTime);
+        float angle = oldAngle + ((endAngle - oldAngle) * interpolatedTime);
         arc.setAngle(angle);
         arc.requestLayout();
+        arc.setInitAngle(initAngle);
+    }
+
+    public void setEndAngle(float endAngle)
+    {
+        this.endAngle = endAngle;
+    }
+
+    public void setInitAngle(float initAngle)
+    {
+        this.initAngle = initAngle;
     }
 }

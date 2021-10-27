@@ -3,8 +3,10 @@ package com.example.alarmclock;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.SweepGradient;
 import android.media.audiofx.LoudnessEnhancer;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,11 +15,16 @@ import android.view.View;
 public class Arc extends View {
 
     private final Paint paint;
-    private final Paint paint2;
-    private final Paint circlePaint;
-    private final Paint circlePaint2;
+//    private final Paint paint2;
+    private final Paint outercirclePaint;
+    private final Paint innercirclePaint;
+    private final Paint arcTip;
+    private final Paint arcEnd;
     private RectF rect;
     private RectF rect2;
+    private float initAngle = 0;
+    private float constInitAngle = 0;
+    private float constEndAngle;
 
     // Animation 開始地点をセット
 //    private  float  AngleTarget = 0;
@@ -30,65 +37,76 @@ public class Arc extends View {
         super(context, attrs);
 
         // Arcの幅
-        int strokeWidth = 70;
         paint = new Paint();
-        paint2= new Paint();
+//        paint2= new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(strokeWidth);
-        paint2.setAntiAlias(true);
-        paint2.setStyle(Paint.Style.STROKE);
-        paint2.setStrokeWidth(strokeWidth);
+        paint.setStrokeWidth(100);
+        paint.setStrokeCap(Paint.Cap.ROUND); //先端を丸める
+
+
 
         // Arcの色
-        paint.setColor(Color.argb(255, 255, 204, 0));
-        paint2.setColor(Color.argb(255,255,165,0));
+        paint.setColor(Color.argb(255,37,90,199));
+
         // Arcの範囲
         rect = new RectF();
         rect2 = new RectF();
 
         int strokeWidth2 = 10;
-        circlePaint = new Paint();
-        circlePaint.setColor(Color.argb(255, 153, 193, 234));
-        circlePaint.setStrokeWidth(strokeWidth2);
-        circlePaint.setAntiAlias(true);
-        circlePaint.setStyle(Paint.Style.STROKE);
+        outercirclePaint = new Paint();
+        outercirclePaint.setColor(Color.argb(255,25,24,46));
+        outercirclePaint.setStrokeWidth(strokeWidth2);
+        outercirclePaint.setAntiAlias(true);
 
         int strokeWidth3 = 10;
-        circlePaint2 = new Paint();
-        circlePaint2.setColor(Color.argb(255, 187, 244, 251));
-        circlePaint2.setStrokeWidth(strokeWidth3);
-        circlePaint2.setAntiAlias(true);
-        circlePaint2.setStyle(Paint.Style.STROKE);
+        innercirclePaint = new Paint();
+        innercirclePaint.setColor(Color.argb(255, 28, 27, 56));
+        innercirclePaint.setStrokeWidth(strokeWidth3);
+        innercirclePaint.setAntiAlias(true);
+
+        arcTip = new Paint();
+        arcTip.setColor(Color.parseColor("#193498"));
+
+        arcEnd = new Paint();
+        arcEnd.setColor(Color.parseColor("#1597E5"));
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.save();
 
-        // 背景、半透明
-        canvas.drawColor(Color.argb(64, 255, 255, 255));
+        // 背景を描画
+        canvas.drawColor(Color.argb(255, 28, 27, 56));
 
         // Canvas 中心点
         float x = getWidth()/2;
         float y = getHeight()/2;
-        // 半径
-        float radius = getWidth() * 0.45f;
+
+//        上から始まるように90度回転
+        canvas.rotate(-90,x,y);
+//        グラデーション用のshaderを制作(詳しくはdoc参照、グラデーションに用いる色や割合を決めることが可能※現在は色しかしていしないので均等に変化するようになっています)
+        SweepGradient circleGradient = new SweepGradient(x, y, Color.parseColor("#193498"),Color.parseColor("#1597E5"));
+        paint.setShader(circleGradient);
 
         // 円弧の領域設定
-        rect.set(x - radius, y - radius, x + radius, y + radius);
-        rect2.set(x - radius - 120, y - radius - 120, x + radius + 120, y + radius + 120);
+        rect.set(x - 400, y - 400, x + 400, y + 400);
+        rect2.set(x - 400, y - 400, x + 400, y + 400);
+
+        canvas.drawCircle(x, y, 450, outercirclePaint); //外円
+        canvas.drawCircle(x, y, 350, innercirclePaint); //内円
+        canvas.drawArc(rect2, constInitAngle, constEndAngle, false, paint); //初期に描画する円弧
+        canvas.drawArc(rect, initAngle, angle, false, paint); //新たに描画する円弧
+        angle = (float)Math.toRadians(angle + constEndAngle);
+        //progressbarの後端部分
+        canvas.drawCircle(x + 400, y, 50, arcTip);
+        //progressbarの先端部分
+//        canvas.drawCircle(x + (float)Math.cos(angle) * 400, y + (float)Math.sin(angle) * 400, 50, arcTip);
 
 
-        // 円弧の描画
-//        canvas.drawArc(rect, AngleTarget, angle, false, paint);
-//        canvas.drawArc(rect, 0, 90, false, paint);
-        canvas.drawArc(rect, angle, sweepAngle, false, paint);
-        canvas.drawArc(rect2, -angle, sweepAngle2, false, paint2);
-
-        // (x1,y1,r,paint) 中心x1座標, 中心y1座標, r半径
-        canvas.drawCircle(x, y, radius + 50 + 40, circlePaint2);
-        canvas.drawCircle(x, y, radius - 50 + 10, circlePaint);
+        canvas.restore();
     }
 
     // AnimationAへ現在のangleを返す
@@ -100,6 +118,16 @@ public class Arc extends View {
     public void setAngle(float angle) {
         this.angle = angle;
 
+    }
+
+    public void setInitAngle(float angle)
+    {
+        this.initAngle = angle;
+    }
+
+    public void setconstEndAngle(float angle)
+    {
+        this.constEndAngle = angle;
     }
 }
 

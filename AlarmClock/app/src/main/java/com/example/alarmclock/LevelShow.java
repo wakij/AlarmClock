@@ -27,6 +27,7 @@ public class LevelShow extends AppCompatActivity {
     private TextView viewTitle;
     private TextView viewContents;
     private TextView level;
+    private TextView percentText;
 
 
     private ProgressBar bar;
@@ -35,6 +36,11 @@ public class LevelShow extends AppCompatActivity {
     private int sound_level_latter=80;
     private int sound_level;
     private  int diff;
+    private float endAngle = 0.0f; //何度回転させるか
+    private Arc arc;
+    private int animationPeriod = 2000;
+    private float initAngle; //どこから回転させるか
+    private AnimationArc animationArc;
 
 
     private  ObjectAnimator objectAnimator;
@@ -54,7 +60,8 @@ public class LevelShow extends AppCompatActivity {
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 
-        level=findViewById(R.id.level);
+        level = findViewById(R.id.level);
+        percentText = findViewById(R.id.percent);
 
 
 
@@ -78,98 +85,166 @@ public class LevelShow extends AppCompatActivity {
         }
 
 
-
         sound_level_former=30;
-        sound_level_latter=250;
-
-        bar = (ProgressBar)findViewById(R.id.progressBar1);
-        bar.setMax(100);
-        bar.setMin(0);
+        sound_level_latter=100;
         percent=sound_level_former%100;
-
-
-
-        bar.setProgress(percent,false);
-
-
-
         diff=sound_level_latter-sound_level_former;
-
         sound_level = sound_level_former/100;
-
-
-
 
 
         if(sound_level_former/100==sound_level_latter/100)
         {
-            onProgressAnimation(sound_level_latter%100);
-            objectAnimator.setDuration(20 * diff);
-            Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+            initAngle = convertToAngle(sound_level_former);
+            endAngle = convertToAngle(sound_level_latter) - initAngle;
             diff=0;
         }
         else
         {
-            onProgressAnimation(100);
+            initAngle = convertToAngle(sound_level_former);
+            endAngle = 360 - initAngle;
             int sa=((sound_level_former/100)+1)*100-sound_level_former;
-            objectAnimator.setDuration(20 * sa);
             diff=diff-sa;
             sound_level++;
         }
 
+        arc = findViewById(R.id.arc);
+        arc.setconstEndAngle(initAngle);
+        animationArc = new AnimationArc(arc, endAngle, initAngle);
+        animationArc.setDuration(animationPeriod);
+        arc.startAnimation(animationArc);
+        animationArc.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                percentText.setText("-%");
+            }
 
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(diff!=0) {
+                    arc.setconstEndAngle(0);
+                    level.setText("LEVEL" + (sound_level + 1));
+                    if (diff>=100){
+                        diff=diff-100;
+                        sound_level++;
+                        animationArc.setInitAngle(0);
+                        animationArc.setEndAngle(360.0f);
+                    }else {
+                        animationArc.setInitAngle(0);
+                        animationArc.setEndAngle(diff * 360 / 100);
+                        diff = 0;
+                    }
+                    arc.startAnimation(animationArc);
+                }else
+                {
+                    percentText.setText(String.valueOf(sound_level_latter%100) + "%");
+                    Log.e("aaaaaaaa","終了");
+                }
 
+            }
 
-        objectAnimator.addListener(new Animator.AnimatorListener() {
-            // アニメーション開始で呼ばれる
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            Log.e("debug","onAnimationStart()");
-                        }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-                        // アニメーションがキャンセルされると呼ばれる
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                            Log.e("debug","onAnimationCancel()");
-                        }
-
-                        // アニメーション終了時
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-//                            objectAnimator.start();
-                            Log.e("Process",String.valueOf(bar.getProgress()));
-                            if(diff!=0) {
-                                Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-                                level.setText("LEVEL" + (sound_level + 1));
-                                if (diff>=100){
-                                    diff=diff-100;
-                                    sound_level++;
-                                    Log.e("calc",String.valueOf(20 * 100));
-//                                    objectAnimator.setDuration(10000);
-                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-                                    objectAnimator.setIntValues(0,100);
-                                    objectAnimator.setDuration(100 * 20);
-                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-                                }else {
-                                    objectAnimator.setIntValues(0,diff);
-                                    objectAnimator.setDuration(diff * 20);
-                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-                                    diff = 0;
-                                }
-                                Log.e("duration",String.valueOf(objectAnimator.getDuration()));
-                                objectAnimator.start();
-                            }else
-                            {
-                                Log.e("aaaaaaaa","終了");
-                            }
-                        }
-
-                        // 繰り返しでコールバックされる
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {}
+            }
         });
 
 
+
+
+
+
+
+
+
+//
+//        bar = (ProgressBar)findViewById(R.id.progressBar1);
+//        bar.setMax(100);
+//        bar.setMin(0);
+
+
+
+
+//        bar.setProgress(percent,false);
+//
+//
+//
+
+//
+
+
+
+
+
+
+//        if(sound_level_former/100==sound_level_latter/100)
+//        {
+//            onProgressAnimation(sound_level_latter%100);
+//            objectAnimator.setDuration(20 * diff);
+//            Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+//            diff=0;
+//        }
+//        else
+//        {
+//            onProgressAnimation(100);
+//            int sa=((sound_level_former/100)+1)*100-sound_level_former;
+//            objectAnimator.setDuration(20 * sa);
+//            diff=diff-sa;
+//            sound_level++;
+//        }
+
+
+
+
+//        objectAnimator.addListener(new Animator.AnimatorListener() {
+//            // アニメーション開始で呼ばれる
+//                        @Override
+//                        public void onAnimationStart(Animator animation) {
+//                            Log.e("debug","onAnimationStart()");
+//                        }
+//
+//                        // アニメーションがキャンセルされると呼ばれる
+//                        @Override
+//                        public void onAnimationCancel(Animator animation) {
+//                            Log.e("debug","onAnimationCancel()");
+//                        }
+//
+//                        // アニメーション終了時
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+////                            objectAnimator.start();
+//                            Log.e("Process",String.valueOf(bar.getProgress()));
+//                            if(diff!=0) {
+//                                Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+//                                level.setText("LEVEL" + (sound_level + 1));
+//                                if (diff>=100){
+//                                    diff=diff-100;
+//                                    sound_level++;
+//                                    Log.e("calc",String.valueOf(20 * 100));
+////                                    objectAnimator.setDuration(10000);
+//                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+//                                    objectAnimator.setIntValues(0,100);
+//                                    objectAnimator.setDuration(100 * 20);
+//                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+//                                }else {
+//                                    objectAnimator.setIntValues(0,diff);
+//                                    objectAnimator.setDuration(diff * 20);
+//                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
+//                                    diff = 0;
+//                                }
+//                                Log.e("duration",String.valueOf(objectAnimator.getDuration()));
+//                                objectAnimator.start();
+//                            }else
+//                            {
+//                                Log.e("aaaaaaaa","終了");
+//                            }
+//                        }
+//
+//                        // 繰り返しでコールバックされる
+//                        @Override
+//                        public void onAnimationRepeat(Animator animation) {}
+//        });
+//
+//
 
 
     }
@@ -193,8 +268,10 @@ public class LevelShow extends AppCompatActivity {
         objectAnimator.start();
     }
 
-
-
+    public float convertToAngle(int percent)
+    {
+        return  (percent % 100) * 360 / 100;
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -216,7 +293,6 @@ public class LevelShow extends AppCompatActivity {
 //        Log.e("isPaused",String.valueOf(objectAnimator.isPaused()));
 
         finish();
-
      }
 
 }

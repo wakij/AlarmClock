@@ -50,10 +50,10 @@ public abstract class ItemSwipeController extends ItemTouchHelper.SimpleCallback
 
         boolean  isLeftDirection= dX < 0;
         if (isLeftDirection){
-            background.setColor(Color.parseColor("#FF6B6B"));
-            background.setBounds(itemview.getRight() + (int)dX, itemview.getTop(), itemview.getRight(), itemview.getBottom());
+//            background.setColor(Color.parseColor("#FF6B6B"));
+//            background.setBounds(itemview.getRight() + (int)dX, itemview.getTop(), itemview.getRight(), itemview.getBottom());
         }
-        background.draw(c); //描画
+//        background.draw(c); //描画
 
         int itemHeight = itemview.getBottom() - itemview.getTop();
         if (isLeftDirection){

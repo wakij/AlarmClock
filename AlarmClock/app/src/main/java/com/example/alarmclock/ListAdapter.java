@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     private ArrayList<AlarmInfo> alarmLInfoList;
     private SampDatabaseHelper helper = null;
+    private ViewHolder viewHolder;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView textView;
@@ -83,6 +86,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 //        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
 
         Switch on_off = viewHolder.itemView.findViewById(R.id.on_off);
+        ImageView monoBackground = viewHolder.itemView.findViewById(R.id.monoBackground);
 
         //スイッチの状態を反映
         boolean isSwitchOn = Boolean.valueOf(alarmLInfoList.get(position).getIsSwitchOn());
@@ -123,6 +127,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
                             TextView textView = viewHolder.getTextView();
                             textView.setTextColor(0xffff0000);
+                            monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
 
                         }
                         //alarmの無効化
@@ -134,6 +139,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                             db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
                             TextView textView = viewHolder.getTextView();
                             textView.setTextColor(0xff23ce34);
+                            monoBackground.setColorFilter(Color.parseColor("#D3D3CF"));
 
                             if (am != null)
                             {
