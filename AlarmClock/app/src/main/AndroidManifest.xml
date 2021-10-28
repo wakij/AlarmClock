@@ -44,6 +44,7 @@
         <activity android:name=".LevelShow"/>
         <activity android:name=".FootCountShow"/>
         <activity android:name=".Main"/>
+        <activity android:name=".Explaination"/>
 
 
     </application>
