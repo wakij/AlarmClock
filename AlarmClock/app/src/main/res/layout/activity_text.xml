@@ -26,7 +26,7 @@
         android:onClick="btnReg_onClick"
         android:text="設定"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_picker" />
 
@@ -38,21 +38,25 @@
         android:onClick="onBack"
         android:text="戻る"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.164"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editContents"
-        android:layout_width="312dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginLeft="53dp"
-        android:layout_marginBottom="128dp"
+        android:layout_width="316dp"
+        android:layout_height="207dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/frame_border"
         android:gravity="top"
         android:importantForAutofill="no"
         android:inputType="textMultiLine|text"
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"
+        android:topLeftRadius="5dp"
+        android:topRightRadius="5dp"
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@+id/setbtn"
         app:layout_constraintStart_toStartOf="parent" />

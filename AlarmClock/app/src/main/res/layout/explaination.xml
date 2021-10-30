@@ -7,10 +7,22 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
+
+
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="650dp"/>
+        android:layout_height="650dp"
+
+
+
+
+        />
+
+
+
 
     <LinearLayout
         android:id="@+id/layout"

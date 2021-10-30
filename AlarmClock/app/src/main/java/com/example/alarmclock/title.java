@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.EditText;
@@ -28,6 +29,16 @@ public class title extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title);
 
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplication(), LevelShow.class);
+                startActivity(intent);
+            }
+        }, 2000);
+
+
 //        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
@@ -38,11 +49,13 @@ public class title extends AppCompatActivity {
 
 
 
-                b.setOnClickListener(v -> {
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
 
-                });
+
+
+
+
+
+
 
 
 

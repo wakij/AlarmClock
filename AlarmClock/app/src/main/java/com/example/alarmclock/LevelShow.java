@@ -20,6 +20,11 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
 
 public class LevelShow extends AppCompatActivity {
 
@@ -28,7 +33,8 @@ public class LevelShow extends AppCompatActivity {
     private TextView viewContents;
     private TextView level;
     private TextView percentText;
-
+    private TabLayout tabLayout;
+    private Button button;
 
     private ProgressBar bar;
     private  int percent;
@@ -60,8 +66,43 @@ public class LevelShow extends AppCompatActivity {
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 
+        //ダイアログ用のボタン
+        button=findViewById(R.id.button6);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(v);
+            }
+        });
+
+
         level = findViewById(R.id.level);
         percentText = findViewById(R.id.percent);
+
+
+        tabLayout=findViewById(R.id.tab_layout);
+        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(R.drawable.ic_baseline_access_alarm_24);
+        Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.ic_baseline_info_24);
+        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.ic_baseline_insert_drive_file_24);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
 
 
@@ -294,6 +335,11 @@ public class LevelShow extends AppCompatActivity {
 
         finish();
      }
+
+    public void showDialog(View view) {
+        DialogFragment dialogFragment = new MyDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), "my_dialog");
+    }
 
 }
 

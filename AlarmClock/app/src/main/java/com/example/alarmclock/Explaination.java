@@ -1,11 +1,13 @@
 package com.example.alarmclock;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -20,6 +22,7 @@ public class Explaination extends FragmentActivity {
     private LinearLayout.LayoutParams layoutParams;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
@@ -55,8 +58,8 @@ public class Explaination extends FragmentActivity {
 
     public void createPageControl(int itemCount){
         imageViews = new ImageView[itemCount];
-        imageWidth = 30;
-        imageHeight = 30;
+        imageWidth = 60;
+        imageHeight = 60;
 
         for (int i = 0; i < imageViews.length; i++){
             imageViews[i] = new ImageView(this);
