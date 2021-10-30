@@ -73,9 +73,9 @@ public class LevelShow extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog sheetDialog = new BottomSheetDialog(LevelShow.this, R.style.BottomSheetDialogTheme);
+                BottomSheetDialog sheetDialog = new BottomSheetDialog(LevelShow.this, R.style.BottomSheetStyle);
                 View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomdialog,
-                (LinearLayout) findViewById(R.id.dialog_container));
+                (LinearLayout) findViewById(R.id.dialog_container),false);
                 sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
