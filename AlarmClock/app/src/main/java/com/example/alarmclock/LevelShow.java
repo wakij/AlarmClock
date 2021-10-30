@@ -10,11 +10,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
@@ -66,15 +69,64 @@ public class LevelShow extends AppCompatActivity {
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 
-        //ダイアログ用のボタン
         button=findViewById(R.id.button6);
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(v);
+                BottomSheetDialog sheetDialog = new BottomSheetDialog(LevelShow.this, R.style.BottomSheetDialogTheme);
+                View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomdialog,
+                (LinearLayout) findViewById(R.id.dialog_container));
+                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sheetDialog.dismiss();
+                    }
+                });
+
+                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sheetDialog.dismiss();
+                    }
+                });
+
+                sheetDialog.setContentView(sheetView);
+                sheetDialog.show();
+
+//                sheetView.findViewById(R.id.file_menu_share).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        sheetDialog.dismiss();
+//                    }
+//                });
+//
+//                sheetView.findViewById(R.id.file_menu_rename).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        sheetDialog.dismiss();
+//                    }
+//                });
+//
+//                sheetView.findViewById(R.id.file_menu_delete).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        sheetDialog.dismiss();
+//                    }
+//                });
+//
+//                sheetView.findViewById(R.id.file_menu_properties).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        sheetDialog.dismiss();
+//                    }
+//                });
+////
+//
             }
         });
+
+
+
 
 
         level = findViewById(R.id.level);
@@ -336,10 +388,6 @@ public class LevelShow extends AppCompatActivity {
         finish();
      }
 
-    public void showDialog(View view) {
-        DialogFragment dialogFragment = new MyDialogFragment();
-        dialogFragment.show(getSupportFragmentManager(), "my_dialog");
-    }
 
 }
 
