@@ -5,61 +5,66 @@
     android:id="@+id/constrain_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TextActivity">
+    tools:context=".TextActivity"
+    android:padding="10dp"
+    android:background="@color/black">
 
-    <TimePicker
+    <com.example.alarmclock.CustomTimePicker
         android:id="@+id/time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginTop="32dp"
-        android:timePickerMode="spinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/setbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
-        android:onClick="btnReg_onClick"
-        android:text="設定"
+        android:background="@drawable/white_bg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time_picker" />
-
-    <Button
-        android:id="@+id/backbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="664dp"
-        android:onClick="onBack"
-        android:text="戻る"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <EditText
         android:id="@+id/editContents"
-        android:layout_width="316dp"
-        android:layout_height="207dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginBottom="120dp"
-        android:background="@drawable/frame_border"
-        android:gravity="top"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@drawable/white_bg"
         android:importantForAutofill="no"
         android:inputType="textMultiLine|text"
-        android:bottomLeftRadius="5dp"
-        android:bottomRightRadius="5dp"
-        android:topLeftRadius="5dp"
-        android:topRightRadius="5dp"
         android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@+id/setbtn"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:hint="目標を設定してね"
+        android:layout_marginTop="10dp"
+        android:theme="@style/CustomEditText"
+        style="@style/CustomEditText"
+        app:layout_constraintTop_toBottomOf="@+id/time_picker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <Button
+        android:id="@+id/setbtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/white_bg"
+        android:onClick="btnReg_onClick"
+        android:text="設定"
+        android:textColor="#050505"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editContents" />
+
+    <Button
+        android:id="@+id/backbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onBack"
+        android:text="戻る"
+        android:textColor="#050505"
+        android:background="@drawable/white_bg"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setbtn" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

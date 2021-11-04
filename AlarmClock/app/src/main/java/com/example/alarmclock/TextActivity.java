@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -33,11 +34,12 @@ public class TextActivity extends AppCompatActivity {
     private int id = 0;
     private Button setbtn = null;
     private Button backbtn = null;
-    private TimePicker timePicker = null;
+    private spinner_timepicker timePicker = null;
     private EditText editContents;
     private ConstraintLayout mConstraintLayout;
     private InputMethodManager inputMethodManager;
     private String memo;
+    private TextView rest_time_text;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -47,9 +49,43 @@ public class TextActivity extends AppCompatActivity {
 
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        rest_time_text = findViewById(R.id.rest_time);
 
-        timePicker = findViewById(R.id.time_picker);
-        timePicker.setIs24HourView(true);
+        timePicker = findViewById(R.id.spinner_time_picker);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+                // Calendarを使って現在の時間をミリ秒で取得
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.getTimeInMillis();
+                calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+                // 現在時刻を取得
+                Calendar nowCalendar = Calendar.getInstance();
+                nowCalendar.setTimeInMillis(System.currentTimeMillis());
+
+                int diff = calendar.compareTo(nowCalendar);
+                if(diff <= 0){
+                    calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+                }
+
+                int rest_time = (int)((calendar.getTimeInMillis() - nowCalendar.getTimeInMillis()) / 1000); //秒
+                int rest_hour = rest_time / 3600; //時間
+                int rest_minutes = (rest_time - 3600 * rest_hour) / 60;
+                if (rest_hour == 0)
+                {
+                    rest_time_text.setText(rest_minutes + "分後にアラームが鳴ります");
+
+                }else
+                {
+                    rest_time_text.setText(rest_hour + "時間" + rest_minutes + "分後にアラームが鳴ります");
+                }
+
+            }
+        });
+//        timePicker.setIs24HourView(true);
         setbtn = findViewById(R.id.setbtn);
         backbtn = findViewById(R.id.backbtn);
         editContents=findViewById(R.id.editContents);
@@ -75,8 +111,6 @@ public class TextActivity extends AppCompatActivity {
             timePicker.setHour(Integer.parseInt(String.valueOf(hour_minutes[0])));
             timePicker.setMinute(Integer.parseInt((String.valueOf((hour_minutes[1])))));
             editContents.setText(memo);
-
-
         }
 
 
