@@ -46,8 +46,8 @@ public class ListAdapter2 extends RecyclerView.Adapter<ListAdapter2.ViewHolder>{
 
     }
 
-    public  ListAdapter2(String[] dataSet){
-        loadDataSet = dataSet;
+    public  ListAdapter2(String[] list){
+        loadDataSet = list;
     }
 
     @NonNull
@@ -87,27 +87,6 @@ public class ListAdapter2 extends RecyclerView.Adapter<ListAdapter2.ViewHolder>{
                 //ここにクリック処理を書く
                 Context context = v.getContext();
 
-
-                if (position == 0) {
-
-                    Intent intent = new Intent(context, usage.class);
-
-                    context.startActivity(intent);
-
-                }else if(position==1){
-
-
-                    Intent intent1=new Intent(context,WebShow.class);
-
-                    context.startActivity(intent1);
-
-                }else {
-
-
-                    Intent intent2 = new Intent(context, question.class);
-
-                    context.startActivity(intent2);
-                }
 
 
 

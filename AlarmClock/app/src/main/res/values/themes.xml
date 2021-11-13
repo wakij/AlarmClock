@@ -21,15 +21,6 @@
 
 
 
-    <style name="BottomSheetStyle" parent="Theme.Design.BottomSheetDialog">
-         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
-    </style>
-
-
-    <style name="BottomSheetDialogTheme" parent="Widget.Design.BottomSheet.Modal">
-        <item name="background">@android:color/transparent</item>
-        <item name="behavior_peekHeight">512dp</item>
-    </style>
 
 
 

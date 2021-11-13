@@ -4,9 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +26,9 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
@@ -38,6 +44,9 @@ public class LevelShow extends AppCompatActivity {
     private TextView percentText;
     private TabLayout tabLayout;
     private Button button;
+    private Dialog dialog;
+    public static ListAdapter2 adapter;
+    private RecyclerView recyclerView;
 
     private ProgressBar bar;
     private  int percent;
@@ -70,28 +79,42 @@ public class LevelShow extends AppCompatActivity {
 
 
         button=findViewById(R.id.button6);
+        dialog=new Dialog(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog sheetDialog = new BottomSheetDialog(LevelShow.this, R.style.BottomSheetStyle);
-                View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomdialog,
-                (LinearLayout) findViewById(R.id.dialog_container),false);
-                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        sheetDialog.dismiss();
-                    }
-                });
 
-                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        sheetDialog.dismiss();
-                    }
-                });
+                openDialog();
 
-                sheetDialog.setContentView(sheetView);
-                sheetDialog.show();
+
+
+
+
+
+
+
+
+
+
+//                BottomSheetDialog sheetDialog = new BottomSheetDialog(LevelShow.this, R.style.BottomSheetStyle);
+//                View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomdialog,
+//                (LinearLayout) findViewById(R.id.dialog_container),false);
+//                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        sheetDialog.dismiss();
+//                    }
+//                });
+//
+//                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        sheetDialog.dismiss();
+//                    }
+//                });
+//
+//                sheetDialog.setContentView(sheetView);
+//                sheetDialog.show();
 
 //                sheetView.findViewById(R.id.file_menu_share).setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -386,7 +409,39 @@ public class LevelShow extends AppCompatActivity {
 //        Log.e("isPaused",String.valueOf(objectAnimator.isPaused()));
 
         finish();
-     }
+    }
+
+    private void openDialog(){
+
+
+
+        dialog.setContentView(R.layout.sample);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        View decor = dialog.getWindow().getDecorView();
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        recyclerView=findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(rLayoutManager);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
+
+
+        String[] List={"greed","lazy"};
+        adapter = new ListAdapter2(List);
+        recyclerView.setAdapter(adapter);
+
+        dialog.show();
+
+
+    }
+
+
 
 
 }
