@@ -11,4 +11,6 @@
     <string name="start">Start</string>
     <string name="reset">Reset</string>
     <string name="default_value_preference_theme">light</string>
+    <string name="default_answer">それはおわた</string>
+    <string name="default_question">レイアウトが思いつかないです</string>
 </resources>

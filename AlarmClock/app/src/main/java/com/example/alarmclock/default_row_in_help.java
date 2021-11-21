@@ -41,6 +41,7 @@ public class default_row_in_help extends Fragment {
         mTextView = (TextView) view.findViewById(R.id.title);
         mBack = (ImageView) view.findViewById(R.id.back);
         mIcon = (ImageView) view.findViewById(R.id.icon);
+        mIcon.setColorFilter(Color.parseColor("#FFFFFF"));
         if (mName != null)
         {
             mTextView.setText(mName);

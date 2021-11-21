@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -91,6 +92,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         //スイッチの状態を反映
         boolean isSwitchOn = Boolean.valueOf(alarmLInfoList.get(position).getIsSwitchOn());
         on_off.setChecked(isSwitchOn);
+        on_off.setSplitTrack(true);
 
 
 
@@ -117,6 +119,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         //再登録
                         if (isChecked)
                         {
+//                            on_off.getThumbDrawable().setColorFilter(Color.parseColor("#1F1D36"), PorterDuff.Mode.MULTIPLY);
                             ContentValues cv = new ContentValues();
                             cv.put(DBContract.DBEntry.SWITCH_CONDITION, "true");
                             db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});

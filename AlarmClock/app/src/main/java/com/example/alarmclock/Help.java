@@ -1,5 +1,6 @@
 package com.example.alarmclock;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ public class Help extends AppCompatActivity{
         fragmentTransaction.commit();
 
         ImageView bar_back_btn = findViewById(R.id.bar_back_button);
+        bar_back_btn.setColorFilter(Color.parseColor("#FFFFFF"));
         bar_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
