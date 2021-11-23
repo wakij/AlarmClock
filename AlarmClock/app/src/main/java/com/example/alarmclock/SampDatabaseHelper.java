@@ -59,7 +59,22 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
 //                        " END;");
 
 
+
+
+        //テーブル作成３
+
+
+        db.execSQL(
+                "CREATE TABLE "+ DBContract.DBEntry.TABLE_NAME3 + " (" +
+                        DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
+                        DBContract.DBEntry.COGNOMEN + " TEXT default '') ");
     }
+
+
+
+
+
+
 
     // データベースをバージョンアップした時、テーブルを削除してから再作成
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
@@ -68,6 +83,9 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
 
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.DBEntry.TABLE_NAME2);
+        onCreate(db);
+
+        db.execSQL("DROP TABLE IF EXISTS " + DBContract.DBEntry.TABLE_NAME3);
         onCreate(db);
 
 

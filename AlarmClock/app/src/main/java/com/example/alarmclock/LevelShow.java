@@ -19,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,7 +44,14 @@ public class LevelShow extends AppCompatActivity {
     private TextView level;
     private TextView percentText;
     private TabLayout tabLayout;
-    private Button button;
+    private ImageButton imagebutton;
+    private Button button1;
+    private Button button2;
+    private TextView contents   = null;
+    private TextView aimContent = null;
+
+    private int id=0;
+
     private Dialog dialog;
     public static ListAdapter2 adapter;
     private RecyclerView recyclerView;
@@ -67,6 +75,7 @@ public class LevelShow extends AppCompatActivity {
 
 
     private SampDatabaseHelper helper = null;
+    private SampDatabaseHelper helper2=null;
     private int val;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -78,9 +87,19 @@ public class LevelShow extends AppCompatActivity {
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 
-        button=findViewById(R.id.button6);
+        aimContent=findViewById(R.id.textView7);
+
+
+//         ヘルパーを準備
+        helper2 = new SampDatabaseHelper(this);
+
+        // データを表示
+        onShow2();
+
+
+        imagebutton=findViewById(R.id.imageButton);
         dialog=new Dialog(this);
-        button.setOnClickListener(new View.OnClickListener() {
+        imagebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -414,6 +433,46 @@ public class LevelShow extends AppCompatActivity {
     private void openDialog(){
 
 
+//        SampDatabaseHelper helper = new SampDatabaseHelper(this);
+//        // 入力欄に入力されたタイトルとコンテンツを取得
+//        String cognomen = null;
+//
+//        // 書き込みモードでデータベースをオープン
+//        try (SQLiteDatabase db = helper.getWritableDatabase()) {
+//            // 入力されたタイトルとコンテンツをContentValuesに設定
+//            // ContentValuesは、項目名と値をセットで保存できるオブジェクト
+//            ContentValues cv = new ContentValues();
+//            cv.put(DBContract.DBEntry.COGNOMEN, cognomen);
+//
+//
+//            //新規登録mode
+//            if(id == 0) {
+//                // データ新規登録
+//                db.insert(DBContract.DBEntry.TABLE_NAME3, null, cv);
+////                登録したデータのidを取得
+//                String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COGNOMEN};
+//                try {
+//                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME3, cols, DBContract.DBEntry.COGNOMEN + " = ?", new String[]{cognomen}
+//                            , null, null, null, null);
+//                    if (cursor.moveToFirst()) {
+//                        id = cursor.getInt(0);
+//                    }
+//                }catch (Exception e){
+//                    Log.e("title",e.toString());
+//                }
+//
+//            } else {
+//                // データ更新
+//                db.update(DBContract.DBEntry.TABLE_NAME3, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
+//            }
+//
+//
+//
+//
+//
+//        }
+
+
 
         dialog.setContentView(R.layout.sample);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -424,7 +483,7 @@ public class LevelShow extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        recyclerView=findViewById(R.id.recyclerView);
+        recyclerView=dialog.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(rLayoutManager);
@@ -438,6 +497,61 @@ public class LevelShow extends AppCompatActivity {
 
         dialog.show();
 
+        Button button1= dialog.findViewById(R.id.button7);
+        Button button2= dialog.findViewById(R.id.button8);
+
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               dialog.dismiss();
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+
+
+
+
+    }
+
+    protected void onShow2() {
+
+        // データベースから取得する項目を設定
+        String[] cols = {DBContract.DBEntry.MEMO};
+
+        // 読み込みモードでデータベースをオープン
+        try (SQLiteDatabase db = helper2.getReadableDatabase()) {
+
+            // データを取得するSQLを実行
+            // 取得したデータがCursorオブジェクトに格納される
+            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, null,
+                    null, null, null, null, null);
+
+            // moveToFirstで、カーソルを検索結果セットの先頭行に移動
+            // 検索結果が0件の場合、falseが返る
+            if (cursor.moveToFirst()){
+
+                // 表示用のテキスト・コンテンツに検索結果を設定
+
+                aimContent.setText(cursor.getString(3));
+
+
+            } else {
+                // 検索結果が0件の場合のメッセージを設定
+
+                aimContent.setText("目標が設定されていません！");
+
+
+            }
+        }
 
     }
 

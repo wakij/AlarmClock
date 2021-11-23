@@ -23,6 +23,12 @@ public final class DBContract {
         public static final String COLUMU_SOUND_LEVEL_LATTER= "sound_level_latter";
 
 
+        public static final String TABLE_NAME3          = "samp_tbl3";
+        public static final String COGNOMEN   = "cognomen";
+
+
+
+
 
 
     }

@@ -7,22 +7,26 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        app="@color/green"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app="@color/green"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="663dp">
+            android:layout_height="664dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="281dp"
-                android:layout_height="360dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginBottom="23dp"
+                android:layout_width="338dp"
+                android:layout_height="382dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toTopOf="@+id/button7"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -33,7 +37,7 @@
                 android:layout_marginStart="58dp"
                 android:layout_marginLeft="58dp"
                 android:layout_marginBottom="17dp"
-                android:text="Button"
+                android:text="戻る"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,10 +45,10 @@
                 android:id="@+id/button8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginLeft="45dp"
-                android:layout_marginBottom="17dp"
-                android:text="Button"
+                android:layout_marginStart="64dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginBottom="16dp"
+                android:text="決定"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/button7" />
 
@@ -65,20 +69,13 @@
                 android:id="@+id/imageView"
                 android:layout_width="78dp"
                 android:layout_height="62dp"
-                android:layout_marginStart="134dp"
-                android:layout_marginLeft="134dp"
+                android:layout_marginStart="128dp"
+                android:layout_marginLeft="128dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:srcCompat="@drawable/ic_baseline_security_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-
-
 
 
     </androidx.cardview.widget.CardView>
