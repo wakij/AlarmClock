@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -24,9 +25,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +40,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
-public class LevelShow extends AppCompatActivity {
+public class LevelShow extends Fragment {
 
 
     private TextView viewTitle;
@@ -78,42 +82,37 @@ public class LevelShow extends AppCompatActivity {
     private SampDatabaseHelper helper2=null;
     private int val;
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.levelshow, container, false);
+        return rootView;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.levelshow);
-        View decor = getWindow().getDecorView();
-        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+//        View decor = getWindow().getDecorView();
+//        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 
-        aimContent=findViewById(R.id.textView7);
+        aimContent = view.findViewById(R.id.textView7);
 
 
 //         ヘルパーを準備
-        helper2 = new SampDatabaseHelper(this);
+        helper2 = new SampDatabaseHelper(getContext());
 
         // データを表示
         onShow2();
 
 
-        imagebutton=findViewById(R.id.imageButton);
-        dialog=new Dialog(this);
+        imagebutton = view.findViewById(R.id.imageButton);
+        dialog = new Dialog(getContext());
         imagebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 openDialog();
-
-
-
-
-
-
-
-
-
-
 
 //                BottomSheetDialog sheetDialog = new BottomSheetDialog(LevelShow.this, R.style.BottomSheetStyle);
 //                View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomdialog,
@@ -171,11 +170,11 @@ public class LevelShow extends AppCompatActivity {
 
 
 
-        level = findViewById(R.id.level);
-        percentText = findViewById(R.id.percent);
+        level = view.findViewById(R.id.level);
+        percentText = view.findViewById(R.id.percent);
 
 
-        tabLayout=findViewById(R.id.tab_layout);
+        tabLayout = view.findViewById(R.id.tab_layout);
         Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(R.drawable.ic_baseline_access_alarm_24);
         Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.ic_baseline_info_24);
         Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.ic_baseline_insert_drive_file_24);
@@ -201,7 +200,7 @@ public class LevelShow extends AppCompatActivity {
 
 
 
-        SampDatabaseHelper helper = new SampDatabaseHelper(getApplicationContext());
+        SampDatabaseHelper helper = new SampDatabaseHelper(getContext());
         try(SQLiteDatabase db = helper.getReadableDatabase()) {
 //            初めに現在の経験値を取得
             String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
@@ -242,7 +241,7 @@ public class LevelShow extends AppCompatActivity {
             sound_level++;
         }
 
-        arc = findViewById(R.id.arc);
+        arc = view.findViewById(R.id.arc);
         arc.setconstEndAngle(initAngle);
         animationArc = new AnimationArc(arc, endAngle, initAngle);
         animationArc.setDuration(animationPeriod);
@@ -427,7 +426,7 @@ public class LevelShow extends AppCompatActivity {
 //        Log.e("isStarted",String.valueOf(objectAnimator.isStarted()));
 //        Log.e("isPaused",String.valueOf(objectAnimator.isPaused()));
 
-        finish();
+//        finish();
     }
 
     private void openDialog(){
@@ -485,9 +484,9 @@ public class LevelShow extends AppCompatActivity {
 
         recyclerView=dialog.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rLayoutManager);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
 
 
@@ -541,7 +540,7 @@ public class LevelShow extends AppCompatActivity {
 
                 // 表示用のテキスト・コンテンツに検索結果を設定
 
-                aimContent.setText(cursor.getString(3));
+                aimContent.setText(cursor.getString(0));
 
 
             } else {

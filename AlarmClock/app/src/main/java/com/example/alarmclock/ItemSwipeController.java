@@ -40,32 +40,32 @@ public abstract class ItemSwipeController extends ItemTouchHelper.SimpleCallback
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
 
-        boolean isCanseled = dX == 0f && !isCurrentlyActive;
-        View itemview = viewHolder.itemView;
-        if (isCanseled) {
-            clearCanvas(c, itemview.getRight() + dX, itemview.getTop(), itemview.getRight(), itemview.getBottom());
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            return;
-        }
-
-        boolean  isLeftDirection= dX < 0;
-        if (isLeftDirection){
-//            background.setColor(Color.parseColor("#FF6B6B"));
-//            background.setBounds(itemview.getRight() + (int)dX, itemview.getTop(), itemview.getRight(), itemview.getBottom());
-        }
-//        background.draw(c); //描画
-
-        int itemHeight = itemview.getBottom() - itemview.getTop();
-        if (isLeftDirection){
-            int deleteIconTop = itemview.getTop() + (itemHeight - deleteIconHeight) / 2;
-            int deleteIconMargin = (itemHeight - deleteIconHeight) / 2;
-            int deleteIconLeft = itemview.getRight() - deleteIconMargin - deleteIconWidth;
-            int deleteIconRight = itemview.getRight() - deleteIconMargin;
-            int deleteIconBottom = deleteIconTop + deleteIconHeight;
-
-            deleteIcon.setBounds(deleteIconLeft,deleteIconTop, deleteIconRight, deleteIconBottom);
-            deleteIcon.draw(c);
-        }
+//        boolean isCanseled = dX == 0f && !isCurrentlyActive;
+//        View itemview = viewHolder.itemView;
+//        if (isCanseled) {
+//            clearCanvas(c, itemview.getRight() + dX, itemview.getTop(), itemview.getRight(), itemview.getBottom());
+//            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//            return;
+//        }
+//
+//        boolean  isLeftDirection= dX < 0;
+//        if (isLeftDirection){
+////            background.setColor(Color.parseColor("#FF6B6B"));
+////            background.setBounds(itemview.getRight() + (int)dX, itemview.getTop(), itemview.getRight(), itemview.getBottom());
+//        }
+////        background.draw(c); //描画
+//
+//        int itemHeight = itemview.getBottom() - itemview.getTop();
+//        if (isLeftDirection){
+//            int deleteIconTop = itemview.getTop() + (itemHeight - deleteIconHeight) / 2;
+//            int deleteIconMargin = (itemHeight - deleteIconHeight) / 2;
+//            int deleteIconLeft = itemview.getRight() - deleteIconMargin - deleteIconWidth;
+//            int deleteIconRight = itemview.getRight() - deleteIconMargin;
+//            int deleteIconBottom = deleteIconTop + deleteIconHeight;
+//
+//            deleteIcon.setBounds(deleteIconLeft,deleteIconTop, deleteIconRight, deleteIconBottom);
+//            deleteIcon.draw(c);
+//        }
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 

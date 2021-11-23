@@ -41,7 +41,7 @@
 
 
     <FrameLayout
-        android:id="@+id/settingsContainer"
+        android:id="@+id/container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"

@@ -66,21 +66,21 @@ public class default_row_in_help extends Fragment {
                         Log.e("title",mName);
                         break;
                     case "FAQ":
-                        fragmentTransaction.replace(R.id.settingsContainer, new FAQ());
+                        fragmentTransaction.replace(R.id.container, new FAQ());
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                         bar_title.setText(mName);
                         Log.e("title",mName);
                         break;
                     case "利用規約/その他":
-                        fragmentTransaction.replace(R.id.settingsContainer, new RuleInfo());
+                        fragmentTransaction.replace(R.id.container, new RuleInfo());
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                         bar_title.setText(mName);
                         Log.e("title",mName);
                         break;
                     case "バージョン情報":
-                        fragmentTransaction.replace(R.id.settingsContainer, new VersionInfo());
+                        fragmentTransaction.replace(R.id.container, new VersionInfo());
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                         bar_title.setText(mName);

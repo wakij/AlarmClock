@@ -81,12 +81,11 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
 
 
     protected void onShow() {
-
         // データベースヘルパーを準備
         helper = new SampDatabaseHelper(getContext());
 
         // データベースを検索する項目を定義
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
+        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION,DBContract.DBEntry.MEMO};
 
         // 読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getReadableDatabase()){
@@ -103,10 +102,9 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 int id = cursor.getInt(0);
                 String time = cursor.getString(1);
                 String isSwitchOn = cursor.getString(2);
-                String memo=cursor.getString(3);
+                String memo =cursor.getString(3);
                 AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
                 alarmLists.add(alarmData);
-
             }
             while(cursor.moveToNext())
             {
@@ -118,7 +116,6 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 alarmLists.add(alarmData);
             }
             cursor.close();
-
             listAdapter = new ListAdapter(alarmLists);
             recyclerView.setAdapter(listAdapter);
         }
@@ -144,6 +141,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                         if (am != null)
                         {
                             Intent intent = new Intent(getContext(), AlarmBroadcastReceiver.class);
+                            Log.e("intent1",intent.toString());
+                            Log.e("apple","id: " + String.valueOf(id));
                             PendingIntent pending = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                             am.cancel(pending);
                         }
@@ -157,12 +156,12 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
             }
         };
 
-        res = getContext().getResources();
-        deleteIcon = ResourcesCompat.getDrawable(res, R.drawable.dustbox, null);
-        Bitmap orgBitmap = ((BitmapDrawable) deleteIcon).getBitmap();
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(orgBitmap, 30, 30, false);
-        deleteIcon =  new BitmapDrawable(res, resizedBitmap);
-        swipeController.setDeleteIcon(deleteIcon);
+//        res = getContext().getResources();
+//        deleteIcon = ResourcesCompat.getDrawable(res, R.drawable.dustbox, null);
+//        Bitmap orgBitmap = ((BitmapDrawable) deleteIcon).getBitmap();
+//        Bitmap resizedBitmap = Bitmap.createScaledBitmap(orgBitmap, 30, 30, false);
+//        deleteIcon =  new BitmapDrawable(res, resizedBitmap);
+//        swipeController.setDeleteIcon(deleteIcon);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }

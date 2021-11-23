@@ -1,7 +1,10 @@
 package com.example.alarmclock;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class SceneAdapter extends FragmentStateAdapter {
@@ -13,10 +16,10 @@ public class SceneAdapter extends FragmentStateAdapter {
     }
 
     @Override
-    public Fragment createFragment(int position)
-    {
+    public Fragment createFragment(int position) {
         Fragment fragment = null;
-        switch (position){
+        switch (position)
+        {
             case 0:
                 fragment = new AlarmListScene();
                 break;
@@ -25,14 +28,15 @@ public class SceneAdapter extends FragmentStateAdapter {
                 break;
             case 2:
                 fragment = new HelperScene();
+                break;
         }
         return fragment;
-
     }
+
+
+
     @Override
-    public int getItemCount(){
-        return PAGE_NUM;
+    public int getItemCount() {
+        return 0;
     }
-
-
 }
