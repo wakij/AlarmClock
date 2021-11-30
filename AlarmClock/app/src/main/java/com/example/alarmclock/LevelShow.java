@@ -53,6 +53,7 @@ public class LevelShow extends Fragment {
     private Button button2;
     private TextView contents   = null;
     private TextView aimContent = null;
+    private TextView foot_step_number=null;
 
     private int id=0;
 
@@ -93,8 +94,12 @@ public class LevelShow extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 //        View decor = getWindow().getDecorView();
 //        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        foot_step_number=view.findViewById(R.id.textView8);
 
 
         aimContent = view.findViewById(R.id.textView7);
@@ -174,27 +179,27 @@ public class LevelShow extends Fragment {
         percentText = view.findViewById(R.id.percent);
 
 
-        tabLayout = view.findViewById(R.id.tab_layout);
-        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(R.drawable.ic_baseline_access_alarm_24);
-        Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.ic_baseline_info_24);
-        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.ic_baseline_insert_drive_file_24);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+//        tabLayout = view.findViewById(R.id.tab_layout);
+//        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(R.drawable.ic_baseline_access_alarm_24);
+//        Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.ic_baseline_info_24);
+//        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.ic_baseline_insert_drive_file_24);
+//
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
 
 
 
@@ -210,6 +215,8 @@ public class LevelShow extends Fragment {
             {
                 sound_level_former = Integer.parseInt(cursor.getString(2));
                 sound_level_latter= Integer.parseInt(cursor.getString(3));
+
+
 
             }
 
@@ -282,7 +289,36 @@ public class LevelShow extends Fragment {
             }
         });
 
+        switch (sound_level){
 
+            case 1:
+
+                foot_step_number.setText("100歩");
+
+                break;
+
+            case 2:
+
+                foot_step_number.setText("200歩");
+
+                break;
+
+            case 3:
+
+                foot_step_number.setText("300歩");
+
+                break;
+
+            case 4:
+
+                foot_step_number.setText("400歩");
+
+                break;
+
+            case 5:
+
+                foot_step_number.setText("500歩");
+        }
 
 
 
