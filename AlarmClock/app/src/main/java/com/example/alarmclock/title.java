@@ -33,7 +33,7 @@ public class title extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplication(), LevelShow.class);
+                Intent intent = new Intent(getApplication(), QuestionCorner.class);
                 startActivity(intent);
             }
         }, 2000);
@@ -45,6 +45,8 @@ public class title extends AppCompatActivity {
 
 
         ImageButton b = findViewById(R.id.imageButton2);
+
+
 
 
 

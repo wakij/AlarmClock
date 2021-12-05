@@ -40,6 +40,7 @@
         <activity android:name=".question"/>
         <activity android:name=".Help"/>
         <activity android:name=".WebShow" />
+        <activity android:name=".QuestionCorner"/>
         <activity android:name=".stopAlarm"/>
         <activity android:name=".LevelShow"/>
         <activity android:name=".FootCountShow"/>
