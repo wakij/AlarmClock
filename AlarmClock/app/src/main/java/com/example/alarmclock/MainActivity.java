@@ -2,46 +2,30 @@ package com.example.alarmclock;
 
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.WindowInsets;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
+import android.app.Dialog;
 
-import androidx.annotation.NonNull;
+import android.content.res.Resources;
+
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.Bundle;
+
+import android.view.View;
+import android.view.ViewGroup;
+
+import android.widget.Button;
+
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.FragmentActivity;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 pager2;
     private SceneAdapter scene_adapter;
+    private Dialog dialog;
+    private int nowpos;
 
 
     // アクティビティの初期化処理
@@ -61,6 +47,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Create the Dialog here
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_dialog_layout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.custom_dialog_background));
+        }
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false); //Optional
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+        dialog.show();
+
+        Button Okay = dialog.findViewById(R.id.btn_okay);
+        Button Cancel = dialog.findViewById(R.id.btn_cancel);
+
+        Okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nowpos ++;
+                changeDialog(nowpos);
+            }
+        });
+
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nowpos ++;
+                changeDialog(nowpos);
+            }
+        });
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.settingsContainer, new AlarmListScene());
@@ -116,6 +133,26 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    private void changeDialog(int pos)
+    {
+        TextView question_text = dialog.findViewById(R.id.textView2);
+        switch (pos)
+        {
+            case 1:
+                question_text.setText("朝起きるのはお得意ですか？");
+                break;
+            case 2:
+                question_text.setText("夜更かししがちですか？");
+                break;
+            case 3:
+                question_text.setText("自分に厳しくしたいですか？");
+                break;
+            case 4:
+                dialog.dismiss();
+        }
     }
 
 

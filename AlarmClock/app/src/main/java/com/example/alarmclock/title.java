@@ -33,7 +33,7 @@ public class title extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplication(), QuestionCorner.class);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
                 startActivity(intent);
             }
         }, 2000);
