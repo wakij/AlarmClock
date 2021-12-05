@@ -73,15 +73,29 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
             String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
             Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
                     null, null, null, null, null);
-            if (cursor.moveToFirst())
+            if (cursor.moveToFirst()) //データが存在していれば
             {
+                int needfootstep = Integer.parseInt(cursor.getString(1));
                 int sound_level_latter = Integer.parseInt(cursor.getString(3));
-                sound_level_latter += count * 50;
+                int sound_level_former = sound_level_latter;
+                if (count < 5)
+                {
+                    sound_level_latter -= 20;
+                }
+                else if (count < 9) {}
+                else
+                {
+                    sound_level_latter += (count - 8) * 5;
+                }
+                sound_level_latter += count * 50; //ペナルティーを加える
+                needfootstep += (int)((2 /  (1 + Math.exp(- sound_level_latter + sound_level_former)) - 1) * 100); //シグモイド曲線を少しいじったもので-1<x<1の間に圧縮
                 ContentValues cv = new ContentValues();
                 cv.put(DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
+                cv.put(DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, String.valueOf(sound_level_former));
+                cv.put(DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, String.valueOf(needfootstep));
                 db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(1)});
             }
-            else
+            else //データが存在していなければ
             {
                 int sound_level_latter = count * 50;
                 ContentValues cv = new ContentValues();

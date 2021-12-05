@@ -1,11 +1,7 @@
 package com.example.alarmclock;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -16,29 +12,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.Objects;
 
 public class LevelShow extends Fragment {
 
@@ -95,14 +82,13 @@ public class LevelShow extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
 //        View decor = getWindow().getDecorView();
 //        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        foot_step_number=view.findViewById(R.id.textView8);
+        foot_step_number=view.findViewById(R.id.needstep);
 
 
-        aimContent = view.findViewById(R.id.textView7);
+        aimContent = view.findViewById(R.id.goal);
 
 
 //         ヘルパーを準備
@@ -204,7 +190,7 @@ public class LevelShow extends Fragment {
 
 
 
-
+        foot_step_number.setText("不明");
         SampDatabaseHelper helper = new SampDatabaseHelper(getContext());
         try(SQLiteDatabase db = helper.getReadableDatabase()) {
 //            初めに現在の経験値を取得
@@ -215,9 +201,7 @@ public class LevelShow extends Fragment {
             {
                 sound_level_former = Integer.parseInt(cursor.getString(2));
                 sound_level_latter= Integer.parseInt(cursor.getString(3));
-
-
-
+                foot_step_number.setText(cursor.getString(1));
             }
 
         }catch (Exception e)
@@ -230,7 +214,7 @@ public class LevelShow extends Fragment {
         sound_level_latter=100;
         percent=sound_level_former%100;
         diff=sound_level_latter-sound_level_former;
-        sound_level = sound_level_former/100;
+        sound_level = sound_level_former/100 + 1;
 
 
         if(sound_level_former/100==sound_level_latter/100)
@@ -248,6 +232,7 @@ public class LevelShow extends Fragment {
             sound_level++;
         }
 
+        boolean endFlag = false; //アニメーションを終了するかどうか
         arc = view.findViewById(R.id.arc);
         arc.setconstEndAngle(initAngle);
         animationArc = new AnimationArc(arc, endAngle, initAngle);
@@ -261,9 +246,10 @@ public class LevelShow extends Fragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+
+                level.setText("LEVEL" + sound_level);
                 if(diff!=0) {
-                    arc.setconstEndAngle(0);
-                    level.setText("LEVEL" + (sound_level + 1));
+                    arc.setconstEndAngle(0); //前回からの引き継ぎ分を見えないようにする
                     if (diff>=100){
                         diff=diff-100;
                         sound_level++;
@@ -275,12 +261,19 @@ public class LevelShow extends Fragment {
                         diff = 0;
                     }
                     arc.startAnimation(animationArc);
-                }else
+                }
+                else if ((int)(arc.getAngle() * 180 / Math.PI) == 360 && diff == 0)
+                {
+                    arc.setconstEndAngle(0); //前回からの引き継ぎ分を見えないようにする
+                    animationArc.setInitAngle(0);
+                    animationArc.setEndAngle(0);
+                    animationArc.setDuration(1); //一瞬でアニメーションが終わるようにする
+                    arc.startAnimation(animationArc);
+                }
+                else
                 {
                     percentText.setText(String.valueOf(sound_level_latter%100) + "%");
-                    Log.e("aaaaaaaa","終了");
                 }
-
             }
 
             @Override
@@ -289,36 +282,36 @@ public class LevelShow extends Fragment {
             }
         });
 
-        switch (sound_level){
-
-            case 1:
-
-                foot_step_number.setText("100歩");
-
-                break;
-
-            case 2:
-
-                foot_step_number.setText("200歩");
-
-                break;
-
-            case 3:
-
-                foot_step_number.setText("300歩");
-
-                break;
-
-            case 4:
-
-                foot_step_number.setText("400歩");
-
-                break;
-
-            case 5:
-
-                foot_step_number.setText("500歩");
-        }
+//        switch (sound_level){
+//
+//            case 1:
+//
+//                foot_step_number.setText("100歩");
+//
+//                break;
+//
+//            case 2:
+//
+//                foot_step_number.setText("200歩");
+//
+//                break;
+//
+//            case 3:
+//
+//                foot_step_number.setText("300歩");
+//
+//                break;
+//
+//            case 4:
+//
+//                foot_step_number.setText("400歩");
+//
+//                break;
+//
+//            case 5:
+//
+//                foot_step_number.setText("500歩");
+//        }
 
 
 
