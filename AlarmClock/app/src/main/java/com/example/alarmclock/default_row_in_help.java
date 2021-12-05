@@ -1,7 +1,9 @@
 package com.example.alarmclock;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -62,6 +64,22 @@ public class default_row_in_help extends Fragment {
                 {
                     case "ヘルプ":
                     case "お問い合わせ":
+                        //メールsetting
+                        Intent mailerIntent = new Intent();
+
+                        mailerIntent.setAction(Intent.ACTION_SEND);
+                        mailerIntent.setType("message/rfc822");
+                        mailerIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"XXXX@gmail.com"});
+                        mailerIntent.putExtra(Intent.EXTRA_SUBJECT,"myApp：お問い合わせ");
+                        mailerIntent.putExtra(Intent.EXTRA_TEXT,
+                                "\n\n\n\n"
+                                        + "Device : " + Build.BRAND+" "+ Build.MODEL
+                                        + "\nOS version : " + Build.VERSION.RELEASE
+                                        + "\nApp :myApp"
+                                        + "\nVersion : " + BuildConfig.VERSION_NAME);
+
+
+                        startActivity(mailerIntent);
                     case "公式Twitter":
                         Log.e("title",mName);
                         break;
