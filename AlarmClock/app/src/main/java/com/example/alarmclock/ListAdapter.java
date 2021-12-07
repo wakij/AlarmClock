@@ -129,7 +129,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
 
                             TextView textView = viewHolder.getTextView();
-                            textView.setTextColor(0xffff0000);
+                            textView.setTextColor(Color.parseColor("#3E7C17"));
                             monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
 
                         }
@@ -141,7 +141,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                             cv.put(DBContract.DBEntry.SWITCH_CONDITION, "false");
                             db.update(DBContract.DBEntry.TABLE_NAME, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
                             TextView textView = viewHolder.getTextView();
-                            textView.setTextColor(0xff23ce34);
+                            textView.setTextColor(Color.parseColor("#CD1818"));
                             monoBackground.setColorFilter(Color.parseColor("#D3D3CF"));
 
                             if (am != null)

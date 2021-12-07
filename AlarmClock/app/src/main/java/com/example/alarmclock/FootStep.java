@@ -34,10 +34,7 @@ public class FootStep extends Service implements SensorEventListener {
     float a = 0.90f;
     private MediaPlayer mediaPlayer;
     private Handler handler;
-
-
-
-
+    private boolean isStop = false;
 
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -52,6 +49,7 @@ public class FootStep extends Service implements SensorEventListener {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //intentからNEED_STEPを受け取る。
         NEED_STEP = intent.getIntExtra("needStep",0);
+        NEED_STEP = 2;
         Log.e("needStep",String.valueOf(NEED_STEP));
         startSensor();
         Log.e("ProcessName",getApplication().getPackageName());
@@ -62,6 +60,7 @@ public class FootStep extends Service implements SensorEventListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.e("Destroy","FootStep Destroy");
     }
 
     @Override
@@ -83,12 +82,20 @@ public class FootStep extends Service implements SensorEventListener {
             if (up && d < d0){
                 up = false;
                 stepcount++;
-                pauseMusic();
-                if (stepcount > NEED_STEP){
-                    Intent intent = new Intent(getApplication().getApplicationContext(),SoundService.class);
-                    stopService(intent);
-                    stopSelf();
+                if (!isStop)
+                {
+                    if (stepcount > NEED_STEP){
+                        isStop = true;
+                        Intent musicStop = new Intent(getApplication().getApplicationContext(),SoundService.class);
+                        getApplication().stopService(musicStop);
+                        stopSelf();
+                    }else
+                    {
+                        pauseMusic();
+                    }
+
                 }
+
             }
             else if(!up&& d>d0){
                 up = true;
@@ -128,7 +135,5 @@ public class FootStep extends Service implements SensorEventListener {
                 }
             }
         }, 5000);
-
     }
-
 }
