@@ -1,10 +1,7 @@
 package com.example.alarmclock;
 
-import android.app.ActivityManager;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +11,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-
-import static android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS;
 
 public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
 
@@ -35,6 +28,7 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     private int defaultVolume = 5;
     private int SnoozeCount = 0;
     private int soundLevel = 1;
+    private int step;
 
     public SoundService() {
     }
@@ -68,14 +62,25 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         super.onDestroy();
         stop();
         SampDatabaseHelper helper = new SampDatabaseHelper(getApplicationContext());
+
+        try(SQLiteDatabase db = helper.getWritableDatabase()) {
+            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.DATA};
+            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4, cols, null,
+                    null, null, null, null, null);
+            if (cursor.moveToFirst()) //データが存在していれば
+            {
+             step=Integer.parseInt(cursor.getString(1));
+            }
+        }
+
         try(SQLiteDatabase db = helper.getWritableDatabase()) {
 //            初めに現在の経験値を取得
-            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
+            String[] cols = {DBContract.DBEntry._ID,DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
             Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
                     null, null, null, null, null);
             if (cursor.moveToFirst()) //データが存在していれば
             {
-                int needfootstep = Integer.parseInt(cursor.getString(1));
+                int needfootstep = step;
                 int sound_level_latter = Integer.parseInt(cursor.getString(3));
                 int sound_level_former = sound_level_latter;
                 if (count < 5)
@@ -90,7 +95,7 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
                 sound_level_latter += count * 50; //ペナルティーを加える
                 needfootstep += (int)((2 /  (1 + Math.exp(- sound_level_latter + sound_level_former)) - 1) * 100); //シグモイド曲線を少しいじったもので-1<x<1の間に圧縮
                 ContentValues cv = new ContentValues();
-                cv.put(DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
+                cv.put(DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
                 cv.put(DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, String.valueOf(sound_level_former));
                 cv.put(DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, String.valueOf(needfootstep));
                 db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(1)});
@@ -99,7 +104,7 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
             {
                 int sound_level_latter = count * 50;
                 ContentValues cv = new ContentValues();
-                cv.put(DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
+                cv.put(DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
                 db.insert(DBContract.DBEntry.TABLE_NAME2, null, cv);
             }
         }catch (Exception e)

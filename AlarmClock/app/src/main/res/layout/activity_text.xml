@@ -21,19 +21,21 @@
 
     <EditText
         android:id="@+id/editContents"
+        style="@style/CustomEditText"
         android:layout_width="0dp"
         android:layout_height="100dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/white_bg"
+        android:hint="目標を設定してね"
         android:importantForAutofill="no"
         android:inputType="textMultiLine|text"
         android:singleLine="true"
-        android:hint="目標を設定してね"
-        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:theme="@style/CustomEditText"
-        style="@style/CustomEditText"
-        app:layout_constraintTop_toBottomOf="@+id/time_picker"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/time_picker" />
 
 
     <Button
@@ -43,8 +45,10 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/white_bg"
         android:onClick="btnReg_onClick"
-        android:text="設定"
+        android:text="決定"
         android:textColor="#050505"
+        android:textSize="20dp"
+        android:textStyle="bold"
         app:backgroundTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,10 +59,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="@drawable/white_bg"
         android:onClick="onBack"
         android:text="戻る"
         android:textColor="#050505"
-        android:background="@drawable/white_bg"
+        android:textSize="20dp"
+        android:textStyle="bold"
         app:backgroundTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

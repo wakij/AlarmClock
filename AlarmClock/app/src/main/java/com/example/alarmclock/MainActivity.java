@@ -4,12 +4,17 @@ package com.example.alarmclock;
 import android.app.AlarmManager;
 import android.app.Dialog;
 
+import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.res.Resources;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,15 +36,19 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private SampDatabaseHelper helper = null;
+    private String data;
     private RecyclerView recyclerView;
     private Resources res;
     private Drawable deleteIcon;
     private AlarmManager am;
     private TabLayout tabLayout;
     private ViewPager2 pager2;
-    private SceneAdapter scene_adapter;
+
     private Dialog dialog;
     private int nowpos;
+    private int count;
+    private int positivecount=0;
+
 
 
     // アクティビティの初期化処理
@@ -47,6 +56,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SampDatabaseHelper helper = new SampDatabaseHelper(this);
+
+        try(SQLiteDatabase db = helper.getReadableDatabase()) {
+//            初めに現在の経験値を取得
+            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.DATA};
+            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4, cols, null,
+                    null, null, null, null, null);
+            if (cursor.moveToFirst())
+            {
+                data = cursor.getString(1);
+
+            }
+
+        }catch (Exception e)
+        {
+            Log.e( "aaaaaa",e.toString());
+        }
+
+
+
+    if(data==null);
+    {
+
 
         //Create the Dialog here
         dialog = new Dialog(this);
@@ -65,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
         Okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nowpos ++;
+                nowpos++;
+                positivecount++;
                 changeDialog(nowpos);
             }
         });
@@ -73,10 +107,83 @@ public class MainActivity extends AppCompatActivity {
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nowpos ++;
+                nowpos++;
+
                 changeDialog(nowpos);
             }
         });
+
+        switch (positivecount){
+
+            case 0:
+                count=50;
+                break;
+
+            case 1:
+                count=80;
+                break;
+
+            case 2:
+
+                count=90;
+                break;
+
+
+
+
+            case 3:
+                count=100;
+
+        }
+
+
+
+
+        String data = String.valueOf(count);
+
+        // 書き込みモードでデータベースをオープン
+        try (SQLiteDatabase db = helper.getWritableDatabase()) {
+            // 入力されたタイトルとコンテンツをContentValuesに設定
+            // ContentValuesは、項目名と値をセットで保存できるオブジェクト
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.DBEntry.DATA, data);
+
+
+
+
+            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4,  new String[] {DBContract.DBEntry._ID,DBContract.DBEntry.DATA}, null, null,
+                    null, null, null, null);
+
+
+            // テーブルにデータが登録されていれば更新処理
+            if (cursor.moveToFirst()){
+
+
+
+                // 取得した_IDをparamsに設定
+                String[] params = {cursor.getString(0)};
+
+                // _IDのデータを更新
+                db.update(DBContract.DBEntry.TABLE_NAME4, cv, DBContract.DBEntry._ID + " = ?", params);
+
+            } else {
+
+                // データがなければ新規登録
+                db.insert(DBContract.DBEntry.TABLE_NAME4, null, cv);
+            }
+        }
+        catch (Exception e){
+            Log.e("abcz",e.toString());
+        }
+
+
+
+
+
+
+    }
+
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -154,6 +261,10 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
         }
     }
+
+
+
+
 
 
 

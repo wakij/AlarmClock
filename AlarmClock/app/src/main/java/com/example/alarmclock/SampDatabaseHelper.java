@@ -27,6 +27,7 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
                         DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
                         DBContract.DBEntry.COLUMN_NAME_TIME + " TEXT default '', " +
                         DBContract.DBEntry.SWITCH_CONDITION+ " TEXT default '',"+
+
                         DBContract.DBEntry.MEMO+ " TEXT default '',"+
                         DBContract.DBEntry.COLUMN_NAME_UPDATE + " INTEGER DEFAULT (datetime(CURRENT_TIMESTAMP,'localtime'))) ");
 
@@ -45,9 +46,9 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(
                 "CREATE TABLE "+ DBContract.DBEntry.TABLE_NAME2 + " (" +
                         DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
-                        DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT + " TEXT default '500', " +
+                        DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT + " TEXT default '', " +
                         DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER+ " TEXT default '1', " +
-                        DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER+ " TEXT default '0') ");
+                        DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER + " TEXT default '0') ");
 
 
 
@@ -68,6 +69,12 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE "+ DBContract.DBEntry.TABLE_NAME3 + " (" +
                         DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
                         DBContract.DBEntry.COGNOMEN + " TEXT default '') ");
+
+
+        db.execSQL(
+                "CREATE TABLE "+ DBContract.DBEntry.TABLE_NAME4 + " (" +
+                        DBContract.DBEntry._ID + " INTEGER PRIMARY KEY, " +
+                        DBContract.DBEntry.DATA+ " TEXT default '') ");
     }
 
 
@@ -86,6 +93,9 @@ public class SampDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
 
         db.execSQL("DROP TABLE IF EXISTS " + DBContract.DBEntry.TABLE_NAME3);
+        onCreate(db);
+
+        db.execSQL("DROP TABLE IF EXISTS " + DBContract.DBEntry.TABLE_NAME4);
         onCreate(db);
 
 

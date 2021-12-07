@@ -63,7 +63,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         else
         {
             SampDatabaseHelper helper = new SampDatabaseHelper(context);
-            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
+            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
             try(SQLiteDatabase db = helper.getReadableDatabase())
             {
                 Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
@@ -83,9 +83,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                     serviceIntent2.putExtra("needStep", needStep);
                     context.startService((serviceIntent2));
 
-                    Intent startActivityIntent = new Intent(context, stopAlarm.class);
-                    startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(startActivityIntent);
                 }
                 else
                 {
@@ -95,9 +92,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                     Intent serviceIntent2 =new Intent(context,FootStep.class);
                     context.startService((serviceIntent2));
 
-                    Intent startActivityIntent = new Intent(context, stopAlarm.class);
-                    startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(startActivityIntent);
                 }
                 String memo = intent.getStringExtra("memo");
                 int id = intent.getIntExtra("id",0);
@@ -134,9 +128,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 Intent serviceIntent2 =new Intent(context,FootStep.class);
                 context.startService((serviceIntent2));
 
-                Intent startActivityIntent = new Intent(context, stopAlarm.class);
-                startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(startActivityIntent);
+
             }
         }
     }
