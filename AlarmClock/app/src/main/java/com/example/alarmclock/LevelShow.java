@@ -194,7 +194,7 @@ public class LevelShow extends Fragment {
         SampDatabaseHelper helper = new SampDatabaseHelper(getContext());
         try(SQLiteDatabase db = helper.getReadableDatabase()) {
 //            初めに現在の経験値を取得
-            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMU_SOUND_LEVEL_LATTER};
+            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
             Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
                     null, null, null, null, null);
             if (cursor.moveToFirst())
