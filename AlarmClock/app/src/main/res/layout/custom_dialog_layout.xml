@@ -9,15 +9,16 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="257dp"
+        android:layout_height="238dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:background="@android:mipmap/sym_def_app_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-         />
+        tools:srcCompat="@android:mipmap/sym_def_app_icon" />
 
     <TextView
         android:id="@+id/textView"
@@ -42,6 +43,7 @@
         android:gravity="center_horizontal"
         android:text="朝起きるのはお得意ですか？"
         android:textAlignment="center"
+        android:textColor="#1C0101"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
