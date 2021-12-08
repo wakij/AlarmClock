@@ -61,11 +61,11 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     public void onDestroy() {
         super.onDestroy();
         stop();
-        SampDatabaseHelper helper = new SampDatabaseHelper(getApplicationContext());
+        DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
 
         try(SQLiteDatabase db = helper.getWritableDatabase()) {
-            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.DATA};
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4, cols, null,
+            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.DATA};
+            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4, cols, null,
                     null, null, null, null, null);
             if (cursor.moveToFirst()) //データが存在していれば
             {
@@ -75,8 +75,8 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
 
         try(SQLiteDatabase db = helper.getWritableDatabase()) {
 //            初めに現在の経験値を取得
-            String[] cols = {DBContract.DBEntry._ID,DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
+            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
+            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
                     null, null, null, null, null);
             if (cursor.moveToFirst()) //データが存在していれば
             {
@@ -95,17 +95,17 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
                 sound_level_latter += count * 50; //ペナルティーを加える
                 needfootstep += (int)((2 /  (1 + Math.exp(- sound_level_latter + sound_level_former)) - 1) * 100); //シグモイド曲線を少しいじったもので-1<x<1の間に圧縮
                 ContentValues cv = new ContentValues();
-                cv.put(DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
-                cv.put(DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, String.valueOf(sound_level_former));
-                cv.put(DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, String.valueOf(needfootstep));
-                db.update(DBContract.DBEntry.TABLE_NAME2, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(1)});
+                cv.put(DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
+                cv.put(DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, String.valueOf(sound_level_former));
+                cv.put(DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, String.valueOf(needfootstep));
+                db.update(DBDef.DBEntry.TABLE_NAME2, cv, DBDef.DBEntry._ID + " = ?", new String[] {String.valueOf(1)});
             }
             else //データが存在していなければ
             {
                 int sound_level_latter = count * 50;
                 ContentValues cv = new ContentValues();
-                cv.put(DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
-                db.insert(DBContract.DBEntry.TABLE_NAME2, null, cv);
+                cv.put(DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
+                db.insert(DBDef.DBEntry.TABLE_NAME2, null, cv);
             }
         }catch (Exception e)
         {

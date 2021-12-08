@@ -4,7 +4,6 @@ package com.example.alarmclock;
 import android.app.AlarmManager;
 import android.app.Dialog;
 
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.res.Resources;
 
@@ -35,7 +34,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SampDatabaseHelper helper = null;
+    private DatabaseHelper helper = null;
     private String data;
     private RecyclerView recyclerView;
     private Resources res;
@@ -57,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SampDatabaseHelper helper = new SampDatabaseHelper(this);
+        DatabaseHelper helper = new DatabaseHelper(this);
 
         try(SQLiteDatabase db = helper.getReadableDatabase()) {
 //            初めに現在の経験値を取得
-            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.DATA};
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4, cols, null,
+            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.DATA};
+            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4, cols, null,
                     null, null, null, null, null);
             if (cursor.moveToFirst())
             {
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.settingsContainer, new LevelShow());
                         break;
                     case 2:
-                        fragmentTransaction.replace(R.id.settingsContainer, new HelperScene());
+                        fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
                         break;
                 }
                 fragmentTransaction.commit();
@@ -168,6 +167,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        View decor = getWindow().getDecorView();
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
 
@@ -207,15 +215,15 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 count=100;
         }
-        SampDatabaseHelper helper = new SampDatabaseHelper(this);
+        DatabaseHelper helper = new DatabaseHelper(this);
         data = String.valueOf(count);
         // 書き込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getWritableDatabase()) {
             // 入力されたタイトルとコンテンツをContentValuesに設定
             // ContentValuesは、項目名と値をセットで保存できるオブジェクト
             ContentValues cv = new ContentValues();
-            cv.put(DBContract.DBEntry.DATA, data);
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4,  new String[] {DBContract.DBEntry._ID,DBContract.DBEntry.DATA}, null, null,
+            cv.put(DBDef.DBEntry.DATA, data);
+            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4,  new String[] {DBDef.DBEntry._ID, DBDef.DBEntry.DATA}, null, null,
                     null, null, null, null);
 
             // テーブルにデータが登録されていれば更新処理
@@ -223,11 +231,11 @@ public class MainActivity extends AppCompatActivity {
                 // 取得した_IDをparamsに設定
                 String[] params = {cursor.getString(0)};
                 // _IDのデータを更新
-                db.update(DBContract.DBEntry.TABLE_NAME4, cv, DBContract.DBEntry._ID + " = ?", params);
+                db.update(DBDef.DBEntry.TABLE_NAME4, cv, DBDef.DBEntry._ID + " = ?", params);
 
             } else {
                 // データがなければ新規登録
-                db.insert(DBContract.DBEntry.TABLE_NAME4, null, cv);
+                db.insert(DBDef.DBEntry.TABLE_NAME4, null, cv);
             }
         }
         catch (Exception e){

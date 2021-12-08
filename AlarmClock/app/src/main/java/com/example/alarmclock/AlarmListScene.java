@@ -1,34 +1,24 @@
 package com.example.alarmclock;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,12 +26,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class AlarmListScene extends Fragment implements LifecycleObserver {
-    private SampDatabaseHelper helper;
+    private DatabaseHelper helper;
     private RecyclerView recyclerView;
     private Resources res;
     private Drawable deleteIcon;
     private AlarmManager am;
-    private ListAdapter listAdapter;
+    private AlarmListAdapter listAdapter;
 
 
     @Override
@@ -72,7 +62,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         fab_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TextActivity.class);
+                Intent intent = new Intent(getActivity(), AlarmSetScene.class);
                 getActivity().startActivity(intent);
             }
         });
@@ -90,16 +80,16 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
 
     protected void onShow() {
         // データベースヘルパーを準備
-        helper = new SampDatabaseHelper(getContext());
+        helper = new DatabaseHelper(getContext());
 
         // データベースを検索する項目を定義
-        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION,DBContract.DBEntry.MEMO};
+        String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_TIME, DBDef.DBEntry.SWITCH_CONDITION, DBDef.DBEntry.MEMO};
 
         // 読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getReadableDatabase()){
 
             // データベースを検索
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, null,
+            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME, cols, null,
                     null, null, null, null, null);
 
             //データベースに格納されている全データを格納するリスト
@@ -124,7 +114,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 alarmLists.add(alarmData);
             }
             cursor.close();
-            listAdapter = new ListAdapter(alarmLists);
+            listAdapter = new AlarmListAdapter(alarmLists);
             recyclerView.setAdapter(listAdapter);
         }
     }
@@ -139,8 +129,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 TextView textView = viewHolder.itemView.findViewById(R.id.title);
                 String text = textView.getText().toString();
                 try (SQLiteDatabase db = helper.getWritableDatabase()) {
-                    String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
-                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
+                    String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_TIME, DBDef.DBEntry.SWITCH_CONDITION};
+                    Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME, cols, DBDef.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
                             , null, null, null, null);
                     if (cursor.moveToFirst())
                     {
@@ -156,7 +146,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                         }
                     }
 
-                    db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry.COLUMN_NAME_TIME+" = ?", new String[] {text});
+                    db.delete(DBDef.DBEntry.TABLE_NAME, DBDef.DBEntry.COLUMN_NAME_TIME+" = ?", new String[] {text});
                 } catch (Exception e)
                 {
                     Log.e("test","don't open the db");

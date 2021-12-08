@@ -45,7 +45,7 @@ public class LevelShow extends Fragment {
     private int id=0;
 
     private Dialog dialog;
-    public static ListAdapter2 adapter;
+    public static CognomenListAdapter adapter;
     private RecyclerView recyclerView;
 
     private ProgressBar bar;
@@ -55,10 +55,10 @@ public class LevelShow extends Fragment {
     private int sound_level;
     private  int diff;
     private float endAngle = 0.0f; //何度回転させるか
-    private Arc arc;
+    private PieChart arc;
     private int animationPeriod = 2000;
     private float initAngle; //どこから回転させるか
-    private AnimationArc animationArc;
+    private PieChartAnim animationArc;
 
 
     private  ObjectAnimator objectAnimator;
@@ -66,8 +66,8 @@ public class LevelShow extends Fragment {
 
 
 
-    private SampDatabaseHelper helper = null;
-    private SampDatabaseHelper helper2=null;
+    private DatabaseHelper helper = null;
+    private DatabaseHelper helper2=null;
     private int val;
 
 
@@ -92,7 +92,7 @@ public class LevelShow extends Fragment {
 
 
 //         ヘルパーを準備
-        helper2 = new SampDatabaseHelper(getContext());
+        helper2 = new DatabaseHelper(getContext());
 
         // データを表示
         onShow2();
@@ -191,11 +191,11 @@ public class LevelShow extends Fragment {
 
 
         foot_step_number.setText("不明");
-        SampDatabaseHelper helper = new SampDatabaseHelper(getContext());
+        DatabaseHelper helper = new DatabaseHelper(getContext());
         try(SQLiteDatabase db = helper.getReadableDatabase()) {
 //            初めに現在の経験値を取得
-            String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
+            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
+            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
                     null, null, null, null, null);
             if (cursor.moveToFirst())
             {
@@ -235,7 +235,7 @@ public class LevelShow extends Fragment {
         boolean endFlag = false; //アニメーションを終了するかどうか
         arc = view.findViewById(R.id.arc);
         arc.setconstEndAngle(initAngle);
-        animationArc = new AnimationArc(arc, endAngle, initAngle);
+        animationArc = new PieChartAnim(arc, endAngle, initAngle);
         animationArc.setDuration(animationPeriod);
         arc.startAnimation(animationArc);
         animationArc.setAnimationListener(new Animation.AnimationListener() {
@@ -502,7 +502,7 @@ public class LevelShow extends Fragment {
 
 
 
-        dialog.setContentView(R.layout.sample);
+        dialog.setContentView(R.layout.layout_cognomen);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
@@ -520,7 +520,7 @@ public class LevelShow extends Fragment {
 
 
         String[] List={"greed","lazy"};
-        adapter = new ListAdapter2(List);
+        adapter = new CognomenListAdapter(List);
         recyclerView.setAdapter(adapter);
 
         dialog.show();
@@ -553,14 +553,14 @@ public class LevelShow extends Fragment {
     protected void onShow2() {
 
         // データベースから取得する項目を設定
-        String[] cols = {DBContract.DBEntry.MEMO};
+        String[] cols = {DBDef.DBEntry.MEMO};
 
         // 読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper2.getReadableDatabase()) {
 
             // データを取得するSQLを実行
             // 取得したデータがCursorオブジェクトに格納される
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, null,
+            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME, cols, null,
                     null, null, null, null, null);
 
             // moveToFirstで、カーソルを検索結果セットの先頭行に移動

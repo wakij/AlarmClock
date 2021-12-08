@@ -5,14 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FAQ extends Fragment {
     private RecyclerView recyclerView;
@@ -33,12 +31,12 @@ public class FAQ extends Fragment {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rLayoutManager);
-        ArrayList<FAQ_single_row> list = new ArrayList<FAQ_single_row>();
-        list.add(new FAQ_single_row("毎朝起きることができません","このアプリを使おう"));
-        list.add(new FAQ_single_row("レビューしたいです","google storeでお願いします"));
-        list.add(new FAQ_single_row("落単しそうです。助けてください","このアプリを使ってください"));
-        list.add(new FAQ_single_row("応援したいです","お金ください"));
-        faq_adapter adapter = new faq_adapter(list);
+        ArrayList<RowLayout_FAQ> list = new ArrayList<RowLayout_FAQ>();
+        list.add(new RowLayout_FAQ("毎朝起きることができません","このアプリを使おう"));
+        list.add(new RowLayout_FAQ("レビューしたいです","google storeでお願いします"));
+        list.add(new RowLayout_FAQ("落単しそうです。助けてください","このアプリを使ってください"));
+        list.add(new RowLayout_FAQ("応援したいです","お金ください"));
+        FAQ_Adapter adapter = new FAQ_Adapter(list);
         recyclerView.setAdapter(adapter);
     }
 

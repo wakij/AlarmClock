@@ -18,7 +18,7 @@
     <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 
-    <com.example.alarmclock.Arc
+    <com.example.alarmclock.PieChart
         android:id="@+id/arc"
         android:layout_width="match_parent"
         android:layout_height="393dp"

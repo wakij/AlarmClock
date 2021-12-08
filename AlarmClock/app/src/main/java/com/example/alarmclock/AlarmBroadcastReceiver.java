@@ -28,16 +28,16 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction() != null) {
             if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
                 Log.e("apple", "apple");
-                SampDatabaseHelper helper = new SampDatabaseHelper(context);
+                DatabaseHelper helper = new DatabaseHelper(context);
 
                 // データベースを検索する項目を定義
-                String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION, DBContract.DBEntry.MEMO};
+                String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_TIME, DBDef.DBEntry.SWITCH_CONDITION, DBDef.DBEntry.MEMO};
 
                 // 読み込みモードでデータベースをオープン
                 try (SQLiteDatabase db = helper.getReadableDatabase()) {
 
                     // データベースを検索
-                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, null,
+                    Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME, cols, null,
                             null, null, null, null, null);
 
                     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -62,11 +62,11 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         //設定していた時間になってアラーム信号を受信した時
         else
         {
-            SampDatabaseHelper helper = new SampDatabaseHelper(context);
-            String[] cols = {DBContract.DBEntry.COLUMN_NAME_FOOT_COUNT, DBContract.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBContract.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
+            DatabaseHelper helper = new DatabaseHelper(context);
+            String[] cols = {DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
             try(SQLiteDatabase db = helper.getReadableDatabase())
             {
-                Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME2, cols, null,
+                Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
                         null, null, null, null, null);
                 //moveToFirstで、カーソルを検索結果セットの先頭行に移動
                 //検索結果が0件の場合、falseが返る
@@ -79,7 +79,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                     serviveIntent.putExtra("soundLevel", soundLevel);
                     context.startService(serviveIntent);
 
-                    Intent serviceIntent2 =new Intent(context,FootStep.class);
+                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
                     serviceIntent2.putExtra("needStep", needStep);
                     context.startService((serviceIntent2));
 
@@ -89,7 +89,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                     Intent serviveIntent = new Intent(context, SoundService.class);
                     context.startService(serviveIntent);
 
-                    Intent serviceIntent2 =new Intent(context,FootStep.class);
+                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
                     context.startService((serviceIntent2));
 
                 }
@@ -125,7 +125,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 Intent serviveIntent = new Intent(context, SoundService.class);
                 context.startService(serviveIntent);
 
-                Intent serviceIntent2 =new Intent(context,FootStep.class);
+                Intent serviceIntent2 =new Intent(context, FootStepService.class);
                 context.startService((serviceIntent2));
 
 
