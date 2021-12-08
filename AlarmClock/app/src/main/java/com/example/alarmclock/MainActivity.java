@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
             if (cursor.moveToFirst())
             {
                 data = cursor.getString(1);
-
             }
 
         }catch (Exception e)
@@ -77,10 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    if(data==null);
+    if(data==null)
     {
-
-
         //Create the Dialog here
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_layout);
@@ -99,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 nowpos++;
-                positivecount++;
                 changeDialog(nowpos);
+                positivecount++;
             }
         });
 
@@ -108,78 +105,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 nowpos++;
-
                 changeDialog(nowpos);
             }
         });
-
-        switch (positivecount){
-
-            case 0:
-                count=50;
-                break;
-
-            case 1:
-                count=80;
-                break;
-
-            case 2:
-
-                count=90;
-                break;
-
-
-
-
-            case 3:
-                count=100;
-
-        }
-
-
-
-
-        String data = String.valueOf(count);
-
-        // 書き込みモードでデータベースをオープン
-        try (SQLiteDatabase db = helper.getWritableDatabase()) {
-            // 入力されたタイトルとコンテンツをContentValuesに設定
-            // ContentValuesは、項目名と値をセットで保存できるオブジェクト
-            ContentValues cv = new ContentValues();
-            cv.put(DBContract.DBEntry.DATA, data);
-
-
-
-
-            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4,  new String[] {DBContract.DBEntry._ID,DBContract.DBEntry.DATA}, null, null,
-                    null, null, null, null);
-
-
-            // テーブルにデータが登録されていれば更新処理
-            if (cursor.moveToFirst()){
-
-
-
-                // 取得した_IDをparamsに設定
-                String[] params = {cursor.getString(0)};
-
-                // _IDのデータを更新
-                db.update(DBContract.DBEntry.TABLE_NAME4, cv, DBContract.DBEntry._ID + " = ?", params);
-
-            } else {
-
-                // データがなければ新規登録
-                db.insert(DBContract.DBEntry.TABLE_NAME4, null, cv);
-            }
-        }
-        catch (Exception e){
-            Log.e("abcz",e.toString());
-        }
-
-
-
-
-
 
     }
 
@@ -258,7 +186,52 @@ public class MainActivity extends AppCompatActivity {
                 question_text.setText("自分に厳しくしたいですか？");
                 break;
             case 4:
+                writeQResult();
                 dialog.dismiss();
+        }
+    }
+
+//    アンケートの結果をデータベースに書き込む
+    private void writeQResult()
+    {
+        switch (positivecount){
+            case 0:
+                count=50;
+                break;
+            case 1:
+                count=80;
+                break;
+            case 2:
+                count=90;
+                break;
+            case 3:
+                count=100;
+        }
+        SampDatabaseHelper helper = new SampDatabaseHelper(this);
+        data = String.valueOf(count);
+        // 書き込みモードでデータベースをオープン
+        try (SQLiteDatabase db = helper.getWritableDatabase()) {
+            // 入力されたタイトルとコンテンツをContentValuesに設定
+            // ContentValuesは、項目名と値をセットで保存できるオブジェクト
+            ContentValues cv = new ContentValues();
+            cv.put(DBContract.DBEntry.DATA, data);
+            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME4,  new String[] {DBContract.DBEntry._ID,DBContract.DBEntry.DATA}, null, null,
+                    null, null, null, null);
+
+            // テーブルにデータが登録されていれば更新処理
+            if (cursor.moveToFirst()){
+                // 取得した_IDをparamsに設定
+                String[] params = {cursor.getString(0)};
+                // _IDのデータを更新
+                db.update(DBContract.DBEntry.TABLE_NAME4, cv, DBContract.DBEntry._ID + " = ?", params);
+
+            } else {
+                // データがなければ新規登録
+                db.insert(DBContract.DBEntry.TABLE_NAME4, null, cv);
+            }
+        }
+        catch (Exception e){
+            Log.e("abcz",e.toString());
         }
     }
 
