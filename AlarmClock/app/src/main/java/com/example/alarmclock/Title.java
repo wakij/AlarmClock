@@ -17,7 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 //タイトル画面のスクリプト
-public class title extends AppCompatActivity {
+public class Title extends AppCompatActivity {
 
 
 

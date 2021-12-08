@@ -1,6 +1,5 @@
 package com.example.alarmclock;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,13 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class faq_adapter extends RecyclerView.Adapter<faq_adapter.ViewHolder> {
-    private ArrayList<FAQ_single_row> list;
+public class FAQ_Adapter extends RecyclerView.Adapter<FAQ_Adapter.ViewHolder> {
+    private ArrayList<RowLayout_FAQ> list;
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -77,19 +75,19 @@ public class faq_adapter extends RecyclerView.Adapter<faq_adapter.ViewHolder> {
         }
     }
 
-    public faq_adapter(ArrayList<FAQ_single_row> dataSet){
+    public FAQ_Adapter(ArrayList<RowLayout_FAQ> dataSet){
         list = dataSet;
     }
 
     @NonNull
     @Override
-    public faq_adapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.faq_format, viewGroup, false);
-        return new faq_adapter.ViewHolder(view);
+    public FAQ_Adapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_layout_faq, viewGroup, false);
+        return new FAQ_Adapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull  faq_adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull  FAQ_Adapter.ViewHolder holder, int position) {
 
         TextView answer_text = holder.getAnswerText();
         TextView question_text = holder.getQuestionText();
