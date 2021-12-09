@@ -29,9 +29,9 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#0E0101"
+            android:background="#000000"
             app:tabIconTint="@android:color/tab_indicator_text"
-            app:tabIndicatorColor="#F3EFEF"
+            app:tabIndicatorColor="#FFFFFF"
             app:tabIndicatorHeight="5dp">
 
             <com.google.android.material.tabs.TabItem

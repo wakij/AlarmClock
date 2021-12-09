@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/icon"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
+    android:scaleType="centerInside"
+    app:tint="#FFFFFF"
+    app:srcCompat="@drawable/ic_baseline_access_alarm_24" />
