@@ -18,17 +18,17 @@ public final class DBDef {
         public static final String MEMO ="memo";
 
 
-        public static final String TABLE_NAME2           = "samp_tbl2";
-        public static final String COLUMN_NAME_FOOT_COUNT    = "foot_count";
-        public static final String COLUMN_SOUND_LEVEL_FORMER= "sound_level_former";
-        public static final String COLUMN_SOUND_LEVEL_LATTER = "sound_level_latter";
-
-
-        public static final String TABLE_NAME3          = "samp_tbl3";
-        public static final String COGNOMEN   = "cognomen";
-
-        public static final String TABLE_NAME4 = "samp_tbl4";
-        public static final String DATA ="data";
+//        public static final String TABLE_NAME2           = "samp_tbl2";
+//        public static final String COLUMN_NAME_FOOT_COUNT    = "foot_count";
+//        public static final String COLUMN_SOUND_LEVEL_FORMER= "sound_level_former";
+//        public static final String COLUMN_SOUND_LEVEL_LATTER = "sound_level_latter";
+//
+//
+//        public static final String TABLE_NAME3          = "samp_tbl3";
+//        public static final String COGNOMEN   = "cognomen";
+//
+//        public static final String TABLE_NAME4 = "samp_tbl4";
+//        public static final String DATA ="data";
 
 
 

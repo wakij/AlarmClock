@@ -43,12 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 //テーブル作成２
-        db.execSQL(
-                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME2 + " (" +
-                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
-                        DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT + " TEXT default '', " +
-                        DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER+ " TEXT default '1', " +
-                        DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER + " TEXT default '0') ");
+//        db.execSQL(
+//                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME2 + " (" +
+//                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
+//                        DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT + " TEXT default '', " +
+//                        DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER+ " TEXT default '1', " +
+//                        DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER + " TEXT default '0') ");
 
 
 
@@ -65,16 +65,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //テーブル作成３
 
 
-        db.execSQL(
-                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME3 + " (" +
-                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
-                        DBDef.DBEntry.COGNOMEN + " TEXT default '') ");
-
-
-        db.execSQL(
-                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME4 + " (" +
-                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
-                        DBDef.DBEntry.DATA+ " TEXT default '') ");
+//        db.execSQL(
+//                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME3 + " (" +
+//                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
+//                        DBDef.DBEntry.COGNOMEN + " TEXT default '') ");
+//
+//
+//        db.execSQL(
+//                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME4 + " (" +
+//                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
+//                        DBDef.DBEntry.DATA+ " TEXT default '') ");
     }
 
 
@@ -89,14 +89,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME);
         onCreate(db);
 
-        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME2);
-        onCreate(db);
-
-        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME3);
-        onCreate(db);
-
-        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME4);
-        onCreate(db);
+//        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME2);
+//        onCreate(db);
+//
+//        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME3);
+//        onCreate(db);
+//
+//        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME4);
+//        onCreate(db);
 
 
 

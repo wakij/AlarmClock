@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -62,37 +63,45 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         //設定していた時間になってアラーム信号を受信した時
         else
         {
-            DatabaseHelper helper = new DatabaseHelper(context);
-            String[] cols = {DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
-            try(SQLiteDatabase db = helper.getReadableDatabase())
-            {
-                Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
-                        null, null, null, null, null);
-                //moveToFirstで、カーソルを検索結果セットの先頭行に移動
-                //検索結果が0件の場合、falseが返る
-//                アラーム停止までに必要な歩数など必要な情報が記録されていたら
-                if (cursor.moveToFirst()){
-                    int needStep = Integer.parseInt(cursor.getString(0));
-                    int soundLevel = Integer.parseInt(cursor.getString(1));
+            SharedPreferences sharedPreferences = context.getSharedPreferences("Info",Context.MODE_PRIVATE);
+            int needfootstep = sharedPreferences.getInt("needfootstep",0);
+            Intent soundServiceIntent = new Intent(context, SoundService.class);
+            context.startService(soundServiceIntent);
+            Intent footstepServiceIntent =new Intent(context, FootStepService.class);
+            footstepServiceIntent.putExtra("needfootstep",needfootstep);
+            context.startService((footstepServiceIntent));
 
-                    Intent serviveIntent = new Intent(context, SoundService.class);
-                    serviveIntent.putExtra("soundLevel", soundLevel);
-                    context.startService(serviveIntent);
-
-                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
-                    serviceIntent2.putExtra("needStep", needStep);
-                    context.startService((serviceIntent2));
-
-                }
-                else
-                {
-                    Intent serviveIntent = new Intent(context, SoundService.class);
-                    context.startService(serviveIntent);
-
-                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
-                    context.startService((serviceIntent2));
-
-                }
+//            DatabaseHelper helper = new DatabaseHelper(context);
+//            String[] cols = {DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
+//            try(SQLiteDatabase db = helper.getReadableDatabase())
+//            {
+//                Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
+//                        null, null, null, null, null);
+//                //moveToFirstで、カーソルを検索結果セットの先頭行に移動
+//                //検索結果が0件の場合、falseが返る
+////                アラーム停止までに必要な歩数など必要な情報が記録されていたら
+//                if (cursor.moveToFirst()){
+//                    int needStep = Integer.parseInt(cursor.getString(0));
+//                    int soundLevel = Integer.parseInt(cursor.getString(1));
+//
+//                    Intent serviveIntent = new Intent(context, SoundService.class);
+//                    serviveIntent.putExtra("soundLevel", soundLevel);
+//                    context.startService(serviveIntent);
+//
+//                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
+//                    serviceIntent2.putExtra("needStep", needStep);
+//                    context.startService((serviceIntent2));
+//
+//                }
+//                else
+//                {
+//                    Intent serviveIntent = new Intent(context, SoundService.class);
+//                    context.startService(serviveIntent);
+//
+//                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
+//                    context.startService((serviceIntent2));
+//
+//                }
                 String memo = intent.getStringExtra("memo");
                 int id = intent.getIntExtra("id",0);
                 NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -116,20 +125,20 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
                         notificationManager.notify(R.string.app_name, notification);
                     }
-
-
+//
+//
                 }
-            }catch (Exception e)
-            {
-                Log.e("aaaaa",e.toString());
-                Intent serviveIntent = new Intent(context, SoundService.class);
-                context.startService(serviveIntent);
-
-                Intent serviceIntent2 =new Intent(context, FootStepService.class);
-                context.startService((serviceIntent2));
-
-
-            }
+//            }catch (Exception e)
+//            {
+//                Log.e("aaaaa",e.toString());
+//                Intent serviveIntent = new Intent(context, SoundService.class);
+//                context.startService(serviveIntent);
+//
+//                Intent serviceIntent2 =new Intent(context, FootStepService.class);
+//                context.startService((serviceIntent2));
+//
+//
+//            }
         }
     }
 }

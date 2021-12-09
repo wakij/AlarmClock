@@ -2,6 +2,8 @@ package com.example.alarmclock;
 
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -38,9 +40,9 @@ public class LevelShow extends Fragment {
     private ImageButton imagebutton;
     private Button button1;
     private Button button2;
-    private TextView contents   = null;
-    private TextView aimContent = null;
-    private TextView foot_step_number=null;
+    private TextView contents;
+    private TextView aimContent;
+    private TextView foot_step_number;
 
     private int id=0;
 
@@ -86,11 +88,7 @@ public class LevelShow extends Fragment {
 //        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         foot_step_number=view.findViewById(R.id.needstep);
-
-
         aimContent = view.findViewById(R.id.goal);
-
-
 //         ヘルパーを準備
         helper2 = new DatabaseHelper(getContext());
 
@@ -188,30 +186,28 @@ public class LevelShow extends Fragment {
 //        });
 
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info", Context.MODE_PRIVATE);
+        sound_level_former = sharedPreferences.getInt("sound_level_former",0);
+        sound_level_latter = sharedPreferences.getInt("sound_level_latter",0);
+        foot_step_number.setText(String.valueOf(sharedPreferences.getInt("needfootstep",0)));
+//        DatabaseHelper helper = new DatabaseHelper(getContext());
+//        try(SQLiteDatabase db = helper.getReadableDatabase()) {
+////            初めに現在の経験値を取得
+//            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
+//            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
+//                    null, null, null, null, null);
+//            if (cursor.moveToFirst())
+//            {
+//                sound_level_former = Integer.parseInt(cursor.getString(2));
+//                sound_level_latter= Integer.parseInt(cursor.getString(3));
+//                foot_step_number.setText(cursor.getString(1));
+//            }
+//
+//        }catch (Exception e)
+//        {
+//            Log.e( "aaaaaa",e.toString());
+//        }
 
-
-        foot_step_number.setText("不明");
-        DatabaseHelper helper = new DatabaseHelper(getContext());
-        try(SQLiteDatabase db = helper.getReadableDatabase()) {
-//            初めに現在の経験値を取得
-            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
-            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
-                    null, null, null, null, null);
-            if (cursor.moveToFirst())
-            {
-                sound_level_former = Integer.parseInt(cursor.getString(2));
-                sound_level_latter= Integer.parseInt(cursor.getString(3));
-                foot_step_number.setText(cursor.getString(1));
-            }
-
-        }catch (Exception e)
-        {
-            Log.e( "aaaaaa",e.toString());
-        }
-
-
-        sound_level_former=30;
-        sound_level_latter=100;
         percent=sound_level_former%100;
         diff=sound_level_latter-sound_level_former;
         sound_level = sound_level_former/100 + 1;
@@ -281,148 +277,8 @@ public class LevelShow extends Fragment {
 
             }
         });
-
-//        switch (sound_level){
-//
-//            case 1:
-//
-//                foot_step_number.setText("100歩");
-//
-//                break;
-//
-//            case 2:
-//
-//                foot_step_number.setText("200歩");
-//
-//                break;
-//
-//            case 3:
-//
-//                foot_step_number.setText("300歩");
-//
-//                break;
-//
-//            case 4:
-//
-//                foot_step_number.setText("400歩");
-//
-//                break;
-//
-//            case 5:
-//
-//                foot_step_number.setText("500歩");
-//        }
-
-
-
-
-
-
-
-//
-//        bar = (ProgressBar)findViewById(R.id.progressBar1);
-//        bar.setMax(100);
-//        bar.setMin(0);
-
-
-
-
-//        bar.setProgress(percent,false);
-//
-//
-//
-
-//
-
-
-
-
-
-
-//        if(sound_level_former/100==sound_level_latter/100)
-//        {
-//            onProgressAnimation(sound_level_latter%100);
-//            objectAnimator.setDuration(20 * diff);
-//            Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-//            diff=0;
-//        }
-//        else
-//        {
-//            onProgressAnimation(100);
-//            int sa=((sound_level_former/100)+1)*100-sound_level_former;
-//            objectAnimator.setDuration(20 * sa);
-//            diff=diff-sa;
-//            sound_level++;
-//        }
-
-
-
-
-//        objectAnimator.addListener(new Animator.AnimatorListener() {
-//            // アニメーション開始で呼ばれる
-//                        @Override
-//                        public void onAnimationStart(Animator animation) {
-//                            Log.e("debug","onAnimationStart()");
-//                        }
-//
-//                        // アニメーションがキャンセルされると呼ばれる
-//                        @Override
-//                        public void onAnimationCancel(Animator animation) {
-//                            Log.e("debug","onAnimationCancel()");
-//                        }
-//
-//                        // アニメーション終了時
-//                        @Override
-//                        public void onAnimationEnd(Animator animation) {
-////                            objectAnimator.start();
-//                            Log.e("Process",String.valueOf(bar.getProgress()));
-//                            if(diff!=0) {
-//                                Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-//                                level.setText("LEVEL" + (sound_level + 1));
-//                                if (diff>=100){
-//                                    diff=diff-100;
-//                                    sound_level++;
-//                                    Log.e("calc",String.valueOf(20 * 100));
-////                                    objectAnimator.setDuration(10000);
-//                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-//                                    objectAnimator.setIntValues(0,100);
-//                                    objectAnimator.setDuration(100 * 20);
-//                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-//                                }else {
-//                                    objectAnimator.setIntValues(0,diff);
-//                                    objectAnimator.setDuration(diff * 20);
-//                                    Log.e("ProcessLevel", String.valueOf(bar.getProgress()));
-//                                    diff = 0;
-//                                }
-//                                Log.e("duration",String.valueOf(objectAnimator.getDuration()));
-//                                objectAnimator.start();
-//                            }else
-//                            {
-//                                Log.e("aaaaaaaa","終了");
-//                            }
-//                        }
-//
-//                        // 繰り返しでコールバックされる
-//                        @Override
-//                        public void onAnimationRepeat(Animator animation) {}
-//        });
-//
-//
-
-
     }
 
-
-//    public void hogeButton(View v){
-////        percent =50 ;
-////        bar.setProgress(percent);
-//        if (objectAnimator != null)
-//        {
-//            Log.e("aaaaaaaaaa","いないよ");
-//        }
-//
-//
-//    }
 
 
     private void onProgressAnimation(int percent){
@@ -435,7 +291,6 @@ public class LevelShow extends Fragment {
     {
         return  (percent % 100) * 360 / 100;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void backbtn(View view){
@@ -459,6 +314,9 @@ public class LevelShow extends Fragment {
     }
 
     private void openDialog(){
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info",Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
 
 //        SampDatabaseHelper helper = new SampDatabaseHelper(this);

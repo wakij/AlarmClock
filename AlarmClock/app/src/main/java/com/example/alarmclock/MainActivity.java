@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.Dialog;
 
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import android.database.Cursor;
@@ -56,26 +57,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DatabaseHelper helper = new DatabaseHelper(this);
+//        DatabaseHelper helper = new DatabaseHelper(this);
 
-        try(SQLiteDatabase db = helper.getReadableDatabase()) {
-//            初めに現在の経験値を取得
-            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.DATA};
-            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4, cols, null,
-                    null, null, null, null, null);
-            if (cursor.moveToFirst())
-            {
-                data = cursor.getString(1);
-            }
+//        try(SQLiteDatabase db = helper.getReadableDatabase()) {
+////            初めに現在の経験値を取得
+//            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.DATA};
+//            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4, cols, null,
+//                    null, null, null, null, null);
+//            if (cursor.moveToFirst())
+//            {
+//                data = cursor.getString(1);
+//            }
+//
+//        }catch (Exception e)
+//        {
+//            Log.e( "aaaaaa",e.toString());
+//        }
+        SharedPreferences sharedPreferences = getSharedPreferences("Info",MODE_PRIVATE);
+        int needfootstep = sharedPreferences.getInt("needfootstep",0);
 
-        }catch (Exception e)
-        {
-            Log.e( "aaaaaa",e.toString());
-        }
+//        SharedPreferences.Editor editor = sharedPreferences.edit().clear();
+//        editor.commit();
 
 
 
-    if(data==null)
+    if(needfootstep == 0)
     {
         //Create the Dialog here
         dialog = new Dialog(this);
@@ -215,32 +221,37 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 count=100;
         }
-        DatabaseHelper helper = new DatabaseHelper(this);
-        data = String.valueOf(count);
+        SharedPreferences sharedPreferences = getSharedPreferences("Info",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("needfootstep",count);
+        editor.apply();
+
+//        DatabaseHelper helper = new DatabaseHelper(this);
+//        data = String.valueOf(count);
         // 書き込みモードでデータベースをオープン
-        try (SQLiteDatabase db = helper.getWritableDatabase()) {
-            // 入力されたタイトルとコンテンツをContentValuesに設定
-            // ContentValuesは、項目名と値をセットで保存できるオブジェクト
-            ContentValues cv = new ContentValues();
-            cv.put(DBDef.DBEntry.DATA, data);
-            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4,  new String[] {DBDef.DBEntry._ID, DBDef.DBEntry.DATA}, null, null,
-                    null, null, null, null);
-
-            // テーブルにデータが登録されていれば更新処理
-            if (cursor.moveToFirst()){
-                // 取得した_IDをparamsに設定
-                String[] params = {cursor.getString(0)};
-                // _IDのデータを更新
-                db.update(DBDef.DBEntry.TABLE_NAME4, cv, DBDef.DBEntry._ID + " = ?", params);
-
-            } else {
-                // データがなければ新規登録
-                db.insert(DBDef.DBEntry.TABLE_NAME4, null, cv);
-            }
-        }
-        catch (Exception e){
-            Log.e("abcz",e.toString());
-        }
+//        try (SQLiteDatabase db = helper.getWritableDatabase()) {
+//            // 入力されたタイトルとコンテンツをContentValuesに設定
+//            // ContentValuesは、項目名と値をセットで保存できるオブジェクト
+//            ContentValues cv = new ContentValues();
+//            cv.put(DBDef.DBEntry.DATA, data);
+//            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4,  new String[] {DBDef.DBEntry._ID, DBDef.DBEntry.DATA}, null, null,
+//                    null, null, null, null);
+//
+//            // テーブルにデータが登録されていれば更新処理
+//            if (cursor.moveToFirst()){
+//                // 取得した_IDをparamsに設定
+//                String[] params = {cursor.getString(0)};
+//                // _IDのデータを更新
+//                db.update(DBDef.DBEntry.TABLE_NAME4, cv, DBDef.DBEntry._ID + " = ?", params);
+//
+//            } else {
+//                // データがなければ新規登録
+//                db.insert(DBDef.DBEntry.TABLE_NAME4, null, cv);
+//            }
+//        }
+//        catch (Exception e){
+//            Log.e("abcz",e.toString());
+//        }
     }
 
 

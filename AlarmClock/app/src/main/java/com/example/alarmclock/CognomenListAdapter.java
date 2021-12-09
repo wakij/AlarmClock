@@ -73,16 +73,6 @@ public class CognomenListAdapter extends RecyclerView.Adapter<CognomenListAdapte
             public void onClick(View v) {
                 //ここにクリック処理を書く
                 Context context = v.getContext();
-
-
-
-
-
-
-
-
-
-
             }
         });
 
