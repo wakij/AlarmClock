@@ -61,5 +61,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rule" />
 
+    <fragment
+        android:id="@+id/setting"
+        android:name="com.example.alarmclock.RowLayout_Help"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:tag="設定"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/version" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,7 +61,7 @@ public class PieChart extends View {
 
         int strokeWidth3 = 10;
         innercirclePaint = new Paint();
-        innercirclePaint.setColor(Color.argb(255, 28, 27, 56));
+        innercirclePaint.setColor(Color.argb(255, 255, 255, 255));
         innercirclePaint.setStrokeWidth(strokeWidth3);
         innercirclePaint.setAntiAlias(true);
 
@@ -79,7 +79,7 @@ public class PieChart extends View {
         canvas.save();
 
         // 背景を描画
-        canvas.drawColor(Color.argb(255, 28, 27, 56));
+//        canvas.drawColor(Color.argb(255, 28, 27, 56));
 
         // Canvas 中心点
         float x = getWidth()/2;

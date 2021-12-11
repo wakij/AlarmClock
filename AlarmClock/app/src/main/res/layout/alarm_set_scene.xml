@@ -6,17 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AlarmSetScene"
-    android:padding="10dp"
+    android:padding="15dp"
     android:background="@color/black">
+
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="コメント"
+        android:textSize="24dp"
+        android:textColor="@color/teal_700"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/time_picker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
     <com.example.alarmclock.CustomTimePicker
         android:id="@+id/time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/white_bg"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments"
         />
 
     <EditText
@@ -40,23 +55,26 @@
 
     <Button
         android:id="@+id/setbtn"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/white_bg"
         android:onClick="btnReg_onClick"
         android:text="決定"
         android:textColor="#050505"
         android:textSize="20dp"
         android:textStyle="bold"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
         app:backgroundTint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/backbtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editContents" />
 
     <Button
         android:id="@+id/backbtn"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/white_bg"
@@ -65,10 +83,11 @@
         android:textColor="#050505"
         android:textSize="20dp"
         android:textStyle="bold"
+        app:layout_constraintHorizontal_weight="1"
         app:backgroundTint="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/editContents"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setbtn" />
+        app:layout_constraintStart_toEndOf="@+id/setbtn"/>
 
 
 

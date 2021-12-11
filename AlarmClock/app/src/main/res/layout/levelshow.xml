@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#4F4D88">
+    android:layout_height="match_parent">
 
 
     <!--    <Button-->
@@ -107,40 +106,68 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/arc"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/level_foot_show" />
 
     <TextView
         android:id="@+id/level"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
         android:text="LEVEL1"
         android:textSize="35dp"
         android:textStyle="bold"
+        android:gravity="center_horizontal"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintBottom_toBottomOf="@+id/infobg"
-        app:layout_constraintEnd_toEndOf="@+id/infobg"
-        app:layout_constraintHorizontal_bias="0.13"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/needfootstep"
+        app:layout_constraintStart_toStartOf="@+id/infobg"
         app:layout_constraintTop_toTopOf="@+id/infobg"/>
 
     <TextView
-        android:id="@+id/needstep"
-        android:layout_width="wrap_content"
+        android:id="@+id/needfootstep"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
-        android:text="TextView"
+        android:text="0"
         android:textSize="35dp"
         android:textStyle="bold"
+        android:gravity="center_horizontal"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintBottom_toBottomOf="@+id/infobg"
         app:layout_constraintEnd_toEndOf="@+id/infobg"
-        app:layout_constraintHorizontal_bias="0.939"
-        app:layout_constraintStart_toStartOf="@+id/infobg"
+        app:layout_constraintStart_toEndOf="@+id/level"
         app:layout_constraintTop_toTopOf="@+id/infobg"
-        app:layout_constraintVertical_bias="0.505" />
+        />
+
+    <TextView
+        android:id="@+id/levellabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="現在のレベル"
+        android:gravity="center_horizontal"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="@+id/infobg"
+        app:layout_constraintEnd_toStartOf="@+id/needfootsteplabel"
+        app:layout_constraintTop_toTopOf="@+id/infobg"
+        app:layout_constraintBottom_toTopOf="@+id/level"
+        />
+
+    <TextView
+        android:id="@+id/needfootsteplabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="必要歩数"
+        android:gravity="center_horizontal"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@+id/infobg"
+        app:layout_constraintBottom_toTopOf="@+id/needfootstep"
+        app:layout_constraintStart_toEndOf="@+id/levellabel"
+        app:layout_constraintEnd_toEndOf="@+id/infobg"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

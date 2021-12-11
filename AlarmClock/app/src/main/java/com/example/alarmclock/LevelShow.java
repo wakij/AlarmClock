@@ -1,16 +1,21 @@
 package com.example.alarmclock;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.ParcelFileDescriptor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,6 +34,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.io.FileDescriptor;
 
 public class LevelShow extends Fragment {
 
@@ -65,12 +73,10 @@ public class LevelShow extends Fragment {
 
     private  ObjectAnimator objectAnimator;
 
-
-
-
     private DatabaseHelper helper = null;
     private DatabaseHelper helper2=null;
-    private int val;
+    public static final int RESULT_PICK_IMAGEFILE = 1001;
+    private ImageView cognomenimg;
 
 
     @Override
@@ -87,7 +93,7 @@ public class LevelShow extends Fragment {
 //        View decor = getWindow().getDecorView();
 //        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        foot_step_number=view.findViewById(R.id.needstep);
+        foot_step_number=view.findViewById(R.id.needfootstep);
         aimContent = view.findViewById(R.id.goal);
 //         ヘルパーを準備
         helper2 = new DatabaseHelper(getContext());
@@ -102,111 +108,14 @@ public class LevelShow extends Fragment {
             @Override
             public void onClick(View v) {
                 openDialog();
-
-//                BottomSheetDialog sheetDialog = new BottomSheetDialog(LevelShow.this, R.style.BottomSheetStyle);
-//                View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomdialog,
-//                (LinearLayout) findViewById(R.id.dialog_container),false);
-//                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        sheetDialog.dismiss();
-//                    }
-//                });
-//
-//                sheetView.findViewById(R.id.file_menu_cancel).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        sheetDialog.dismiss();
-//                    }
-//                });
-//
-//                sheetDialog.setContentView(sheetView);
-//                sheetDialog.show();
-
-//                sheetView.findViewById(R.id.file_menu_share).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        sheetDialog.dismiss();
-//                    }
-//                });
-//
-//                sheetView.findViewById(R.id.file_menu_rename).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        sheetDialog.dismiss();
-//                    }
-//                });
-//
-//                sheetView.findViewById(R.id.file_menu_delete).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        sheetDialog.dismiss();
-//                    }
-//                });
-//
-//                sheetView.findViewById(R.id.file_menu_properties).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        sheetDialog.dismiss();
-//                    }
-//                });
-////
-//
             }
         });
-
-
-
-
-
         level = view.findViewById(R.id.level);
         percentText = view.findViewById(R.id.percent);
-
-
-//        tabLayout = view.findViewById(R.id.tab_layout);
-//        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(R.drawable.ic_baseline_access_alarm_24);
-//        Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.ic_baseline_info_24);
-//        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.ic_baseline_insert_drive_file_24);
-//
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-
-
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info", Context.MODE_PRIVATE);
         sound_level_former = sharedPreferences.getInt("sound_level_former",0);
         sound_level_latter = sharedPreferences.getInt("sound_level_latter",0);
-        foot_step_number.setText(String.valueOf(sharedPreferences.getInt("needfootstep",0)));
-//        DatabaseHelper helper = new DatabaseHelper(getContext());
-//        try(SQLiteDatabase db = helper.getReadableDatabase()) {
-////            初めに現在の経験値を取得
-//            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
-//            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
-//                    null, null, null, null, null);
-//            if (cursor.moveToFirst())
-//            {
-//                sound_level_former = Integer.parseInt(cursor.getString(2));
-//                sound_level_latter= Integer.parseInt(cursor.getString(3));
-//                foot_step_number.setText(cursor.getString(1));
-//            }
-//
-//        }catch (Exception e)
-//        {
-//            Log.e( "aaaaaa",e.toString());
-//        }
+        foot_step_number.setText(String.valueOf(sharedPreferences.getInt("needfootstep",0)) + "歩");
 
         percent=sound_level_former%100;
         diff=sound_level_latter-sound_level_former;
@@ -279,8 +188,6 @@ public class LevelShow extends Fragment {
         });
     }
 
-
-
     private void onProgressAnimation(int percent){
         objectAnimator = ObjectAnimator.ofInt(bar,"progress",percent);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
@@ -292,74 +199,47 @@ public class LevelShow extends Fragment {
         return  (percent % 100) * 360 / 100;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void backbtn(View view){
-//        objectAnimator.resume();
-//        objectAnimator.setDuration(10000);
-//        if (objectAnimator != null)
-//        {
-//            if (objectAnimator.getListeners() != null)
-//            {
-//                Log.e("aaaaaaaaaaa","Aa");
-//            }
-//
-//        }
-
-////
-//        Log.e("isRunning",String.valueOf(objectAnimator.isRunning()));
-//        Log.e("isStarted",String.valueOf(objectAnimator.isStarted()));
-//        Log.e("isPaused",String.valueOf(objectAnimator.isPaused()));
-
-//        finish();
+//    ギャラリーから写真を選んで表示
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData)
+    {
+        if (requestCode == RESULT_PICK_IMAGEFILE && resultCode == Activity.RESULT_OK)
+        {
+            if (resultData.getData() != null)
+            {
+                ParcelFileDescriptor pfDescriptor = null;
+                try {
+                    Uri uri = resultData.getData();
+                    pfDescriptor = getActivity().getContentResolver().openFileDescriptor(uri, "r");
+                    if (pfDescriptor != null)
+                    {
+                        FileDescriptor fileDescriptor = pfDescriptor.getFileDescriptor();
+                        Bitmap bmp = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+                        pfDescriptor.close();
+                        cognomenimg.setImageBitmap(bmp);
+                    }
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        if (pfDescriptor != null)
+                        {
+                            pfDescriptor.close();
+                        }
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void openDialog(){
 //        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info",Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
-
-//        SampDatabaseHelper helper = new SampDatabaseHelper(this);
-//        // 入力欄に入力されたタイトルとコンテンツを取得
-//        String cognomen = null;
-//
-//        // 書き込みモードでデータベースをオープン
-//        try (SQLiteDatabase db = helper.getWritableDatabase()) {
-//            // 入力されたタイトルとコンテンツをContentValuesに設定
-//            // ContentValuesは、項目名と値をセットで保存できるオブジェクト
-//            ContentValues cv = new ContentValues();
-//            cv.put(DBContract.DBEntry.COGNOMEN, cognomen);
-//
-//
-//            //新規登録mode
-//            if(id == 0) {
-//                // データ新規登録
-//                db.insert(DBContract.DBEntry.TABLE_NAME3, null, cv);
-////                登録したデータのidを取得
-//                String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COGNOMEN};
-//                try {
-//                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME3, cols, DBContract.DBEntry.COGNOMEN + " = ?", new String[]{cognomen}
-//                            , null, null, null, null);
-//                    if (cursor.moveToFirst()) {
-//                        id = cursor.getInt(0);
-//                    }
-//                }catch (Exception e){
-//                    Log.e("title",e.toString());
-//                }
-//
-//            } else {
-//                // データ更新
-//                db.update(DBContract.DBEntry.TABLE_NAME3, cv, DBContract.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
-//            }
-//
-//
-//
-//
-//
-//        }
-
-
-
         dialog.setContentView(R.layout.layout_cognomen);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -401,6 +281,18 @@ public class LevelShow extends Fragment {
             }
         });
 
+        cognomenimg = dialog.findViewById(R.id.cognomenimg);
+        cognomenimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                startActivityForResult(intent, RESULT_PICK_IMAGEFILE);
+            }
+        });
+
+
 
 
 
@@ -440,11 +332,27 @@ public class LevelShow extends Fragment {
         }
 
     }
-
-
-
-
 }
+
+//    public void backbtn(View view){
+////        objectAnimator.resume();
+////        objectAnimator.setDuration(10000);
+////        if (objectAnimator != null)
+////        {
+////            if (objectAnimator.getListeners() != null)
+////            {
+////                Log.e("aaaaaaaaaaa","Aa");
+////            }
+////
+////        }
+//
+//////
+////        Log.e("isRunning",String.valueOf(objectAnimator.isRunning()));
+////        Log.e("isStarted",String.valueOf(objectAnimator.isStarted()));
+////        Log.e("isPaused",String.valueOf(objectAnimator.isPaused()));
+//
+////        finish();
+//    }
 
 
 //repeatではなくstartを使う

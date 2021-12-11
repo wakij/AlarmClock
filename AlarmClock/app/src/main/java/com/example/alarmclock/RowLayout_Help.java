@@ -100,6 +100,14 @@ public class RowLayout_Help extends Fragment {
                         bar_title.setText(mName);
                         Log.e("title",mName);
                         break;
+                    case "設定":
+//                        言語変更
+//                        背景変更 部分ごとの方がいいかな？
+                        fragmentTransaction.replace(R.id.container, new Setting());
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                        bar_title.setText(mName);
+                        break;
                 }
             }
         });

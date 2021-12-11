@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -109,11 +111,11 @@ public class AlarmSetScene extends AppCompatActivity {
             editContents.setText(memo);
         }
 
-
-
-
-
-
+        String comment = "やらないやついねぇよなぁ？";
+        TextView commentsText = findViewById(R.id.comments);
+        SpannableString spanStr = new SpannableString(comment);
+        spanStr.setSpan(new UnderlineSpan(), 0, comment.length(), 0);
+        commentsText.setText(spanStr);
     }
     // 「設定」ボタン　タップ時に呼び出されるメソッド
     @RequiresApi(api = Build.VERSION_CODES.M)

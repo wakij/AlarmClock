@@ -20,7 +20,7 @@ import androidx.annotation.RequiresApi;
 public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
 
     public static MediaPlayer mediaPlayer;
-    private int repeat_time = 10; //繰り返される回数
+    private int limited_repeat_time = 10; //繰り返される回数
     private int count = 0; //再生する回数
     public SoundService soundService;
     private NotificationManager notificationManager;
@@ -161,9 +161,9 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        if (repeat_time > count)
+        if (limited_repeat_time > count)
         {
-            volume += 2;
+//            volume += 2;
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
             play();
             count ++;
@@ -171,6 +171,8 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         else
         {
             stop(); //再生を停止
+            Intent footstepserviceStop = new Intent(getApplication().getApplicationContext(),FootStepService.class);
+            getApplication().stopService(footstepserviceStop);
             stopSelf();
         }
     }

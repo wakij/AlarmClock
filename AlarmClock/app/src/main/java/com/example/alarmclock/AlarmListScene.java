@@ -2,27 +2,40 @@ package com.example.alarmclock;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AlarmListScene extends Fragment implements LifecycleObserver {
@@ -41,14 +54,10 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
     }
 
     @Override
-    public void onStart()
+    public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        super.onStart();
-
-
-
-
-        recyclerView = getActivity().findViewById(R.id.my_recycler_view);
+        super.onViewCreated(view,savedInstanceState);
+        recyclerView = view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rLayoutManager);
@@ -58,7 +67,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         onShow();
         onswiped();
-        ImageButton fab_btn = getActivity().findViewById(R.id.fab_reg);
+        ImageButton fab_btn = view.findViewById(R.id.fab_reg);
         fab_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +75,25 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 getActivity().startActivity(intent);
             }
         });
+
+        ConstraintLayout alarmlistScene = view.findViewById(R.id.alarmlistbg);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info",Context.MODE_PRIVATE);
+        String uriPath = sharedPreferences.getString("uriPath",null);
+        if (uriPath != null)
+        {
+            ContentResolver cr = getActivity().getContentResolver();
+            try {
+                InputStream is = cr.openInputStream(Uri.parse(uriPath));
+                Drawable alarmlistScenebgimg = Drawable.createFromStream(is, uriPath);
+                alarmlistScene.setBackground(alarmlistScenebgimg);
+                if (alarmlistScenebgimg == null)
+                {
+                    Log.e("nulllllllll","null");
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
