@@ -16,7 +16,7 @@
         android:paddingBottom="10dp"
         android:text="おはよう"
         android:textSize="20dp"
-        android:drawablePadding="10dp"/>
+        android:drawablePadding="11dp"/>
 
     <com.example.alarmclock.spinner_timepicker
         android:id="@+id/spinner_time_picker"
