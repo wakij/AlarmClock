@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -17,12 +19,15 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-public class SoundService extends Service implements MediaPlayer.OnCompletionListener{
+import java.io.IOException;
+import java.text.MessageFormat;
 
+public class SoundService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener{
+
+    private static final String ACTION_PLAY = "MusicPlay";
     public static MediaPlayer mediaPlayer;
     private int limited_repeat_time = 10; //繰り返される回数
     private int count = 0; //再生する回数
-    public SoundService soundService;
     private NotificationManager notificationManager;
     private AudioManager audioManager;
     private int volume;
@@ -42,19 +47,48 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // 参考 https://smartomaizu.com/ringtones/sozai/775.html
 //        soundLevel = intent.getIntExtra("soundLevel", 0);
+
         count = 0; //カウントのリセット
-        mediaPlayer = MediaPlayer.create(this, R.raw.app_src_main_res_raw_wakeup);
-        mediaPlayer.setOnCompletionListener(this);
-        mediaPlayer.setLooping(false);
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         volume = intent.getIntExtra("volume",5);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
-        play();
-        Log.e("music","play");
+//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
+//        mediaPlayerの準備を非同期で行って準備が完了したらplay()する
+        if (intent.getAction().equals(ACTION_PLAY))
+        {
+            AudioAttributes.Builder builder = new AudioAttributes.Builder();
+            builder.setUsage(AudioAttributes.USAGE_ALARM);
+            AudioAttributes audioAttributes = builder.build();
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioAttributes(audioAttributes);
+            String fileName = "android.resource://"
+                    + this.getPackageName() + "/" + R.raw.app_src_main_res_raw_wakeup;
+            try
+            {
+                mediaPlayer.setDataSource(this, Uri.parse(fileName));
+            }catch (IOException e)
+            {
+                throw new IllegalStateException(
+                        MessageFormat.format(
+                                "setDataSource error: msg={0}, value={1}",
+                                e.getMessage(), e.getStackTrace()));
+            }
+//            mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.app_src_main_res_raw_wakeup, audioAttributes,audioManager.generateAudioSessionId());
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.setOnCompletionListener(this);
+            mediaPlayer.setLooping(false);
+            mediaPlayer.setVolume(1.0f,1.0f);
+            mediaPlayer.prepareAsync();
+        }
+
         return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp)
+    {
+        mp.start();
     }
 
     //stopselfで呼ばれる
@@ -164,14 +198,14 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         if (limited_repeat_time > count)
         {
 //            volume += 2;
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
+//            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
             play();
             count ++;
         }
         else
         {
             stop(); //再生を停止
-            Intent footstepserviceStop = new Intent(getApplication().getApplicationContext(),FootStepService.class);
+            Intent footstepserviceStop = new Intent(this,FootStepService.class);
             getApplication().stopService(footstepserviceStop);
             stopSelf();
         }
@@ -186,4 +220,9 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         return mediaPlayer;
     }
 
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+
+        return false;
+    }
 }

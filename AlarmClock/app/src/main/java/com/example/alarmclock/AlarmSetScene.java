@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -175,6 +176,7 @@ public class AlarmSetScene extends AppCompatActivity {
         mConstraintLayout.requestFocus();
         return false;
     }
+
 }
 
 

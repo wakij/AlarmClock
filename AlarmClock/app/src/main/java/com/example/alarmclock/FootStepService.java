@@ -50,9 +50,7 @@ public class FootStepService extends Service implements SensorEventListener {
         //intentからNEED_STEPを受け取る。
         NEED_STEP = intent.getIntExtra("needfootstep",0);
         NEED_STEP = 2;
-        Log.e("needStep",String.valueOf(NEED_STEP));
         startSensor();
-        Log.e("ProcessName",getApplication().getPackageName());
         mediaPlayer = SoundService.getMediaPlayer();
         return START_NOT_STICKY;
     }
@@ -91,11 +89,9 @@ public class FootStepService extends Service implements SensorEventListener {
                         stopSelf();
                     }else
                     {
-                        pauseMusic();
+//                        pauseMusic();
                     }
-
                 }
-
             }
             else if(!up&& d>d0){
                 up = true;
@@ -125,15 +121,15 @@ public class FootStepService extends Service implements SensorEventListener {
         {
             mediaPlayer.pause();
         }
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int step_latter = stepcount;
-                if (step_former == step_latter)
-                {
-                    mediaPlayer.start();
-                }
-            }
-        }, 5000);
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                int step_latter = stepcount;
+//                if (step_former == step_latter)
+//                {
+//                    mediaPlayer.start();
+//                }
+//            }
+//        }, 5000);
     }
 }

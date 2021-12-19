@@ -30,7 +30,7 @@ public class Title extends AppCompatActivity {
         setContentView(R.layout.title);
 
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(getApplication(), MainActivity.class);
@@ -43,24 +43,6 @@ public class Title extends AppCompatActivity {
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-
         ImageButton b = findViewById(R.id.imageButton2);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

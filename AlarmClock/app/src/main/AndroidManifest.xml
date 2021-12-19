@@ -6,8 +6,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+
     <application
         android:allowBackup="true"
+        android:name=".LifecycleObserver"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -26,23 +28,13 @@
         </activity>
 
 <!--        <activity android:name=".AlarmStop"/>-->
-        <receiver android:name=".AlarmBroadcastReceiver"
-            android:process=":remote">
+        <receiver android:name=".AlarmBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-
         <service android:name=".SoundService"/>
         <service android:name=".FootStepService"/>
-        <activity android:name=".usage"/>
-        <activity android:name=".WebShow" />
-        <activity android:name=".stopAlarm"/>
-        <activity android:name=".LevelShow"/>
-        <activity android:name=".FootCountShow"/>
-        <activity android:name=".Main"/>
-        <activity android:name=".Explaination"/>
 
 
     </application>

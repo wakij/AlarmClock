@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
     private Drawable deleteIcon;
     private AlarmManager am;
     private AlarmListAdapter listAdapter;
+    private ArrayList<AlarmInfo> alarmLists = new ArrayList<>();
 
 
     @Override
@@ -94,6 +96,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
@@ -107,6 +110,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
 
 
     protected void onShow() {
+        //アラームリストを初期化
+        alarmLists.clear();
         // データベースヘルパーを準備
         helper = new DatabaseHelper(getContext());
 
@@ -122,7 +127,6 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
 
             //データベースに格納されている全データを格納するリスト
 //            ArrayList<String> timeList = new ArrayList<>();
-            ArrayList<AlarmInfo> alarmLists = new ArrayList<>();
             if (cursor.moveToFirst())
             {
                 int id = cursor.getInt(0);
@@ -137,7 +141,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 int id = cursor.getInt(0);
                 String time = cursor.getString(1);
                 String isSwitchOn = cursor.getString(2);
-                String memo=cursor.getString(3);
+                String memo = cursor.getString(3);
                 AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
                 alarmLists.add(alarmData);
             }
@@ -173,7 +177,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                             am.cancel(pending);
                         }
                     }
-
+                    cursor.close();
                     db.delete(DBDef.DBEntry.TABLE_NAME, DBDef.DBEntry.COLUMN_NAME_TIME+" = ?", new String[] {text});
                 } catch (Exception e)
                 {
@@ -192,4 +196,14 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    public void switch_off(int id)
+    {
+        int pos = listAdapter.getNowPos(id);
+        RecyclerView.ViewHolder viewHolder =  recyclerView.findViewHolderForAdapterPosition(pos);
+        if (viewHolder != null)
+        {
+            Switch on_ff = (Switch)viewHolder.itemView.findViewById(R.id.on_off);
+            on_ff.setChecked(false);
+        }
+    }
 }

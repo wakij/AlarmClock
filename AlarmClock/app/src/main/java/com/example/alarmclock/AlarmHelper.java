@@ -48,6 +48,8 @@ public class AlarmHelper {
         Intent intent = new Intent(context,
                 AlarmBroadcastReceiver.class);
 
+
+
         intent.putExtra("memo",memo);
         intent.putExtra("id",id);
 
@@ -75,15 +77,4 @@ public class AlarmHelper {
             setAlarm(am, context, hour, minutes, id, memo);
         }
     }
-
-//    public static void SetAlarm(Context context, String time, int id)
-//    {
-//        String[] hour_minutes = time.split(":");
-//        int hour = Integer.parseInt(hour_minutes[0]);
-//        int minute = Integer.parseInt(hour_minutes[1]);
-//        AlarmSetting(context, hour, minute, id);
-//    }
-
-
-
 }

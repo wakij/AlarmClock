@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     private ArrayList<AlarmInfo> alarmLInfoList;
     private DatabaseHelper helper = null;
     private ViewHolder viewHolder;
+    private ArrayList<Switch>switchArrayList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView textView;
@@ -69,7 +71,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
         textView.setText(text);
         textView.setMovementMethod(new ScrollingMovementMethod());
 
-        String memo=alarmLInfoList.get(position).getMemo();
+        String memo = alarmLInfoList.get(position).getMemo();
 
         //dbの用意
         Context context = viewHolder.itemView.getContext();
@@ -116,10 +118,8 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
                             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                             AlarmInfo alarmData = alarmLInfoList.get(position);
                             AlarmHelper.setAlarm(am, context, alarmData.getHour(), alarmData.getMinutes(), alarmData.getId(), alarmData.getMemo());
-
-
                             TextView textView = viewHolder.getTextView();
-                            textView.setTextColor(Color.parseColor("#3E7C17"));
+                            textView.setTextColor(Color.parseColor("#191919"));
                             monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
 
                         }
@@ -131,9 +131,8 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
                             cv.put(DBDef.DBEntry.SWITCH_CONDITION, "false");
                             db.update(DBDef.DBEntry.TABLE_NAME, cv, DBDef.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
                             TextView textView = viewHolder.getTextView();
-                            textView.setTextColor(Color.parseColor("#CD1818"));
-                            monoBackground.setColorFilter(Color.parseColor("#D3D3CF"));
-
+                            textView.setTextColor(Color.parseColor("#191919"));
+                            monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
                             if (am != null)
                             {
                                 PendingIntent pending = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -143,6 +142,8 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
                     }
                 }
         });
+
+
 
 
     }
@@ -156,6 +157,21 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     {
         alarmLInfoList.remove(position);
         notifyItemRemoved(position);
+    }
+
+//    idからリサイクルビューの一番号を算出
+    public int getNowPos(int id)
+    {
+        int pos = 0;
+        for(int i = 0; i < alarmLInfoList.size(); i++)
+        {
+            if (alarmLInfoList.get(i).getId() == id)
+            {
+                pos = i;
+                break;
+            }
+        }
+        return pos;
     }
 
     public void addItem(AlarmInfo alarmData)
