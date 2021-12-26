@@ -1,0 +1,62 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="23"
+    android:viewportHeight="23">
+
+
+
+
+<!--    左側の辺-->
+    <path
+        android:fillColor="#DADDFC"
+        android:pathData="M7.88,3.39L6.6,1.86 2,5.71l1.29,1.53 4.59,-3.85z"/>
+<!--    カスタム左側の辺-->
+
+    <path
+        android:fillColor="#DADDFC"
+        android:pathData="M3.29,7.24 l-1.55,-1.84 l4.6,-3.85l1.55,1.84z"/>
+
+<!--    <path-->
+<!--        android:fillColor="@color/black"-->
+<!--        android:pathData="M7.88,3.39L6.6,1.86L2,5.71l1.29,1.53 l4.59,-3.85z"/>-->
+
+<!--    右側の辺-->
+    <path
+        android:fillColor="#DADDFC"
+        android:pathData="M20.71,7.25 l1.55,-1.84l-4.6,-3.86 l-1.55,1.84z"/>
+<!--    <path-->
+<!--        android:fillColor="@color/black"-->
+<!--        android:pathData="M22,5.72l-4.6,-3.86 l-1.29,1.53 4.6,3.86L22,5.72z"/>-->
+
+
+
+    <!--    外の円-->
+    <path
+        android:fillColor="#DADDFC"
+        android:pathData="M3,13 a 9,9 0,1,0 18,0l-2.5,0 a 6.5,6.5 0,0,1 -13,0"/>
+<!--    M3,13 a 9 9 0,1,1 18,0-->
+    <path
+        android:fillColor="#DADDFC"
+        android:pathData="M3,13 a 9 9 0,1,1 18,0l-2.5,0 a 6.5,6.5 0,0,0 -13,0"/>
+    <!--    内部の円-->
+<!--    <path-->
+<!--        android:fillColor="@color/black"-->
+<!--        android:pathData="M5,13 a 7,7 0,1,0 14,0 M5,13 a 7 7 0,1,1 14,0"/>-->
+
+<!--    カスタム内円-->
+<!--    <path-->
+<!--        android:fillColor="@color/white"-->
+<!--        android:pathData="M5.5,13 a 6.5,6.5 0,1,0 13,0 "/>-->
+<!--    M5.5,13 a 6.5 6.5 0,1,1 13,0-->
+
+    <!--    内部の針-->
+<!--    <path-->
+<!--        android:fillColor="@color/black"-->
+<!--        android:pathData="M12.5,8L11,8v6l4.75,2.85 0.75,-1.23 -4,-2.37L12.5,8z"/>-->
+    <path
+        android:fillColor="#DADDFC"
+        android:pathData="M11.75,8l-1.25,0v6.25l4.75,2.85l1.27,-2.07l-4,-2.37v-4.75"/>
+
+
+</vector>

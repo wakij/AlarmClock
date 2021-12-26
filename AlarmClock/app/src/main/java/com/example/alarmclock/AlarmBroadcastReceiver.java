@@ -154,12 +154,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-//    public void sendUpdate()
-//    {
-//        Intent updateIntent = new Intent();
-//        updateIntent.setAction("UPDATE_ACTION");
-//        mContext.sendBroadcast(updateIntent);
-//    }
-
+//    handlerを設定
+    public static void registerHandler(Handler updateHandler)
+    {
+        handler = updateHandler;
+    }
 }
 

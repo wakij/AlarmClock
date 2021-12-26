@@ -58,6 +58,7 @@ public class FootStepService extends Service implements SensorEventListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopSensor();
         Log.e("Destroy","FootStep Destroy");
     }
 
@@ -74,12 +75,12 @@ public class FootStepService extends Service implements SensorEventListener {
             first = false;
             up = true;
             d0 = a * sum;
-            handler = new Handler(getMainLooper());
         }else{
             d =  a * sum + (1 - a) * d0;
             if (up && d < d0){
                 up = false;
                 stepcount++;
+                Log.e("footstepcoount",String.valueOf(stepcount));
                 if (!isStop)
                 {
                     if (stepcount > NEED_STEP){
@@ -106,13 +107,15 @@ public class FootStepService extends Service implements SensorEventListener {
     }
 
     public void startSensor() {
+//        センサーがデータを取得するたびに更新するようにしている(データのストックを行わない)
         sensorManager.registerListener(this, sensor, sensorManager.SENSOR_DELAY_GAME);
     }
-
-    public void restartSensor() {
-        first = true;
-        stepcount = 0;
+//    サービスが停止してもっセンサーは停止しない
+    public void stopSensor()
+    {
+        sensorManager.unregisterListener(this);
     }
+
 
     private void pauseMusic()
     {
@@ -133,3 +136,6 @@ public class FootStepService extends Service implements SensorEventListener {
 //        }, 5000);
     }
 }
+
+//onPauseとonResumeでセンサーの登録と解除をするように書いてあるが・・・
+//このアプリでは規定時間内にサービスが破棄されない場合サービスの破棄とともにセンサーの停止を行うように設定されているので問題はない

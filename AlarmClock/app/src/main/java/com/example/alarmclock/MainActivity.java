@@ -13,6 +13,7 @@ import android.content.res.Resources;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -104,13 +106,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        handler = new Handler() {
+        handler = new Handler(getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 updateAlarmListScene();
             }
         };
-        AlarmBroadcastReceiver.handler = handler;
+        AlarmBroadcastReceiver.registerHandler(handler);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                selectTabColor(tab);
                 switch (tab.getPosition()) {
                     case 0:
                         fragmentTransaction.replace(R.id.settingsContainer, new AlarmListScene());
@@ -145,15 +148,32 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                clearTabColor(tab);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                selectTabColor(tab);
             }
         });
 
+//        tabLayout.selectTab(tabLayout.getTabAt(2),true);
+        tabLayout.selectTab(tabLayout.getTabAt(0),true);
+
+
+
+    }
+
+
+    public void selectTabColor(TabLayout.Tab tab)
+    {
+        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
+        imageView.setColorFilter(Color.parseColor("#396EB0"));
+    }
+    public void clearTabColor(TabLayout.Tab tab)
+    {
+        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
+        imageView.clearColorFilter();;
     }
 
     public void updateAlarmListScene()

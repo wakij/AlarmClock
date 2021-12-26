@@ -7,20 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".AlarmSetScene"
     android:padding="15dp"
-    android:background="@color/black">
-
-    <TextView
-        android:id="@+id/comments"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="コメント"
-        android:textSize="24dp"
-        android:textColor="@color/teal_700"
-        android:gravity="center_horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/time_picker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+    android:background="#d6e4f0">
 
 
     <com.example.alarmclock.CustomTimePicker
@@ -31,7 +18,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comments"
+        app:layout_constraintBottom_toTopOf="@+id/editContents"
         />
 
     <EditText
@@ -41,10 +28,12 @@
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/white_bg"
-        android:hint="目標を設定してね"
+        android:hint="起きてから何やるー？"
         android:importantForAutofill="no"
         android:inputType="textMultiLine|text"
+        android:maxLines="2"
         android:singleLine="true"
+        android:textColorHint="#9E9C9C"
         android:textSize="20dp"
         android:textStyle="bold"
         android:theme="@style/CustomEditText"
@@ -81,7 +70,7 @@
         android:layout_marginTop="10dp"
         android:onClick="btnReg_onClick"
         android:text="Enter"
-        android:textColor="#D1D1D1"
+        android:textColor="#f6f6f6"
         android:textSize="22dp"
         android:textStyle="bold"
         android:background="@drawable/setbtnbg"

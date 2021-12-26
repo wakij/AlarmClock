@@ -52,7 +52,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         Log.e("info","List再開");
-        return (ViewGroup) inflater.inflate(R.layout.alarm_list_scene, container, false);
+        return inflater.inflate(R.layout.alarm_list_scene, container, false);
     }
 
     @Override
@@ -63,9 +63,6 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rLayoutManager);
-        //RecycleViewを枠線をいれる
-//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(itemDecoration);
         am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         onShow();
         onswiped();
@@ -79,24 +76,17 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         });
 
         ConstraintLayout alarmlistScene = view.findViewById(R.id.alarmlistbg);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info",Context.MODE_PRIVATE);
-        String uriPath = sharedPreferences.getString("uriPath",null);
-        if (uriPath != null)
+        InputStream inputStream = null;
+        try {
+            inputStream = requireActivity().openFileInput("backimg.png");
+            Bitmap bit_backimg = BitmapFactory.decodeStream(inputStream);
+            Resources resources = requireActivity().getResources();
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, bit_backimg);
+            alarmlistScene.setBackground(bitmapDrawable);
+        }catch (FileNotFoundException e)
         {
-            ContentResolver cr = getActivity().getContentResolver();
-            try {
-                InputStream is = cr.openInputStream(Uri.parse(uriPath));
-                Drawable alarmlistScenebgimg = Drawable.createFromStream(is, uriPath);
-                alarmlistScene.setBackground(alarmlistScenebgimg);
-                if (alarmlistScenebgimg == null)
-                {
-                    Log.e("nulllllllll","null");
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
-
     }
 
     @Override
@@ -196,14 +186,5 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    public void switch_off(int id)
-    {
-        int pos = listAdapter.getNowPos(id);
-        RecyclerView.ViewHolder viewHolder =  recyclerView.findViewHolderForAdapterPosition(pos);
-        if (viewHolder != null)
-        {
-            Switch on_ff = (Switch)viewHolder.itemView.findViewById(R.id.on_off);
-            on_ff.setChecked(false);
-        }
-    }
+
 }

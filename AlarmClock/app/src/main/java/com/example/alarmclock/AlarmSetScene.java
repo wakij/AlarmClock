@@ -38,7 +38,8 @@ public class AlarmSetScene extends AppCompatActivity {
     private ConstraintLayout mConstraintLayout;
     private InputMethodManager inputMethodManager;
     private String memo;
-    private TextView rest_time_text;
+//    private TextView rest_time_text;
+    private TextView comments;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -48,42 +49,46 @@ public class AlarmSetScene extends AppCompatActivity {
 
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        rest_time_text = findViewById(R.id.rest_time);
+        comments = findViewById(R.id.comments);
+        comments.setText("その調子!!!");
 
-        timePicker = findViewById(R.id.spinner_time_picker);
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-                // Calendarを使って現在の時間をミリ秒で取得
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-                calendar.getTimeInMillis();
-                calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-                // 現在時刻を取得
-                Calendar nowCalendar = Calendar.getInstance();
-                nowCalendar.setTimeInMillis(System.currentTimeMillis());
 
-                int diff = calendar.compareTo(nowCalendar);
-                if(diff <= 0){
-                    calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-                }
+//        rest_time_text = findViewById(R.id.rest_time);
 
-                int rest_time = (int)((calendar.getTimeInMillis() - nowCalendar.getTimeInMillis()) / 1000); //秒
-                int rest_hour = rest_time / 3600; //時間
-                int rest_minutes = (rest_time - 3600 * rest_hour) / 60;
-                if (rest_hour == 0)
-                {
-                    rest_time_text.setText(rest_minutes + "分後にアラームが鳴ります");
-
-                }else
-                {
-                    rest_time_text.setText(rest_hour + "時間" + rest_minutes + "分後にアラームが鳴ります");
-                }
-
-            }
-        });
+//        timePicker = findViewById(R.id.spinner_time_picker);
+//        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+//            @Override
+//            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+//                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+//                // Calendarを使って現在の時間をミリ秒で取得
+//                calendar.setTimeInMillis(System.currentTimeMillis());
+//                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+//                calendar.set(Calendar.MINUTE, minute);
+//                calendar.getTimeInMillis();
+//                calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+//                // 現在時刻を取得
+//                Calendar nowCalendar = Calendar.getInstance();
+//                nowCalendar.setTimeInMillis(System.currentTimeMillis());
+//
+//                int diff = calendar.compareTo(nowCalendar);
+//                if(diff <= 0){
+//                    calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+//                }
+//
+//                int rest_time = (int)((calendar.getTimeInMillis() - nowCalendar.getTimeInMillis()) / 1000); //秒
+//                int rest_hour = rest_time / 3600; //時間
+//                int rest_minutes = (rest_time - 3600 * rest_hour) / 60;
+//                if (rest_hour == 0)
+//                {
+//                    rest_time_text.setText(rest_minutes + "分後にアラームが鳴ります");
+//
+//                }else
+//                {
+//                    rest_time_text.setText(rest_hour + "時間" + rest_minutes + "分後にアラームが鳴ります");
+//                }
+//
+//            }
+//        });
 //        timePicker.setIs24HourView(true);
         setbtn = findViewById(R.id.setbtn);
         backbtn = findViewById(R.id.backbtn);
@@ -112,11 +117,11 @@ public class AlarmSetScene extends AppCompatActivity {
             editContents.setText(memo);
         }
 
-        String comment = "やらないやついねぇよなぁ？";
-        TextView commentsText = findViewById(R.id.comments);
-        SpannableString spanStr = new SpannableString(comment);
-        spanStr.setSpan(new UnderlineSpan(), 0, comment.length(), 0);
-        commentsText.setText(spanStr);
+//        String comment = "やらないやついねぇよなぁ？";
+//        TextView commentsText = findViewById(R.id.comments);
+//        SpannableString spanStr = new SpannableString(comment);
+//        spanStr.setSpan(new UnderlineSpan(), 0, comment.length(), 0);
+//        commentsText.setText(spanStr);
     }
     // 「設定」ボタン　タップ時に呼び出されるメソッド
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -176,8 +181,8 @@ public class AlarmSetScene extends AppCompatActivity {
         mConstraintLayout.requestFocus();
         return false;
     }
-
 }
+
 
 
 //メモ

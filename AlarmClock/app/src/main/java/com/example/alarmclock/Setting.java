@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -25,9 +26,13 @@ import android.widget.ImageView;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class Setting extends Fragment {
     public static int RESULT_PICK_IMAGEFILE = 1001;
@@ -62,11 +67,49 @@ public class Setting extends Fragment {
             if (resultData.getData() != null)
             {
                 Uri uri = resultData.getData();
-                String uriPath = uri.toString();
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("uriPath",uriPath);
-                editor.apply();
+                try {
+                    saveImg(uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                String uriPath = uri.toString();
+//                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("uriPath",uriPath);
+//                editor.apply();
+            }
+        }
+    }
+
+    public void saveImg(Uri uri) throws IOException {
+        FileOutputStream out = null;
+        ImageDecoder.Source imgsource;
+        Bitmap imgbitmap = null;
+        ContentResolver contentResolver = requireActivity().getContentResolver();
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                imgsource = ImageDecoder.createSource(contentResolver, uri);
+                imgbitmap = ImageDecoder.decodeBitmap(imgsource);
+            }else
+            {
+                MediaStore.Images.Media.getBitmap(contentResolver, uri);
+            }
+            out = requireActivity().openFileOutput("backimg.png",Context.MODE_PRIVATE);
+            if (imgbitmap != null)
+            {
+                imgbitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            }
+
+        }catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }finally {
+            if (out != null)
+            {
+                out.close();
             }
         }
     }

@@ -4,6 +4,6 @@
     android:id="@+id/icon"
     android:layout_width="32dp"
     android:layout_height="32dp"
+    android:paddingVertical="3dp"
     android:scaleType="centerInside"
-    app:tint="#FFFFFF"
     app:srcCompat="@drawable/ic_baseline_insert_drive_file_24" />
