@@ -1,0 +1,45 @@
+<!--<vector xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        android:width="60dp"-->
+<!--        android:height="15dp"-->
+<!--        android:viewportWidth="60"-->
+<!--        android:viewportHeight="15">-->
+<!--    <path-->
+<!--        android:pathData="M0,0 l20,0 c6.67 12, 13.3 12, 20 0 l20,0 l0,15 l-60,0z"-->
+<!--        android:fillColor="#FF000000"/>-->
+<!--</vector>-->
+<!--<vector xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:width="60dp"-->
+<!--    android:height="15dp"-->
+<!--    android:viewportWidth="60"-->
+<!--    android:viewportHeight="15">-->
+<!--    <path-->
+<!--        android:pathData="M30.0805 10.1562C28.4177 10.1562 26.9529 9.70097 25.7476 8.90345C24.6762 8.19455 23.1149 6.61678 21.5005 3.40426C20.4265 1.26714 18.4096 0.0106682 18.4097 0L0 0L0 15L30.0805 15L30.0805 10.1562Z"-->
+<!--        android:fillColor="#FF000000"/>-->
+<!--    <path-->
+<!--        android:pathData="M29.9195 10.1562C31.5823 10.1562 33.0471 9.70097 34.2524 8.90345C35.3238 8.19455 36.8851 6.61678 38.4995 3.40426C39.5735 1.26714 41.5904 0.0106682 41.5903 0L60 0L60 15L29.9195 15L29.9195 10.1562Z"-->
+<!--        android:fillColor="#FF000000"/>-->
+<!--</vector>-->
+<!--<vector xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:width="60dp"-->
+<!--android:height="15dp"-->
+<!--android:viewportWidth="60"-->
+<!--android:viewportHeight="15">-->
+<!--<path-->
+<!--    android:pathData="M30.0805 15L0 15L0 0.0170011C0 0.0170011 11.8473 0.00174934 17.9126 0.00174934C21.4345 0 23.3649 3.01243 24.3422 4.91305C25.5308 7.22478 26.8442 9.13566 30.0805 9.22746L30.0805 15Z"-->
+<!--    android:fillColor="#FF000000"/>-->
+<!--<path-->
+<!--    android:pathData="M30 14.9983L60.0805 14.9983L60.0805 0.0152526C60.0805 0.0152526 48.2332 0 42.1679 0C38.646-0.00174858 36.7156 3.01068 35.7384 4.9113C34.5498 7.22303 33.2364 9.13391 30 9.22571L30 14.9983Z"-->
+<!--    android:fillColor="#FF000000"/>-->
+<!--</vector>-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+android:width="60dp"
+android:height="15dp"
+android:viewportWidth="60"
+android:viewportHeight="15">
+<path
+    android:pathData="M30 15L0 15L0 0L17.86 0C21.38 0 23.30 3.01 24.28 4.91C25.46 7.22 26.77 9.14 30 9.23L30 15Z"
+    android:fillColor="#FF000000"/>
+<path
+    android:pathData="M30 15L60 15L60 0L42.14 0C38.62 0 36.7 3.01 35.72 4.91C34.54 7.22 33.23 9.14 30 9.23L30 15Z"
+    android:fillColor="#FF000000"/>
+</vector>

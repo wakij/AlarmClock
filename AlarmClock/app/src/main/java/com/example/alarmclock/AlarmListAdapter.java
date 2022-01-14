@@ -85,6 +85,13 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
         boolean isSwitchOn = Boolean.valueOf(alarmLInfoList.get(position).getIsSwitchOn());
         on_off.setChecked(isSwitchOn);
         on_off.setSplitTrack(true);
+        if (isSwitchOn)
+        {
+            onAlarm(viewHolder);
+        }else
+        {
+            offAlarm(viewHolder);
+        }
 
 
 
@@ -118,10 +125,10 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
                             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                             AlarmInfo alarmData = alarmLInfoList.get(position);
                             AlarmHelper.setAlarm(am, context, alarmData.getHour(), alarmData.getMinutes(), alarmData.getId(), alarmData.getMemo());
-                            TextView textView = viewHolder.getTextView();
-                            textView.setTextColor(Color.parseColor("#191919"));
-                            monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
-
+//                            TextView textView = viewHolder.getTextView();
+//                            textView.setTextColor(Color.parseColor("#191919"));
+//                            monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
+                            onAlarm(viewHolder);
                         }
                         //alarmの無効化
                         else
@@ -130,9 +137,10 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
                             ContentValues cv = new ContentValues();
                             cv.put(DBDef.DBEntry.SWITCH_CONDITION, "false");
                             db.update(DBDef.DBEntry.TABLE_NAME, cv, DBDef.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
-                            TextView textView = viewHolder.getTextView();
-                            textView.setTextColor(Color.parseColor("#191919"));
-                            monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
+//                            TextView textView = viewHolder.getTextView();
+//                            textView.setTextColor(Color.parseColor("#191919"));
+//                            monoBackground.setColorFilter(Color.parseColor("#FFFFFF"));
+                            offAlarm(viewHolder);
                             if (am != null)
                             {
                                 PendingIntent pending = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -151,6 +159,24 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     public int getItemCount()
     {
         return alarmLInfoList.size();
+    }
+
+    public void offAlarm(ViewHolder viewHolder)
+    {
+        viewHolder.itemView.findViewById(R.id.monoBackground).setAlpha(0.5f);
+        viewHolder.itemView.findViewById(R.id.commentparts).setAlpha(0.5f);
+        viewHolder.itemView.findViewById(R.id.title).setAlpha(0.5f);
+        viewHolder.itemView.findViewById(R.id.on_off).setAlpha(0.5f);
+        viewHolder.itemView.findViewById(R.id.comments).setAlpha(0.5f);
+    }
+
+    public void onAlarm(ViewHolder viewHolder)
+    {
+        viewHolder.itemView.findViewById(R.id.monoBackground).setAlpha(1.0f);
+        viewHolder.itemView.findViewById(R.id.commentparts).setAlpha(1.0f);
+        viewHolder.itemView.findViewById(R.id.title).setAlpha(1.0f);
+        viewHolder.itemView.findViewById(R.id.on_off).setAlpha(1.0f);
+        viewHolder.itemView.findViewById(R.id.comments).setAlpha(1.0f);
     }
 
     public void removeAt(int position)

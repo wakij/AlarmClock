@@ -2,26 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/alarmlist_background"
     >
-
-
     <FrameLayout
         android:id="@+id/settingsContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/tablayout_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+    </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@string/reg"
+        android:focusable="true"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="@color/purple_200"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        app:tint="@color/white" />
 
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/tablayout_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#151E25"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -29,10 +44,10 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:layout_height="60dp"
+            android:background="@drawable/tablayout"
             app:tabIconTint="@android:color/tab_indicator_text"
-            app:tabIndicatorColor="#FFFFFF"
+            app:tabIndicatorColor="#00FFFFFF"
             app:tabIndicatorHeight="5dp">
 
             <com.google.android.material.tabs.TabItem

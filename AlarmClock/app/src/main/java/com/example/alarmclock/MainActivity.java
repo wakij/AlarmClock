@@ -28,9 +28,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private int count;
     private int positivecount=0;
     private Handler handler;
+    private ConstraintLayout main_background;
+
 
 
 
@@ -70,8 +74,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Info", MODE_PRIVATE);
         int needfootstep = sharedPreferences.getInt("needfootstep", 0);
 
+        main_background = findViewById(R.id.main_background);
+
 //        SharedPreferences.Editor editor = sharedPreferences.edit().clear();
 //        editor.commit();
+
 
 
         if (needfootstep == 0) {
@@ -135,12 +142,14 @@ public class MainActivity extends AppCompatActivity {
                 switch (tab.getPosition()) {
                     case 0:
                         fragmentTransaction.replace(R.id.settingsContainer, new AlarmListScene());
+                        main_background.setBackgroundColor(getResources().getColor(R.color.alarmlist_background));
                         break;
                     case 1:
                         fragmentTransaction.replace(R.id.settingsContainer, new LevelShow());
                         break;
                     case 2:
                         fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
+                        main_background.setBackgroundColor(getResources().getColor(R.color.help_background));
                         break;
                 }
                 fragmentTransaction.commit();
@@ -157,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        tabLayout.selectTab(tabLayout.getTabAt(2),true);
+
         tabLayout.selectTab(tabLayout.getTabAt(0),true);
 
 
@@ -168,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     public void selectTabColor(TabLayout.Tab tab)
     {
         ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
-        imageView.setColorFilter(Color.parseColor("#396EB0"));
+        imageView.setColorFilter(R.color.selectedcolor);
     }
     public void clearTabColor(TabLayout.Tab tab)
     {

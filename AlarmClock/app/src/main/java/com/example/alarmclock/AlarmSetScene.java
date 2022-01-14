@@ -55,7 +55,7 @@ public class AlarmSetScene extends AppCompatActivity {
 
 //        rest_time_text = findViewById(R.id.rest_time);
 
-//        timePicker = findViewById(R.id.spinner_time_picker);
+        timePicker = findViewById(R.id.spinner_time_picker);
 //        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
 //            @Override
 //            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
