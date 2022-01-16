@@ -10,6 +10,80 @@
     android:background="#d6e4f0">
 
 
+    <Button
+        android:id="@+id/button16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="261dp"
+        tools:layout_editor_absoluteY="504dp" />
+
+    <Button
+        android:id="@+id/button17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="140dp"
+        tools:layout_editor_absoluteY="506dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Music"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="462dp" />
+
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginBottom="120dp"
+        app:backgroundTint="#A11414"
+        app:layout_constraintBottom_toTopOf="@+id/backbtn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button12"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="120dp"
+        app:backgroundTint="#15619E"
+        app:layout_constraintBottom_toTopOf="@+id/backbtn"
+        app:layout_constraintStart_toEndOf="@+id/button13" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="120dp"
+        app:backgroundTint="#640B73"
+        app:layout_constraintBottom_toTopOf="@+id/setbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/button14" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="120dp"
+        app:backgroundTint="#91840F"
+        app:layout_constraintBottom_toTopOf="@+id/setbtn"
+        app:layout_constraintStart_toEndOf="@+id/button6" />
+
     <com.example.alarmclock.CustomTimePicker
         android:id="@+id/time_picker"
         android:layout_width="wrap_content"
@@ -21,12 +95,13 @@
         app:layout_constraintBottom_toTopOf="@+id/editContents"
         />
 
+
     <EditText
         android:id="@+id/editContents"
         style="@style/CustomEditText"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/white_bg"
         android:hint="起きてから何やるー？"
         android:importantForAutofill="no"
@@ -38,6 +113,7 @@
         android:textStyle="bold"
         android:theme="@style/CustomEditText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_picker" />
 
@@ -45,16 +121,16 @@
         android:id="@+id/backbtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="212dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/backbtnbg"
+        android:letterSpacing="0.3"
         android:onClick="onBack"
         android:text="Back"
         android:textAllCaps="false"
         android:textColor="#737070"
         android:textSize="22dp"
         android:textStyle="bold"
-        android:letterSpacing="0.3"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toStartOf="@+id/setbtn"
         app:layout_constraintHorizontal_chainStyle="spread"
@@ -62,29 +138,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editContents" />
 
-
     <Button
         android:id="@+id/setbtn"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="212dp"
+        android:background="@drawable/setbtnbg"
+        android:letterSpacing="0.3"
         android:onClick="btnReg_onClick"
         android:text="Enter"
+        android:textAllCaps="false"
         android:textColor="#f6f6f6"
         android:textSize="22dp"
         android:textStyle="bold"
-        android:background="@drawable/setbtnbg"
-        android:textAllCaps="false"
-        android:letterSpacing="0.3"
         app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/backbtn"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editContents" />
 
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="120dp"
+        app:backgroundTint="#0D7E73"
+        app:layout_constraintBottom_toTopOf="@+id/backbtn"
+        app:layout_constraintStart_toEndOf="@+id/button12" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Color"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="382dp" />
 
-
+    <Button
+        android:id="@+id/button15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="506dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
