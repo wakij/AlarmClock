@@ -15,8 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class HelpeScene extends Fragment {
 
-    private WebView webView;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.help, container, false);

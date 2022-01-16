@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private int positivecount=0;
     private Handler handler;
     private ConstraintLayout main_background;
+    private ImageView alarmlist_tab;
+    private ImageView setting_tab;
 
 
 
@@ -128,62 +131,107 @@ public class MainActivity extends AppCompatActivity {
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.getTabAt(0).setCustomView(R.layout.tablayout1);
-        tabLayout.getTabAt(1).setCustomView(R.layout.tablayout2);
-        tabLayout.getTabAt(2).setCustomView(R.layout.tablayout3);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        ImageButton fab_btn = findViewById(R.id.fab_reg);
+        fab_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), AlarmSetScene.class);
+                startActivity(intent);
+            }
+        });
+
+        alarmlist_tab = findViewById(R.id.alarmlist_tab);
+        alarmlist_tab.setColorFilter(getResources().getColor(R.color.selectedcolor));
+        alarmlist_tab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alarmlist_tab.setColorFilter(getResources().getColor(R.color.selectedcolor));
+                setting_tab.clearColorFilter();
+
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                selectTabColor(tab);
-                switch (tab.getPosition()) {
-                    case 0:
-                        fragmentTransaction.replace(R.id.settingsContainer, new AlarmListScene());
-                        main_background.setBackgroundColor(getResources().getColor(R.color.alarmlist_background));
-                        break;
-                    case 1:
-                        fragmentTransaction.replace(R.id.settingsContainer, new LevelShow());
-                        break;
-                    case 2:
-                        fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
-                        main_background.setBackgroundColor(getResources().getColor(R.color.help_background));
-                        break;
-                }
+                fragmentTransaction.replace(R.id.settingsContainer, new AlarmListScene());
                 fragmentTransaction.commit();
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                clearTabColor(tab);
+                main_background.setBackgroundColor(getResources().getColor(R.color.alarmlist_background));
             }
+        });
 
+        setting_tab = findViewById(R.id.setting_tab);
+        setting_tab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                selectTabColor(tab);
+            public void onClick(View v) {
+                setting_tab.setColorFilter(getResources().getColor(R.color.selectedcolor));
+                alarmlist_tab.clearColorFilter();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
+                fragmentTransaction.commit();
+
+                main_background.setBackgroundColor(getResources().getColor(R.color.help_background));
             }
         });
 
 
-        tabLayout.selectTab(tabLayout.getTabAt(0),true);
+//        tabLayout = findViewById(R.id.tab_layout);
+//        tabLayout.getTabAt(0).setCustomView(R.layout.tablayout1);
+//        tabLayout.getTabAt(1).setCustomView(R.layout.tablayout2);
+//        tabLayout.getTabAt(2).setCustomView(R.layout.tablayout3);
+//
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                selectTabColor(tab);
+//                switch (tab.getPosition()) {
+//                    case 0:
+//                        fragmentTransaction.replace(R.id.settingsContainer, new AlarmListScene());
+//                        main_background.setBackgroundColor(getResources().getColor(R.color.alarmlist_background));
+//                        break;
+//                    case 1:
+//                        fragmentTransaction.replace(R.id.settingsContainer, new LevelShow());
+//                        break;
+//                    case 2:
+//                        fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
+//                        main_background.setBackgroundColor(getResources().getColor(R.color.help_background));
+//                        break;
+//                }
+//                fragmentTransaction.commit();
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//                clearTabColor(tab);
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//                selectTabColor(tab);
+//            }
+//        });
+//
+//
+//        tabLayout.selectTab(tabLayout.getTabAt(0),true);
+//
 
 
 
     }
 
 
-    public void selectTabColor(TabLayout.Tab tab)
-    {
-        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
-        imageView.setColorFilter(R.color.selectedcolor);
-    }
-    public void clearTabColor(TabLayout.Tab tab)
-    {
-        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
-        imageView.clearColorFilter();;
-    }
+//    public void selectTabColor(TabLayout.Tab tab)
+//    {
+//        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
+//        imageView.setColorFilter(R.color.selectedcolor);
+//    }
+//    public void clearTabColor(TabLayout.Tab tab)
+//    {
+//        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
+//        imageView.clearColorFilter();;
+//    }
 
     public void updateAlarmListScene()
     {

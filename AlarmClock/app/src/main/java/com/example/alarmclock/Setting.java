@@ -46,6 +46,9 @@ public class Setting extends Fragment {
     {
         super.onStart();
 
+        ImageView bar_back_btn = getActivity().findViewById(R.id.bar_back_button);
+        bar_back_btn.setVisibility(View.VISIBLE);
+
         Button changebg = view.findViewById(R.id.changebg);
         changebg.setOnClickListener(new View.OnClickListener() {
             @Override

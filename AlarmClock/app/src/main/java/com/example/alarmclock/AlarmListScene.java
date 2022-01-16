@@ -66,14 +66,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         onShow();
         onswiped();
-        ImageButton fab_btn = view.findViewById(R.id.fab_reg);
-        fab_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AlarmSetScene.class);
-                getActivity().startActivity(intent);
-            }
-        });
+
 
         ConstraintLayout alarmlistScene = view.findViewById(R.id.alarmlistbg);
         InputStream inputStream = null;

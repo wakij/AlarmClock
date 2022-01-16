@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#3d749f</color>
     <color name="alarmlist_background">#5584AC</color>
-    <color name="selectedcolor">#396EB0</color>
+    <color name="selectedcolor">#FF5677</color>
     <color name="help_background">#6E6C6C</color>
 </resources>

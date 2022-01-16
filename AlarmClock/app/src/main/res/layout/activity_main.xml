@@ -21,14 +21,14 @@
         android:id="@+id/fab_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:clickable="true"
         android:contentDescription="@string/reg"
         android:focusable="true"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="#F2789F"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:backgroundTint="@color/purple_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_24"
         app:tint="@color/white" />
 
@@ -36,35 +36,56 @@
     <LinearLayout
         android:id="@+id/tablayout_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal"
+        android:background="@drawable/tablayout"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/tablayout"
-            app:tabIconTint="@android:color/tab_indicator_text"
-            app:tabIndicatorColor="#00FFFFFF"
-            app:tabIndicatorHeight="5dp">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/alarmlist_tab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            app:srcCompat="@drawable/alarmimg" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/setting_tab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_baseline_info_24"/>
 
 
-        </com.google.android.material.tabs.TabLayout>
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/tab_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60dp"-->
+<!--            app:tabIconTint="@android:color/tab_indicator_text"-->
+<!--            app:tabIndicatorColor="#00FFFFFF"-->
+<!--            app:tabIndicatorHeight="5dp">-->
+
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:clickafalseble=""/>-->
+
+
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:clickable="false"/>-->
+
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content" />-->
+
+
+<!--        </com.google.android.material.tabs.TabLayout>-->
 
 
     </LinearLayout>
