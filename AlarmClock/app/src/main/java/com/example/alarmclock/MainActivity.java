@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
+                fragmentTransaction.replace(R.id.settingsContainer, new Personal_Info());
                 fragmentTransaction.commit();
 
                 main_background.setBackgroundColor(getResources().getColor(R.color.help_background));

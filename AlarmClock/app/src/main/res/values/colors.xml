@@ -10,5 +10,5 @@
     <color name="green">#3d749f</color>
     <color name="alarmlist_background">#5584AC</color>
     <color name="selectedcolor">#FF5677</color>
-    <color name="help_background">#6E6C6C</color>
+    <color name="help_background">#f6f6f6</color>
 </resources>
