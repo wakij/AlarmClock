@@ -5,7 +5,7 @@
     android:id="@+id/main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/alarmlist_background"
+    android:background="@color/black"
     >
     <FrameLayout
         android:id="@+id/settingsContainer"
@@ -14,8 +14,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tablayout_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_reg"
@@ -25,7 +24,7 @@
         android:clickable="true"
         android:contentDescription="@string/reg"
         android:focusable="true"
-        app:backgroundTint="#F2789F"
+        app:backgroundTint="#530BD5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,19 +45,23 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+
+            android:layout_marginLeft="30dp"
+
             android:padding="10dp"
             app:srcCompat="@drawable/alarmimg" />
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
+
         <ImageView
             android:id="@+id/setting_tab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            app:srcCompat="@drawable/ic_baseline_info_24"/>
+            app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
 
 <!--        <com.google.android.material.tabs.TabLayout-->
