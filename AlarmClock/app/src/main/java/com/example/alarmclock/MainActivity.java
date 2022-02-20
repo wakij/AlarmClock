@@ -44,6 +44,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
 
 //        SharedPreferences.Editor editor = sharedPreferences.edit().clear();
 //        editor.commit();
+
+//        Calendar nowCalendar = Calendar.getInstance();
+//        nowCalendar.setTimeInMillis(System.currentTimeMillis());
+//        int hour_ = nowCalendar.get(Calendar.HOUR_OF_DAY);
+//        int minutes_ = nowCalendar.get(Calendar.MINUTE);
+//        int month = nowCalendar.get(Calendar.MONTH);
+//        int day = nowCalendar.get(Calendar.DAY_OF_MONTH);
+//        Log.e("HOUR",String.valueOf(hour_));
+//        Log.e("MINUTES",String.valueOf(minutes_));
+//        Log.e("MONTH",String.valueOf(month));
+//        Log.e("DAY",String.valueOf(day));
 
 
 

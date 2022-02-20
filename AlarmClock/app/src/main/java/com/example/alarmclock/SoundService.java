@@ -47,13 +47,12 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        soundLevel = intent.getIntExtra("soundLevel", 0);
 
         count = 0; //カウントのリセット
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         volume = intent.getIntExtra("volume",5);
-//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);
+//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI);　//volumeの設定
 //        mediaPlayerの準備を非同期で行って準備が完了したらplay()する
         if (intent.getAction().equals(ACTION_PLAY))
         {
@@ -62,19 +61,32 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
             AudioAttributes audioAttributes = builder.build();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioAttributes(audioAttributes);
-            String fileName = "android.resource://"
-                    + this.getPackageName() + "/" + R.raw.app_src_main_res_raw_wakeup;
-            try
+            SharedPreferences sharedPreferences = getSharedPreferences("Info",Context.MODE_PRIVATE);
+            String audioUri_ = sharedPreferences.getString("audioUri",null);
+//            再生する音楽が決められている場合
+            if (audioUri_ != null)
             {
-                mediaPlayer.setDataSource(this, Uri.parse(fileName));
-            }catch (IOException e)
+                try {
+                    mediaPlayer.setDataSource(getApplicationContext(),Uri.parse(audioUri_));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else
             {
-                throw new IllegalStateException(
-                        MessageFormat.format(
-                                "setDataSource error: msg={0}, value={1}",
-                                e.getMessage(), e.getStackTrace()));
+                String fileName = "android.resource://"
+                        + this.getPackageName() + "/" + R.raw.app_src_main_res_raw_wakeup;
+                try
+                {
+                    mediaPlayer.setDataSource(this, Uri.parse(fileName));
+                }catch (IOException e)
+                {
+                    throw new IllegalStateException(
+                            MessageFormat.format(
+                                    "setDataSource error: msg={0}, value={1}",
+                                    e.getMessage(), e.getStackTrace()));
+                }
             }
-//            mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.app_src_main_res_raw_wakeup, audioAttributes,audioManager.generateAudioSessionId());
+
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnCompletionListener(this);
             mediaPlayer.setLooping(false);
@@ -116,58 +128,6 @@ public class SoundService extends Service implements MediaPlayer.OnCompletionLis
         editor.putInt("sound_level_latter",sound_level_latter);
         editor.putInt("sound_level_former",sound_level_former);
         editor.apply();
-
-//        DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
-
-//        try(SQLiteDatabase db = helper.getWritableDatabase()) {
-//            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.DATA};
-//            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME4, cols, null,
-//                    null, null, null, null, null);
-//            if (cursor.moveToFirst()) //データが存在していれば
-//            {
-//             step=Integer.parseInt(cursor.getString(1));
-//            }
-//        }
-
-//        try(SQLiteDatabase db = helper.getWritableDatabase()) {
-////            初めに現在の経験値を取得
-//            String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
-//            Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
-//                    null, null, null, null, null);
-//            if (cursor.moveToFirst()) //データが存在していれば
-//            {
-//                int needfootstep = step;
-//                int sound_level_latter = Integer.parseInt(cursor.getString(3));
-//                int sound_level_former = sound_level_latter;
-//                if (count < 5)
-//                {
-//                    sound_level_latter -= 20;
-//                }
-//                else if (count < 9) {}
-//                else
-//                {
-//                    sound_level_latter += (count - 8) * 5;
-//                }
-//                sound_level_latter += count * 50; //ペナルティーを加える
-//                needfootstep += (int)((2 /  (1 + Math.exp(- sound_level_latter + sound_level_former)) - 1) * 100); //シグモイド曲線を少しいじったもので-1<x<1の間に圧縮
-//                ContentValues cv = new ContentValues();
-//                cv.put(DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
-//                cv.put(DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, String.valueOf(sound_level_former));
-//                cv.put(DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, String.valueOf(needfootstep));
-//                db.update(DBDef.DBEntry.TABLE_NAME2, cv, DBDef.DBEntry._ID + " = ?", new String[] {String.valueOf(1)});
-//            }
-//            else //データが存在していなければ
-//            {
-//                int sound_level_latter = count * 50;
-//                ContentValues cv = new ContentValues();
-//                cv.put(DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER, String.valueOf(sound_level_latter));
-//                db.insert(DBDef.DBEntry.TABLE_NAME2, null, cv);
-//            }
-//        }catch (Exception e)
-//        {
-//            Log.e( "aaaaaa",e.toString());
-//        }
-
     }
 
     @Nullable

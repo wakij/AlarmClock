@@ -12,6 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // データベース名
     static final private String DBNAME = "samp.db";
+    static final private String CHART_DBNAME = "chart_db";
 
     // コンストラクタは必ず必要
     public DatabaseHelper(Context context) {
@@ -27,9 +28,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
                         DBDef.DBEntry.COLUMN_NAME_TIME + " TEXT default '', " +
                         DBDef.DBEntry.SWITCH_CONDITION+ " TEXT default '',"+
-
                         DBDef.DBEntry.MEMO+ " TEXT default '',"+
+                        DBDef.DBEntry.CARD_COLOR +  " TEXT default 'red', " +
                         DBDef.DBEntry.COLUMN_NAME_UPDATE + " INTEGER DEFAULT (datetime(CURRENT_TIMESTAMP,'localtime'))) ");
+
+        db.execSQL(
+                "CREATE TABLE " + DBDef.DBEntry.CHART_TABLE + " (" +
+                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
+                        DBDef.DBEntry.DATE + " TEXT default '', " +
+                        DBDef.DBEntry.REAL_WAKE_UP_TIME+ " TEXT default '',"+
+                        DBDef.DBEntry.ESTIMATED_WAKE_UP_TIME+ " TEXT default '',"+
+                        DBDef.DBEntry.FOOTSTEP_COUNT +  " TEXT default '')"
+
+        );
 
 
 
@@ -41,40 +52,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         " UPDATE " + DBDef.DBEntry.TABLE_NAME + " SET up_date = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid; "+
                         " END;");
 
-
-//テーブル作成２
-//        db.execSQL(
-//                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME2 + " (" +
-//                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
-//                        DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT + " TEXT default '', " +
-//                        DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER+ " TEXT default '1', " +
-//                        DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER + " TEXT default '0') ");
+        db.execSQL(
+                "CREATE TRIGGER trigger_chart_info_update AFTER UPDATE ON " + DBDef.DBEntry.CHART_TABLE +
+                        " BEGIN "+
+                        " UPDATE " + DBDef.DBEntry.CHART_TABLE + " SET up_date = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid; "+
+                        " END;");
 
 
-
-
-//        db.execSQL(
-//                "CREATE TRIGGER trigger_samp_tbl_update AFTER UPDATE ON " + DBContract.DBEntry.TABLE_NAME2 +
-//                        " BEGIN "+
-//                        " UPDATE " + DBContract.DBEntry.TABLE_NAME2 + " SET up_date = DATETIME('now', 'localtime') WHERE rowid == NEW.rowid; "+
-//                        " END;");
-
-
-
-
-        //テーブル作成３
-
-
-//        db.execSQL(
-//                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME3 + " (" +
-//                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
-//                        DBDef.DBEntry.COGNOMEN + " TEXT default '') ");
-//
-//
-//        db.execSQL(
-//                "CREATE TABLE "+ DBDef.DBEntry.TABLE_NAME4 + " (" +
-//                        DBDef.DBEntry._ID + " INTEGER PRIMARY KEY, " +
-//                        DBDef.DBEntry.DATA+ " TEXT default '') ");
     }
 
 
@@ -87,6 +71,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
         db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME);
+        onCreate(db);
+
+        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.CHART_TABLE);
         onCreate(db);
 
 //        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME2);

@@ -42,8 +42,6 @@ import java.util.ArrayList;
 public class AlarmListScene extends Fragment implements LifecycleObserver {
     private DatabaseHelper helper;
     private RecyclerView recyclerView;
-    private Resources res;
-    private Drawable deleteIcon;
     private AlarmManager am;
     private AlarmListAdapter listAdapter;
     private ArrayList<AlarmInfo> alarmLists = new ArrayList<>();
@@ -99,7 +97,7 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         helper = new DatabaseHelper(getContext());
 
         // データベースを検索する項目を定義
-        String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_TIME, DBDef.DBEntry.SWITCH_CONDITION, DBDef.DBEntry.MEMO};
+        String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_TIME, DBDef.DBEntry.SWITCH_CONDITION, DBDef.DBEntry.MEMO, DBDef.DBEntry.CARD_COLOR};
 
         // 読み込みモードでデータベースをオープン
         try (SQLiteDatabase db = helper.getReadableDatabase()){
@@ -115,8 +113,9 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 int id = cursor.getInt(0);
                 String time = cursor.getString(1);
                 String isSwitchOn = cursor.getString(2);
-                String memo =cursor.getString(3);
-                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
+                String memo = cursor.getString(3);
+                String card_color = cursor.getString(4);
+                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo, card_color);
                 alarmLists.add(alarmData);
             }
             while(cursor.moveToNext())
@@ -125,7 +124,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                 String time = cursor.getString(1);
                 String isSwitchOn = cursor.getString(2);
                 String memo = cursor.getString(3);
-                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
+                String card_color = cursor.getString(4);
+                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo, card_color);
                 alarmLists.add(alarmData);
             }
             cursor.close();

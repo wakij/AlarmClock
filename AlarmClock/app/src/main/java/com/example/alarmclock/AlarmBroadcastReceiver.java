@@ -35,7 +35,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 //        //アプリが再起動されたら
         if (intent.getAction() != null) {
             if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-                Log.e("apple", "apple");
                 DatabaseHelper helper = new DatabaseHelper(context);
 
                 // データベースを検索する項目を定義
@@ -70,50 +69,19 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         //設定していた時間になってアラーム信号を受信した時 Note: actionを設定しておかないと予期せぬ事態になる可能性がある
         else
         {
-//            if (handler != null)
-//            {
-//                Log.e("aaaaaa","handlerあるよ");
-//            }
             SharedPreferences sharedPreferences = context.getSharedPreferences("Info",Context.MODE_PRIVATE);
             int needfootstep = sharedPreferences.getInt("needfootstep",0);
+            int hour = intent.getIntExtra("hour",0);
+            int minutes = intent.getIntExtra("minutes",0);
             Intent soundServiceIntent = new Intent(context, SoundService.class);
             soundServiceIntent.setAction("MusicPlay");
             context.startService(soundServiceIntent);
             Intent footstepServiceIntent =new Intent(context, FootStepService.class);
+            footstepServiceIntent.putExtra("hour",hour);
+            footstepServiceIntent.putExtra("minutes",minutes);
             footstepServiceIntent.putExtra("needfootstep",needfootstep);
             context.startService((footstepServiceIntent));
 
-//            DatabaseHelper helper = new DatabaseHelper(context);
-//            String[] cols = {DBDef.DBEntry.COLUMN_NAME_FOOT_COUNT, DBDef.DBEntry.COLUMN_SOUND_LEVEL_FORMER, DBDef.DBEntry.COLUMN_SOUND_LEVEL_LATTER};
-//            try(SQLiteDatabase db = helper.getReadableDatabase())
-//            {
-//                Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME2, cols, null,
-//                        null, null, null, null, null);
-//                //moveToFirstで、カーソルを検索結果セットの先頭行に移動
-//                //検索結果が0件の場合、falseが返る
-////                アラーム停止までに必要な歩数など必要な情報が記録されていたら
-//                if (cursor.moveToFirst()){
-//                    int needStep = Integer.parseInt(cursor.getString(0));
-//                    int soundLevel = Integer.parseInt(cursor.getString(1));
-//
-//                    Intent serviveIntent = new Intent(context, SoundService.class);
-//                    serviveIntent.putExtra("soundLevel", soundLevel);
-//                    context.startService(serviveIntent);
-//
-//                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
-//                    serviceIntent2.putExtra("needStep", needStep);
-//                    context.startService((serviceIntent2));
-//
-//                }
-//                else
-//                {
-//                    Intent serviveIntent = new Intent(context, SoundService.class);
-//                    context.startService(serviveIntent);
-//
-//                    Intent serviceIntent2 =new Intent(context, FootStepService.class);
-//                    context.startService((serviceIntent2));
-//
-//                }
                 String memo = intent.getStringExtra("memo");
                 int id = intent.getIntExtra("id",0);
                 DatabaseHelper helper = new DatabaseHelper(context);

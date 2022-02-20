@@ -4,13 +4,14 @@ import android.app.AlarmManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,15 +19,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.net.URI;
 
 public class AlarmSetScene extends AppCompatActivity {
 
@@ -40,6 +41,11 @@ public class AlarmSetScene extends AppCompatActivity {
     private String memo;
 //    private TextView rest_time_text;
     private TextView comments;
+    private String card_color;
+    private Button pushed_btn_color;
+
+    final int MUSIC_REQUEST = 1000;
+    Uri audioUri;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -53,43 +59,8 @@ public class AlarmSetScene extends AppCompatActivity {
         comments.setText("その調子!!!");
 
 
-//        rest_time_text = findViewById(R.id.rest_time);
 
         timePicker = findViewById(R.id.spinner_time_picker);
-//        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-//            @Override
-//            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-//                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-//                // Calendarを使って現在の時間をミリ秒で取得
-//                calendar.setTimeInMillis(System.currentTimeMillis());
-//                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//                calendar.set(Calendar.MINUTE, minute);
-//                calendar.getTimeInMillis();
-//                calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-//                // 現在時刻を取得
-//                Calendar nowCalendar = Calendar.getInstance();
-//                nowCalendar.setTimeInMillis(System.currentTimeMillis());
-//
-//                int diff = calendar.compareTo(nowCalendar);
-//                if(diff <= 0){
-//                    calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-//                }
-//
-//                int rest_time = (int)((calendar.getTimeInMillis() - nowCalendar.getTimeInMillis()) / 1000); //秒
-//                int rest_hour = rest_time / 3600; //時間
-//                int rest_minutes = (rest_time - 3600 * rest_hour) / 60;
-//                if (rest_hour == 0)
-//                {
-//                    rest_time_text.setText(rest_minutes + "分後にアラームが鳴ります");
-//
-//                }else
-//                {
-//                    rest_time_text.setText(rest_hour + "時間" + rest_minutes + "分後にアラームが鳴ります");
-//                }
-//
-//            }
-//        });
-//        timePicker.setIs24HourView(true);
         setbtn = findViewById(R.id.setbtn);
         backbtn = findViewById(R.id.backbtn);
         editContents=findViewById(R.id.editContents);
@@ -117,11 +88,72 @@ public class AlarmSetScene extends AppCompatActivity {
             editContents.setText(memo);
         }
 
-//        String comment = "やらないやついねぇよなぁ？";
-//        TextView commentsText = findViewById(R.id.comments);
-//        SpannableString spanStr = new SpannableString(comment);
-//        spanStr.setSpan(new UnderlineSpan(), 0, comment.length(), 0);
-//        commentsText.setText(spanStr);
+        Button red_btn = findViewById(R.id.red);
+        Button blue_btn = findViewById(R.id.blue);
+        Button green_btn = findViewById(R.id.green);
+        Button yellow_btn = findViewById(R.id.yellow);
+        Button purple_btn = findViewById(R.id.purple);
+
+
+        red_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card_color =  "red";
+                checkbuton(red_btn);
+            }
+        });
+
+        blue_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card_color =  "blue";
+                checkbuton(blue_btn);
+            }
+        });
+
+        green_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card_color =  "green";
+                checkbuton(green_btn);
+            }
+        });
+
+        yellow_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card_color =  "yellow";
+                checkbuton(yellow_btn);
+            }
+        });
+
+        purple_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card_color =  "purple";
+                checkbuton(purple_btn);
+            }
+        });
+
+//        初期設定
+        Drawable check_mark = ResourcesCompat.getDrawable(getResources(), R.drawable.check_mark, null);
+        red_btn.setForeground(check_mark);
+        card_color = "red";
+        pushed_btn_color = red_btn;
+
+
+        Button music_select = findViewById(R.id.music1);
+        music_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickAudioIntent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickAudioIntent, MUSIC_REQUEST);
+            }
+        });
+
+
+
+
     }
     // 「設定」ボタン　タップ時に呼び出されるメソッド
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -139,6 +171,7 @@ public class AlarmSetScene extends AppCompatActivity {
             cv.put(DBDef.DBEntry.COLUMN_NAME_TIME, time);
             cv.put(DBDef.DBEntry.SWITCH_CONDITION, "true");
             cv.put(DBDef.DBEntry.MEMO,memo);
+            cv.put(DBDef.DBEntry.CARD_COLOR, card_color);
 
 
             //新規登録mode
@@ -180,6 +213,33 @@ public class AlarmSetScene extends AppCompatActivity {
         //背景にフォーカスを移す
         mConstraintLayout.requestFocus();
         return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void checkbuton(Button button)
+    {
+        if (pushed_btn_color != null)
+        {
+            pushed_btn_color.setForeground(null);
+        }
+        Drawable check_mark = ResourcesCompat.getDrawable(getResources(), R.drawable.check_mark, null);
+        button.setForeground(check_mark);
+        pushed_btn_color = button;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent)
+    {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == MUSIC_REQUEST && requestCode == RESULT_OK)
+        {
+            audioUri = intent.getData();
+            String audioUri_ = audioUri.toString();
+            SharedPreferences sharedPreferences = getSharedPreferences("Info", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("audioUri", audioUri_);
+            editor.apply();
+        }
     }
 }
 

@@ -36,31 +36,26 @@ public class AlarmHelper {
         Calendar nowCalendar = Calendar.getInstance();
         nowCalendar.setTimeInMillis(System.currentTimeMillis());
 
-        // 比較(確証はないので実際に機能するかは分かりませんが（笑）
-//        int diff = calendar.compareTo(nowCalendar);
-//
-//        // 日付を設定
-//        if(diff <= 0){
-//            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-//        }
+//        日付の調整
+        int diff = calendar.compareTo(nowCalendar);
+        if(diff <= 0){
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+        }
 
         //明示的なBroadCast
         Intent intent = new Intent(context,
                 AlarmBroadcastReceiver.class);
 
-
-
         intent.putExtra("memo",memo);
         intent.putExtra("id",id);
+        intent.putExtra("hour",hour);
+        intent.putExtra("minutes",minute);
 
         PendingIntent pending = PendingIntent.getBroadcast(
                 context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if(am != null){
             am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-//                    1000 * 60 * 1, pending);
-
             Toast.makeText(context,
                     "Set Alarm ", Toast.LENGTH_SHORT).show();
         }

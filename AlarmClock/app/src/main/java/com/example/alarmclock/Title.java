@@ -19,10 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 //タイトル画面のスクリプト
 public class Title extends AppCompatActivity {
 
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +26,7 @@ public class Title extends AppCompatActivity {
         setContentView(R.layout.title);
 
 
+//        2秒後にMainActivity.classに遷移
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -38,11 +35,8 @@ public class Title extends AppCompatActivity {
             }
         }, 2000);
 
-
-//        getWindow().getDecorView().getWindowInsetsController().hide(WindowInsets.Type.navigationBars());
+//        ナビゲーションバーを消す
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
-        ImageButton b = findViewById(R.id.imageButton2);
     }
 }

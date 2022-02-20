@@ -11,29 +11,16 @@ public final class DBDef {
     public static class DBEntry implements BaseColumns {
         // BaseColumns インターフェースを実装することで、内部クラスは_IDを継承できる
         public static final String TABLE_NAME           = "samp_tbl";
-
         public static final String COLUMN_NAME_TIME    = "time";
         public static final String SWITCH_CONDITION = "switch_conditions";
         public static final String COLUMN_NAME_UPDATE   = "up_date";
         public static final String MEMO ="memo";
+        public static final String CARD_COLOR = "card_color";
 
-
-//        public static final String TABLE_NAME2           = "samp_tbl2";
-//        public static final String COLUMN_NAME_FOOT_COUNT    = "foot_count";
-//        public static final String COLUMN_SOUND_LEVEL_FORMER= "sound_level_former";
-//        public static final String COLUMN_SOUND_LEVEL_LATTER = "sound_level_latter";
-//
-//
-//        public static final String TABLE_NAME3          = "samp_tbl3";
-//        public static final String COGNOMEN   = "cognomen";
-//
-//        public static final String TABLE_NAME4 = "samp_tbl4";
-//        public static final String DATA ="data";
-
-
-
-
-
-
+        public static final String CHART_TABLE = "chart_info";
+        public static final String DATE = "date";
+        public static final String REAL_WAKE_UP_TIME = "real_wake_up_time";
+        public static final String ESTIMATED_WAKE_UP_TIME = "estimated_wake_up_time";
+        public static final String FOOTSTEP_COUNT = "footstep_count";
     }
 }

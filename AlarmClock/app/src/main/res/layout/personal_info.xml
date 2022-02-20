@@ -88,6 +88,16 @@
         app:layout_constraintTop_toTopOf="@+id/needstep"
         app:srcCompat="@drawable/alarmimg" />
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/needstep"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,9 @@ public class AlarmInfo {
     private int minutes;
     private String isSwitchOn;
     private String memo;
+    private String card_color;
 
-    AlarmInfo(int _id, String _time, String _isSwitchOn ,String Memo)
+    AlarmInfo(int _id, String _time, String _isSwitchOn ,String Memo,String _card_color)
 
     {
         id = _id;
@@ -18,15 +19,17 @@ public class AlarmInfo {
         minutes = Integer.parseInt(hour_minutes[1]);
         isSwitchOn = _isSwitchOn;
         memo=Memo;
+        card_color = _card_color;
     }
 
-    AlarmInfo(int _id, int _hour, int _minutes, String _isSwitchOn)
+    AlarmInfo(int _id, int _hour, int _minutes, String _isSwitchOn, String _card_color)
     {
         id = _id;
         hour = _hour;
         minutes = _minutes;
         time = hour + ":" + minutes;
         isSwitchOn = _isSwitchOn;
+        card_color = _card_color;
     }
 
     public int getId(){return id;}
@@ -35,11 +38,13 @@ public class AlarmInfo {
     public String getTime(){return time;}
     public String getIsSwitchOn(){return isSwitchOn;}
     public String getMemo(){return memo;}
+    public String getCard_color(){return card_color;}
 
-    //    public void setId(int _id){id = _id;}
+
     public void setHour(int _hour){hour = _hour;}
     public void setMinutes(int _minutes){minutes = _minutes;}
     public void setTime(String _time){time = _time;}
     public void setIsSwitchOn(String _isSwitchOn){isSwitchOn = _isSwitchOn;}
+    public void setCard_color(String _card_color){card_color = _card_color;}
 
 }
