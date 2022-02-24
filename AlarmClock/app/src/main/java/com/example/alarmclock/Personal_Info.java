@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +18,24 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.renderer.YAxisRenderer;
+import com.github.mikephil.charting.utils.Transformer;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class Personal_Info extends Fragment {
@@ -86,11 +94,14 @@ public class Personal_Info extends Fragment {
 
         alarmDataList = new ArrayList<>();
 
-//        X軸の値
+        //x軸
         ArrayList<String> xValues = new ArrayList<>();
 
-        //Y軸の値
-        ArrayList<Entry> yValues = new ArrayList<>();
+        //y軸
+        ArrayList<String> yValues = new ArrayList<>();
+
+        //点の値
+        ArrayList<Entry> Values = new ArrayList<>();
 
 //        データを用意
         DatabaseHelper helper = new DatabaseHelper(getContext());
@@ -105,28 +116,33 @@ public class Personal_Info extends Fragment {
                     null, null, null, null, null);
 
             //データベースに格納されている全データを格納するリスト
-//            ArrayList<String> timeList = new ArrayList<>();
             if (cursor.moveToFirst()) {
                 i=0;
                 xValues.add(cursor.getString(1));
-                yValues.add(new Entry(i,cursor.getInt(4)));
+                int yValue = cursor.getInt(4);
+                yValues.add(String.valueOf(yValue));
+                Values.add(new Entry(i,yValue));
                 i++;
             }
             while (cursor.moveToNext()){
                 xValues.add(cursor.getString(1));
-                yValues.add(new Entry(i,cursor.getInt(4)));
+                int yValue = cursor.getInt(4);
+                if (!yValues.contains(String.valueOf(yValue))) {
+                    yValues.add(String.valueOf(yValue));
+                }
+                Values.add(new Entry(i,yValue));
                 i++;
             }
             cursor.close();
         }
-        createChart(xValues,yValues);
+        createChart(xValues,yValues,Values);
     }
 
     //グラフを描画する
-    public void createChart(ArrayList<String> xValues, ArrayList<Entry> yValues)
+    public void createChart(ArrayList<String> xValues, ArrayList<String> yValues, ArrayList<Entry> Values)
     {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        LineDataSet valueDataSet = new LineDataSet(yValues,"歩数");
+        LineDataSet valueDataSet = new LineDataSet(Values,"歩数");
         //pointの色を変更
         valueDataSet.setCircleColor(Color.parseColor("#e43a19"));
         //pointの半径
@@ -140,13 +156,13 @@ public class Personal_Info extends Fragment {
         valueDataSet.setDrawFilled(true);
         //線の太さ
         valueDataSet.setLineWidth(2);
-        mChart.setData(lineData);
+
         //x軸を修正
         XAxis xAxis = mChart.getXAxis();
-        //xラベルを日付に変更
         IndexAxisValueFormatter indexAxisValueFormatter = new IndexAxisValueFormatter();
         indexAxisValueFormatter.setValues(xValues.toArray((new String[xValues.size()])));
         xAxis.setValueFormatter(indexAxisValueFormatter);
+        xAxis.setLabelCount(xValues.size(),true);
         //縦のガイド線を消す
         xAxis.setDrawGridLines(false);
         //xラベルを下側に持っていく
@@ -161,13 +177,69 @@ public class Personal_Info extends Fragment {
         YAxis yAxis_r = mChart.getAxisRight();
         //右側のラベルを消す
         yAxis_r.setEnabled(false);
-        //yラベルの数を限定する
-        yAxis_l.setLabelCount(1);
-        //グラフに全体が映るようにする
-//        mChart.fitScreen();
+        //yラベルの値を設定する
+
+        ValueFormatter y_valueformatter = new ValueFormatter() {
+            @Override
+            public  String getAxisLabel(float value, AxisBase axisBase)
+            {
+                return super.getAxisLabel(value,axisBase);
+            }
+            @Override
+            public String getFormattedValue(float value) {
+//                Log.e("value_p",String.valueOf(value));
+                int i_value = (int)value;
+                if (yValues.contains(String.valueOf(i_value)))
+                {
+                    return String.valueOf((int)value);
+                }else
+                {
+                    return "";
+                }
+            }
+        };
+//        カスタムレンダーを設定
+        ViewPortHandler viewPortHandler = mChart.getViewPortHandler();
+        Transformer transformer = mChart.getTransformer(YAxis.AxisDependency.LEFT);
+        Custom_y_axis_renderer custom_y_axis_renderer = new Custom_y_axis_renderer(viewPortHandler,yAxis_l,transformer);
+        custom_y_axis_renderer.setValue(toList(yValues));
+        mChart.setRendererLeftYAxis(custom_y_axis_renderer);
+        yAxis_l.setLabelCount(yValues.size());
+
+//        yラベル(float)を(int)に変える
+        yAxis_l.setValueFormatter(y_valueformatter);
+
+//        yラベルの文字サイズを設定
+        yAxis_l.setTextSize(10);
+
+        //entryを整数で表示できるようにする
+        ValueFormatter int_value_formatter = new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.valueOf((int)value);
+            }
+        };
+        valueDataSet.setValueFormatter(int_value_formatter);
+
+        //データを設定
+        mChart.setData(lineData);
+
         //反映
         mChart.invalidate();
     }
+
+//    ArryaListを配列に変換する
+    public float[] toList(ArrayList<String> values)
+    {
+        float[] list = new float[values.size()];
+        for (int i =0;i < values.size();i++)
+        {
+            list[i] = Integer.parseInt(values.get(i));
+        }
+        return list;
+    }
+
 }
+
 
 

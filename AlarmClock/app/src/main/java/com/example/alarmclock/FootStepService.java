@@ -58,11 +58,12 @@ public class FootStepService extends Service implements SensorEventListener {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //intentからNEED_STEPを受け取る。
         NEED_STEP = intent.getIntExtra("needfootstep",0);
-        NEED_STEP = 5; //テスト用
+        NEED_STEP = 21; //テスト用
         hour = intent.getIntExtra("hour",0);
         minutes = intent.getIntExtra("minutes",0);
         startSensor();
         mediaPlayer = SoundService.getMediaPlayer();
+        edit_wakeup_Info(getApplicationContext(),hour,minutes);
         return START_NOT_STICKY;
     }
 
@@ -86,7 +87,7 @@ public class FootStepService extends Service implements SensorEventListener {
             first = false;
             up = true;
             d0 = a * sum;
-            edit_wakeup_Info(getApplicationContext(),hour,minutes);
+//            edit_wakeup_Info(getApplicationContext(),hour,minutes);
         }else{
             d =  a * sum + (1 - a) * d0;
             if (up && d < d0){
@@ -164,7 +165,7 @@ public class FootStepService extends Service implements SensorEventListener {
         nowCalendar.setTimeInMillis(System.currentTimeMillis());
         int hour_ = nowCalendar.get(Calendar.HOUR_OF_DAY);
         int minutes_ = nowCalendar.get(Calendar.MINUTE);
-        int month = nowCalendar.get(Calendar.MONTH);
+        int month = nowCalendar.get(Calendar.MONTH + 1);
         int day = nowCalendar.get(Calendar.DAY_OF_MONTH);
         String date = month + "/" + day;
         String real_time = hour_ +  ":" + minutes_;
