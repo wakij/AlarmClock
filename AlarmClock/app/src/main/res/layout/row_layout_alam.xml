@@ -15,34 +15,33 @@
         android:layout_height="0dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/alarmviewbg"
-        app:layout_constraintBottom_toTopOf="@+id/commentparts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintVertical_weight="2"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.7"
+        android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="@+id/monoBackground"
         app:layout_constraintTop_toTopOf="@+id/monoBackground"
         app:layout_constraintEnd_toEndOf="@+id/monoBackground"
         app:layout_constraintStart_toStartOf="@+id/monoBackground"
         app:srcCompat="@drawable/moon_extra"/>
 
-    <ImageView
-        android:id="@+id/commentparts"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/commentviewbg"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monoBackground"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/commentparts"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:srcCompat="@drawable/commentviewbg"-->
+<!--        app:layout_constraintVertical_weight="1"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/monoBackground"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
 
 
     <TextView
@@ -68,20 +67,20 @@
         android:theme="@style/CustomSwitch"
         android:thumb="@drawable/switch_thumb"
         android:track="@drawable/switch_bg"
-        android:layout_marginRight="50dp"
+        android:layout_marginRight="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/monoBackground"
         app:layout_constraintEnd_toEndOf="@id/monoBackground"
         app:layout_constraintTop_toTopOf="@id/monoBackground" />
 
-    <TextView
-        android:id="@+id/comments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ここにコメントが表示されます"
-        app:layout_constraintBottom_toBottomOf="@+id/commentparts"
-        app:layout_constraintStart_toStartOf="@+id/commentparts"
-        app:layout_constraintTop_toTopOf="@+id/commentparts"
-        android:layout_marginLeft="30dp"
+<!--    <TextView-->
+<!--        android:id="@+id/comments"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="ここにコメントが表示されます"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/commentparts"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/commentparts"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/commentparts"-->
+<!--        android:layout_marginLeft="30dp"-->
         />
 
 

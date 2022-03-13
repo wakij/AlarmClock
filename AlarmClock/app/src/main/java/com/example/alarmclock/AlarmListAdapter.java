@@ -185,7 +185,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     public void offAlarm(ViewHolder viewHolder)
     {
         viewHolder.itemView.findViewById(R.id.monoBackground).setAlpha(0.5f);
-        viewHolder.itemView.findViewById(R.id.commentparts).setAlpha(0.5f);
+//        viewHolder.itemView.findViewById(R.id.commentparts).setAlpha(0.5f);
         viewHolder.itemView.findViewById(R.id.title).setAlpha(0.5f);
         viewHolder.itemView.findViewById(R.id.on_off).setAlpha(0.5f);
         viewHolder.itemView.findViewById(R.id.comments).setAlpha(0.5f);
@@ -194,10 +194,10 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     public void onAlarm(ViewHolder viewHolder)
     {
         viewHolder.itemView.findViewById(R.id.monoBackground).setAlpha(1.0f);
-        viewHolder.itemView.findViewById(R.id.commentparts).setAlpha(1.0f);
+//        viewHolder.itemView.findViewById(R.id.commentparts).setAlpha(1.0f);
         viewHolder.itemView.findViewById(R.id.title).setAlpha(1.0f);
         viewHolder.itemView.findViewById(R.id.on_off).setAlpha(1.0f);
-        viewHolder.itemView.findViewById(R.id.comments).setAlpha(1.0f);
+//        viewHolder.itemView.findViewById(R.id.comments).setAlpha(1.0f);
     }
 
     public void removeAt(int position)
