@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,7 +30,10 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.renderer.YAxisRenderer;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -223,6 +227,20 @@ public class Personal_Info extends Fragment {
 
         //データを設定
         mChart.setData(lineData);
+
+        //値をクリックした時の処理
+        mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry entry, Highlight highlight) {
+                Log.e("entryX",String.valueOf(entry.getX()));
+                Log.e("entryY",String.valueOf(entry.getY()));
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
 
         //反映
         mChart.invalidate();
