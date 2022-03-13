@@ -76,24 +76,24 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
         ImageView monoBackground = viewHolder.itemView.findViewById(R.id.monoBackground);
 
         String card_color = alarmLInfoList.get(position).getCard_color();
-        switch (card_color)
-        {
-            case "red":
-                monoBackground.setColorFilter(Color.parseColor("#A11414"));
-                break;
-            case "blue":
-                monoBackground.setColorFilter(Color.parseColor("#15619E"));
-                break;
-            case "green":
-                monoBackground.setColorFilter(Color.parseColor("#0D7E73"));
-                break;
-            case "yellow":
-                monoBackground.setColorFilter(Color.parseColor("#91840F"));
-                break;
-            case "purple":
-                monoBackground.setColorFilter(Color.parseColor("#640B73"));
-                break;
-        }
+//        switch (card_color)
+//        {
+//            case "red":
+//                monoBackground.setColorFilter(Color.parseColor("#A11414"));
+//                break;
+//            case "blue":
+//                monoBackground.setColorFilter(Color.parseColor("#15619E"));
+//                break;
+//            case "green":
+//                monoBackground.setColorFilter(Color.parseColor("#0D7E73"));
+//                break;
+//            case "yellow":
+//                monoBackground.setColorFilter(Color.parseColor("#91840F"));
+//                break;
+//            case "purple":
+//                monoBackground.setColorFilter(Color.parseColor("#640B73"));
+//                break;
+//        }
 
         //dbの用意
         Context context = viewHolder.itemView.getContext();

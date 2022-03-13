@@ -23,6 +23,16 @@
         app:layout_constraintVertical_weight="2"/>
 
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        app:layout_constraintBottom_toBottomOf="@+id/monoBackground"
+        app:layout_constraintTop_toTopOf="@+id/monoBackground"
+        app:layout_constraintEnd_toEndOf="@+id/monoBackground"
+        app:layout_constraintStart_toStartOf="@+id/monoBackground"
+        app:srcCompat="@drawable/moon_extra"/>
+
+    <ImageView
         android:id="@+id/commentparts"
         android:layout_width="0dp"
         android:layout_height="0dp"
