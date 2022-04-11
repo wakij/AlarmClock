@@ -54,58 +54,87 @@
         app:layout_constraintTop_toBottomOf="@+id/editContents"
         app:layout_constraintStart_toStartOf="parent"
          />
-
-    <Button
-        android:id="@+id/red"
-        android:layout_width="52dp"
-        android:layout_height="50dp"
-        app:backgroundTint="#A11414"
-        app:layout_constraintBottom_toTopOf="@+id/music_text"
+    <com.example.alarmclock.ColorPicker
+        android:id="@+id/color_set_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/blue"
-        app:layout_constraintTop_toBottomOf="@+id/color_text"/>
-
-    <Button
-        android:id="@+id/blue"
-        android:layout_width="52dp"
-        android:layout_height="50dp"
-        app:backgroundTint="#15619E"
-        app:layout_constraintStart_toEndOf="@+id/red"
-        app:layout_constraintEnd_toStartOf="@+id/green"
-        app:layout_constraintTop_toBottomOf="@+id/color_text"
-
-         />
-
-    <Button
-        android:id="@+id/green"
-        android:layout_width="52dp"
-        android:layout_height="50dp"
-        app:backgroundTint="#0D7E73"
-        app:layout_constraintBottom_toTopOf="@+id/music_text"
-        app:layout_constraintStart_toEndOf="@+id/blue"
-        app:layout_constraintEnd_toStartOf="@+id/yellow"
-        app:layout_constraintTop_toBottomOf="@+id/color_text"/>
-
-    <Button
-        android:id="@+id/yellow"
-        android:layout_width="52dp"
-        android:layout_height="50dp"
-        app:backgroundTint="#91840F"
-        app:layout_constraintEnd_toStartOf="@+id/purple"
-        app:layout_constraintStart_toEndOf="@+id/green"
-        app:layout_constraintTop_toBottomOf="@+id/color_text"
-        app:layout_constraintBottom_toTopOf="@+id/music_text"/>
-
-
-    <Button
-        android:id="@+id/purple"
-        android:layout_width="52dp"
-        android:layout_height="50dp"
-        app:backgroundTint="#640B73"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/yellow"
         app:layout_constraintTop_toBottomOf="@+id/color_text"
         app:layout_constraintBottom_toTopOf="@+id/music_text"/>
+<!--    <LinearLayout-->
+<!--        android:id="@+id/color_set_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:paddingRight="130dp"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/color_text"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/music_text"-->
+<!--        >-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/red"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/color_set_btn"-->
+<!--            app:backgroundTint="#A11414" />-->
+
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"/>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/blue"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/color_set_btn"/>-->
+
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"/>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/green"-->
+<!--            android:layout_width="70px"-->
+<!--            android:layout_height="70px"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/color_set_btn"-->
+<!--            app:backgroundTint="#0D7E73"/>-->
+
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"/>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/yellow"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/color_set_btn"-->
+<!--            app:backgroundTint="#91840F"/>-->
+
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"/>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/purple"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/color_set_btn"-->
+<!--            app:backgroundTint="#640B73"/>-->
+<!--    </LinearLayout>-->
+
+
 
 <!--    ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー-->
 
@@ -116,40 +145,61 @@
         android:text="Music"
         android:textSize="25dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/music1"
-        app:layout_constraintTop_toBottomOf="@+id/red"
+        app:layout_constraintBottom_toTopOf="@+id/music_set_layout"
+        app:layout_constraintTop_toBottomOf="@+id/color_set_layout"
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <Button
-        android:id="@+id/music1"
+    <com.example.alarmclock.MusicPicker
+        android:id="@+id/music_set_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/music2"
-        app:layout_constraintBottom_toTopOf="@+id/backbtn"
-        app:layout_constraintTop_toBottomOf="@+id/music_text"/>
-
-    <Button
-        android:id="@+id/music2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintEnd_toStartOf="@id/music3"
-        app:layout_constraintStart_toEndOf="@+id/music1"
-        app:layout_constraintTop_toBottomOf="@+id/music_text"
-        app:layout_constraintBottom_toTopOf="@id/backbtn"/>
-
-    <Button
-        android:id="@+id/music3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/music2"
-        app:layout_constraintBottom_toTopOf="@+id/backbtn"
-        app:layout_constraintTop_toBottomOf="@+id/music_text"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/music_text"
+        app:layout_constraintBottom_toTopOf="@+id/backbtn"/>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/music_set_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        android:paddingRight="130dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/music_text"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/backbtn">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/music1"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:srcCompat="@drawable/audio"/>-->
+
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"/>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/music2"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:srcCompat="@drawable/audio"/>-->
+
+<!--        <Space-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"/>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/music3"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:srcCompat="@drawable/audio"/>-->
+
+<!--    </LinearLayout>-->
+
 
     <Button
         android:id="@+id/backbtn"
@@ -169,7 +219,7 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/music1" />
+        app:layout_constraintTop_toBottomOf="@+id/music_set_layout" />
 
     <Button
         android:id="@+id/setbtn"
@@ -187,7 +237,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/backbtn"
-        app:layout_constraintTop_toBottomOf="@+id/music1" />
+        app:layout_constraintTop_toBottomOf="@+id/music_set_layout" />
 
 
 
