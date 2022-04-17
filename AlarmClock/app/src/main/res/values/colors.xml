@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF9E1313</color>
     <color name="green">#3d749f</color>
-    <color name="alarmlist_background">#FF000000</color>
+    <color name="alarmlist_background">#fffdfb</color>
     <color name="selectedcolor">#FFFFFF</color>
     <color name="help_background">#f6f6f6</color>
 </resources>

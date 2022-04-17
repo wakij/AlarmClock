@@ -29,6 +29,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,6 +80,17 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         {
             e.printStackTrace();
         }
+
+        ImageView setting_btn = view.findViewById(R.id.setting);
+        setting_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     @Override

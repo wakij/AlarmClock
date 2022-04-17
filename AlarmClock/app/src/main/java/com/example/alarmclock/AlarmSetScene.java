@@ -12,12 +12,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -26,8 +30,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
-
-import java.net.URI;
 
 public class AlarmSetScene extends AppCompatActivity {
 
@@ -42,7 +44,7 @@ public class AlarmSetScene extends AppCompatActivity {
 //    private TextView rest_time_text;
     private TextView comments;
     private String card_color;
-    private Button pushed_btn_color;
+    private ImageView pushed_btn; //現在押されているボタン
 
     final int MUSIC_REQUEST = 1000;
     Uri audioUri;
@@ -88,68 +90,79 @@ public class AlarmSetScene extends AppCompatActivity {
             editContents.setText(memo);
         }
 
-        Button red_btn = findViewById(R.id.red);
-        Button blue_btn = findViewById(R.id.blue);
-        Button green_btn = findViewById(R.id.green);
-        Button yellow_btn = findViewById(R.id.yellow);
-        Button purple_btn = findViewById(R.id.purple);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(60,60);
+        layoutParams.gravity = Gravity.CENTER_VERTICAL;
+
+//        ImageView red_btn = findViewById(R.id.red);
+//        red_btn.setLayoutParams(layoutParams);
+//        ImageView blue_btn = findViewById(R.id.blue);
+//        blue_btn.setLayoutParams(layoutParams);
+//        ImageView green_btn = findViewById(R.id.green);
+//        green_btn.setLayoutParams(layoutParams);
+//        ImageView yellow_btn = findViewById(R.id.yellow);
+//        yellow_btn.setLayoutParams(layoutParams);
+//        ImageView purple_btn = findViewById(R.id.purple);
+//        purple_btn.setLayoutParams(layoutParams);
 
 
-        red_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                card_color =  "red";
-                checkbuton(red_btn);
-            }
-        });
-
-        blue_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                card_color =  "blue";
-                checkbuton(blue_btn);
-            }
-        });
-
-        green_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                card_color =  "green";
-                checkbuton(green_btn);
-            }
-        });
-
-        yellow_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                card_color =  "yellow";
-                checkbuton(yellow_btn);
-            }
-        });
-
-        purple_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                card_color =  "purple";
-                checkbuton(purple_btn);
-            }
-        });
+//        red_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                card_color =  "red";
+//                checkbuton(red_btn);
+//            }
+//        });
+//
+//        blue_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                card_color =  "blue";
+//                checkbuton(blue_btn);
+//            }
+//        });
+//
+//        green_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                card_color =  "green";
+//                checkbuton(green_btn);
+//            }
+//        });
+//
+//        yellow_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                card_color =  "yellow";
+//                checkbuton(yellow_btn);
+//            }
+//        });
+//
+//        purple_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                card_color =  "purple";
+//                checkbuton(purple_btn);
+//            }
+//        });
 
 //        初期設定
-        Drawable check_mark = ResourcesCompat.getDrawable(getResources(), R.drawable.check_mark, null);
-        red_btn.setForeground(check_mark);
+//        Drawable check_mark = ResourcesCompat.getDrawable(getResources(), R.drawable.check_mark, null);
+//        red_btn.setForeground(check_mark);
         card_color = "red";
-        pushed_btn_color = red_btn;
+//        checkbuton(red_btn);
 
 
-        Button music_select = findViewById(R.id.music1);
-        music_select.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent pickAudioIntent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickAudioIntent, MUSIC_REQUEST);
-            }
-        });
+
+
+
+//        ImageView music_select = findViewById(R.id.music1);
+//        music_select.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent pickAudioIntent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(pickAudioIntent, MUSIC_REQUEST);
+//            }
+//        });
 
 
 
@@ -216,15 +229,22 @@ public class AlarmSetScene extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void checkbuton(Button button)
+    public void checkbuton(ImageView button)
     {
-        if (pushed_btn_color != null)
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(75,75);
+        layoutParams.gravity = Gravity.CENTER_VERTICAL;
+        button.setLayoutParams(layoutParams);
+
+        if (pushed_btn != null)
         {
-            pushed_btn_color.setForeground(null);
+            pushed_btn.setForeground(null);
+            LinearLayout.LayoutParams pushed_btn_layoutParams = new LinearLayout.LayoutParams(60,60);
+            pushed_btn_layoutParams.gravity = Gravity.CENTER_VERTICAL;
+            pushed_btn.setLayoutParams(pushed_btn_layoutParams);
         }
-        Drawable check_mark = ResourcesCompat.getDrawable(getResources(), R.drawable.check_mark, null);
-        button.setForeground(check_mark);
-        pushed_btn_color = button;
+//        Drawable check_mark = ResourcesCompat.getDrawable(getResources(), R.drawable.check_mark, null);
+//        button.setForeground(check_mark);
+        pushed_btn = button;
     }
 
     @Override
@@ -241,6 +261,7 @@ public class AlarmSetScene extends AppCompatActivity {
             editor.apply();
         }
     }
+
 }
 
 
