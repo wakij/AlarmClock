@@ -321,7 +321,6 @@ public class LevelShow extends Fragment {
 
                 aimContent.setText(cursor.getString(0));
 
-
             } else {
                 // 検索結果が0件の場合のメッセージを設定
 

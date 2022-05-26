@@ -13,31 +13,28 @@
             android:layout_height="50dp"/>
         <ImageView
             android:id="@+id/left_audio"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center_vertical"
-            app:tint="#D64545"
-            app:srcCompat="@drawable/audio" />
+            app:srcCompat="@drawable/red_note" />
         <Space
             android:layout_width="50dp"
             android:layout_height="50dp"/>
         <ImageView
             android:id="@+id/center_audio"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical"
-            app:tint="#488FC8"
-            app:srcCompat="@drawable/audio" />
+            app:srcCompat="@drawable/blue_note" />
         <Space
             android:layout_width="50dp"
             android:layout_height="50dp"/>
         <ImageView
             android:id="@+id/right_audio"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical"
-            app:tint="#51AC54"
-            app:srcCompat="@drawable/audio" />
+            app:srcCompat="@drawable/green_note" />
     </LinearLayout>
 
 

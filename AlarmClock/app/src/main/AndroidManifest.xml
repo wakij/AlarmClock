@@ -27,7 +27,6 @@
         <activity android:name=".AlarmSetScene">
         </activity>
 
-<!--        <activity android:name=".AlarmStop"/>-->
         <receiver android:name=".AlarmBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

@@ -186,9 +186,9 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     {
         viewHolder.itemView.findViewById(R.id.monoBackground).setAlpha(0.5f);
 //        viewHolder.itemView.findViewById(R.id.commentparts).setAlpha(0.5f);
-        viewHolder.itemView.findViewById(R.id.title).setAlpha(0.5f);
-        viewHolder.itemView.findViewById(R.id.on_off).setAlpha(0.5f);
-        viewHolder.itemView.findViewById(R.id.comments).setAlpha(0.5f);
+//        viewHolder.itemView.findViewById(R.id.title).setAlpha(0.5f);
+//        viewHolder.itemView.findViewById(R.id.on_off).setAlpha(0.5f);
+//        viewHolder.itemView.findViewById(R.id.comments).setAlpha(0.5f);
     }
 
     public void onAlarm(ViewHolder viewHolder)

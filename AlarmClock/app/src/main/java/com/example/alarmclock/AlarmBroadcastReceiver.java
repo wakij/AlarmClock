@@ -82,43 +82,43 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             footstepServiceIntent.putExtra("needfootstep",needfootstep);
             context.startService((footstepServiceIntent));
 
-                String memo = intent.getStringExtra("memo");
-                int id = intent.getIntExtra("id",0);
-                DatabaseHelper helper = new DatabaseHelper(context);
-                //アラームがなったらスイッチをoffにする処理
-                try(SQLiteDatabase db = helper.getWritableDatabase())
+            String memo = intent.getStringExtra("memo");
+            int id = intent.getIntExtra("id",0);
+            DatabaseHelper helper = new DatabaseHelper(context);
+            //アラームがなったらスイッチをoffにする処理
+            try(SQLiteDatabase db = helper.getWritableDatabase())
+            {
+                ContentValues cv = new ContentValues();
+                cv.put(DBDef.DBEntry.SWITCH_CONDITION, "false");
+                db.update(DBDef.DBEntry.TABLE_NAME, cv, DBDef.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
+            }
+            if (handler != null)
+            {
+                Message msg = new Message();
+                handler.sendMessage(msg);
+            }
+            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel("default","おはようございます",NotificationManager.IMPORTANCE_DEFAULT);
+                channel.setDescription(memo);
+                channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE); //ロック画面に表示
+                if (notificationManager != null)
                 {
-                    ContentValues cv = new ContentValues();
-                    cv.put(DBDef.DBEntry.SWITCH_CONDITION, "false");
-                    db.update(DBDef.DBEntry.TABLE_NAME, cv, DBDef.DBEntry._ID + " = ?", new String[] {String.valueOf(id)});
-                }
-                if (handler != null)
-                {
-                    Message msg = new Message();
-                    handler.sendMessage(msg);
-                }
-                NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel("default","おはようございます",NotificationManager.IMPORTANCE_DEFAULT);
-                    channel.setDescription(memo);
-                    channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE); //ロック画面に表示
-                    if (notificationManager != null)
-                    {
-                        PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        notificationManager.createNotificationChannel(channel);
-                        Notification notification = new Notification.Builder(context, "default")
-                                .setContentTitle("おはようございます")
-                                // android標準アイコンから
-                                .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
-                                .setContentText(memo)
-                                .setAutoCancel(true)
-                                .setContentIntent(notifyPendingIntent)
-                                .setWhen(System.currentTimeMillis())
-                                .build();
+                    PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    notificationManager.createNotificationChannel(channel);
+                    Notification notification = new Notification.Builder(context, "default")
+                            .setContentTitle("おはようございます")
+                            // android標準アイコンから
+                            .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+                            .setContentText(memo)
+                            .setAutoCancel(true)
+                            .setContentIntent(notifyPendingIntent)
+                            .setWhen(System.currentTimeMillis())
+                            .build();
 
-                        notificationManager.notify(R.string.app_name, notification);
-                    }
+                    notificationManager.notify(R.string.app_name, notification);
                 }
+            }
         }
     }
 

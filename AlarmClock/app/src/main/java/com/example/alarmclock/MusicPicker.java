@@ -42,7 +42,7 @@ public class MusicPicker extends LinearLayout {
     int mSelectorWidth = 200; //間隔
     int mScrollLimitWidth = mSelectorWidth / 2;
     int content_width = 600;
-    int content_height = 120;
+    int content_height = 160;
     int image_width = 100;
     int image_height = 100;
 
@@ -366,18 +366,18 @@ public class MusicPicker extends LinearLayout {
         super.onDraw(canvas);
 
         int x = (int) mCurrentScrollOffset;
-        int y = 60;
+        int y = 80;
         ImageView left_audio_image = getLeftAudio();
 
         for(ImageView audio_image:audio_list)
         {
             if (audio_image == left_audio_image)
             {
-                audio_image.layout(x - 60,y - 60,x + 60,y + 60);
+                audio_image.layout(x - 80,y - 80,x + 80,y + 80);
                 audio_image.setAlpha(1.0f);
             }else
             {
-                audio_image.layout(x - 50,y - 50,x + 50,y + 50);
+                audio_image.layout(x - 70,y - 70,x + 70,y + 70);
                 audio_image.setAlpha(0.5f);
             }
 
