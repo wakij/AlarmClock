@@ -1,21 +1,11 @@
 package com.example.alarmclock;
 
 
-import android.app.AlarmManager;
 import android.app.Dialog;
 
-import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -29,34 +19,16 @@ import android.widget.Button;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.google.android.material.tabs.TabLayout;
-
-import java.util.Calendar;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseHelper helper = null;
-    private String data;
-    private RecyclerView recyclerView;
-    private Resources res;
-    private Drawable deleteIcon;
-    private TabLayout tabLayout;
-    private AlarmBroadcastReceiver receiver;
-    private IntentFilter intentFilter;
     private Dialog dialog;
     private int nowpos;
     private int count;
@@ -65,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout main_background;
     private ImageView alarmlist_tab;
     private ImageView setting_tab;
-
 
 
 
@@ -80,20 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         main_background = findViewById(R.id.main_background);
 
+//        Debug用
 //        SharedPreferences.Editor editor = sharedPreferences.edit().clear();
 //        editor.commit();
-
-//        Calendar nowCalendar = Calendar.getInstance();
-//        nowCalendar.setTimeInMillis(System.currentTimeMillis());
-//        int hour_ = nowCalendar.get(Calendar.HOUR_OF_DAY);
-//        int minutes_ = nowCalendar.get(Calendar.MINUTE);
-//        int month = nowCalendar.get(Calendar.MONTH);
-//        int day = nowCalendar.get(Calendar.DAY_OF_MONTH);
-//        Log.e("HOUR",String.valueOf(hour_));
-//        Log.e("MINUTES",String.valueOf(minutes_));
-//        Log.e("MONTH",String.valueOf(month));
-//        Log.e("DAY",String.valueOf(day));
-
 
 
         if (needfootstep == 0) {
@@ -182,68 +142,10 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.settingsContainer, new Personal_Info());
                 fragmentTransaction.commit();
 
-                main_background.setBackgroundColor(getResources().getColor(R.color.help_background));
+                main_background.setBackgroundColor(getResources().getColor(R.color.personal_info_background));
             }
         });
-
-
-//        tabLayout = findViewById(R.id.tab_layout);
-//        tabLayout.getTabAt(0).setCustomView(R.layout.tablayout1);
-//        tabLayout.getTabAt(1).setCustomView(R.layout.tablayout2);
-//        tabLayout.getTabAt(2).setCustomView(R.layout.tablayout3);
-//
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                selectTabColor(tab);
-//                switch (tab.getPosition()) {
-//                    case 0:
-//                        fragmentTransaction.replace(R.id.settingsContainer, new AlarmListScene());
-//                        main_background.setBackgroundColor(getResources().getColor(R.color.alarmlist_background));
-//                        break;
-//                    case 1:
-//                        fragmentTransaction.replace(R.id.settingsContainer, new LevelShow());
-//                        break;
-//                    case 2:
-//                        fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
-//                        main_background.setBackgroundColor(getResources().getColor(R.color.help_background));
-//                        break;
-//                }
-//                fragmentTransaction.commit();
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//                clearTabColor(tab);
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//                selectTabColor(tab);
-//            }
-//        });
-//
-//
-//        tabLayout.selectTab(tabLayout.getTabAt(0),true);
-//
-
-
-
     }
-
-
-//    public void selectTabColor(TabLayout.Tab tab)
-//    {
-//        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
-//        imageView.setColorFilter(R.color.selectedcolor);
-//    }
-//    public void clearTabColor(TabLayout.Tab tab)
-//    {
-//        ImageView imageView = tab.getCustomView().findViewById(R.id.icon);
-//        imageView.clearColorFilter();;
-//    }
 
     public void updateAlarmListScene()
     {
@@ -312,159 +214,4 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("needfootstep",count);
         editor.apply();
     }
-
-//    final Handler updataHandler = new Handler(getMainLooper())
-//    {
-//        @Override
-//        public void handleMessage(Message msg)
-//        {
-//            Log.e("apple","Apple");
-//        }
-//    };
-
-
-
-
-
-
-
-
-
-
-    // アクティビティの再開処理
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        am = (AlarmManager) getSystemService(ALARM_SERVICE);
-//        // データを一覧表示
-//        onShow();
-//        onswiped();
-//    }
-//
-//    // データを一覧表示
-//    protected void onShow() {
-//
-//        // データベースヘルパーを準備
-//        helper = new SampDatabaseHelper(this);
-//
-//        // データベースを検索する項目を定義
-//        String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION,DBContract.DBEntry.MEMO};
-//
-//        // 読み込みモードでデータベースをオープン
-//        try (SQLiteDatabase db = helper.getReadableDatabase()){
-//
-//            // データベースを検索
-//            Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, null,
-//                    null, null, null, null, null);
-//
-//            //データベースに格納されている全データを格納するリスト
-////            ArrayList<String> timeList = new ArrayList<>();
-//            ArrayList<AlarmInfo> alarmLists = new ArrayList<>();
-//            if (cursor.moveToFirst())
-//            {
-//                int id = cursor.getInt(0);
-//                String time = cursor.getString(1);
-//                String isSwitchOn = cursor.getString(2);
-//                String memo =cursor.getString(3);
-//                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
-//                alarmLists.add(alarmData);
-//
-//            }
-//            while(cursor.moveToNext())
-//            {
-//                int id = cursor.getInt(0);
-//                String time = cursor.getString(1);
-//                String isSwitchOn = cursor.getString(2);
-//                String memo=cursor.getString(3);
-//                AlarmInfo alarmData = new AlarmInfo(id, time, isSwitchOn,memo);
-//                alarmLists.add(alarmData);
-//            }
-//            cursor.close();
-//
-//            adapter = new ListAdapter(alarmLists);
-//            recyclerView.setAdapter(adapter);
-//
-//        }
-//    }
-//
-//    private void onswiped()
-//    {
-//        ItemSwipeController swipeController = new ItemSwipeController(0,ItemTouchHelper.LEFT){
-//            @Override
-//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                int position = viewHolder.getBindingAdapterPosition();
-//                adapter.removeAt(position);
-//                TextView textView = viewHolder.itemView.findViewById(R.id.title);
-//                String text = textView.getText().toString();
-//                try (SQLiteDatabase db = helper.getWritableDatabase()) {
-//                    String[] cols = {DBContract.DBEntry._ID, DBContract.DBEntry.COLUMN_NAME_TIME, DBContract.DBEntry.SWITCH_CONDITION};
-//                    Cursor cursor = db.query(DBContract.DBEntry.TABLE_NAME, cols, DBContract.DBEntry.COLUMN_NAME_TIME + " = ?", new String[]{text}
-//                            , null, null, null, null);
-//                    if (cursor.moveToFirst())
-//                    {
-//                        int id = cursor.getInt(0);
-//
-//                        if (am != null)
-//                        {
-//                            Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-//                            Log.e("intent1",intent.toString());
-//                            Log.e("apple","id: " + String.valueOf(id));
-//                            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                            am.cancel(pending);
-//                        }
-//                    }
-//
-//                    db.delete(DBContract.DBEntry.TABLE_NAME, DBContract.DBEntry.COLUMN_NAME_TIME+" = ?", new String[] {text});
-//                } catch (Exception e)
-//                {
-//                    Log.e("test","don't open the db");
-//                }
-//            }
-//        };
-//
-//        res = getApplicationContext().getResources();
-//        deleteIcon = ResourcesCompat.getDrawable(res, R.drawable.dustbox, null);
-//        Bitmap orgBitmap = ((BitmapDrawable) deleteIcon).getBitmap();
-//        Bitmap resizedBitmap = Bitmap.createScaledBitmap(orgBitmap, 30, 30, false);
-//        deleteIcon =  new BitmapDrawable(res, resizedBitmap);
-//        swipeController.setDeleteIcon(deleteIcon);
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-//        itemTouchHelper.attachToRecyclerView(recyclerView);
-//    }
-//
-//
-//    // 「+」フローティング操作ボタン　タップ時に呼び出されるメソッド
-//    public void fab_reg_onClick(View view) {
-//
-//        // テキスト登録画面 Activity へのインテントを作成
-//        Intent intent  = new Intent(MainActivity.this, TextActivity.class);
-//
-//        // アクティビティを起動
-//        startActivity(intent);
-//    }
-//
-////    public void toUsage(View view)
-////    {
-////        Intent intent = new Intent(MainActivity.this, WebShow.class);
-//
-////        startActivity(intent);
-////    }
-//
-//
-//    public void tofootcountShow(View view){
-//        Intent intent = new Intent(MainActivity.this, FootCountShow.class);
-//        startActivity(intent);
-//    }
-//
-//    public void toLevelShow(View view)
-//    {
-//        Intent intent = new Intent(MainActivity.this, LevelShow.class);
-//        startActivity(intent);
-//    }
-//
-//    public void toWebShow(View view)
-//    {
-//        Intent intent = new Intent(MainActivity.this, Help.class);
-//        startActivity(intent);
-//    }
 }

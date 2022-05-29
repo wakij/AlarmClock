@@ -57,8 +57,6 @@ public class AlarmSetScene extends AppCompatActivity {
 
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        comments = findViewById(R.id.comments);
-        comments.setText("その調子!!!");
 
 
 

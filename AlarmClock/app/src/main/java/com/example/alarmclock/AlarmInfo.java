@@ -10,7 +10,6 @@ public class AlarmInfo {
     private String card_color;
 
     AlarmInfo(int _id, String _time, String _isSwitchOn ,String Memo,String _card_color)
-
     {
         id = _id;
         time = _time;
@@ -22,15 +21,6 @@ public class AlarmInfo {
         card_color = _card_color;
     }
 
-    AlarmInfo(int _id, int _hour, int _minutes, String _isSwitchOn, String _card_color)
-    {
-        id = _id;
-        hour = _hour;
-        minutes = _minutes;
-        time = hour + ":" + minutes;
-        isSwitchOn = _isSwitchOn;
-        card_color = _card_color;
-    }
 
     public int getId(){return id;}
     public int getHour(){return hour;}

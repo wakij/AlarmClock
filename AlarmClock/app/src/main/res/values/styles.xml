@@ -19,7 +19,7 @@
     <style name="CustomTimePicker" parent="Theme.AppCompat.Light">
         <item name="android:timePickerMode" tools:targetApi="lollipop">spinner</item>
         <item name="android:textSize">40dp</item>
-        <item name="colorControlNormal">#0000ffff</item>
+        <item name="android:textColorPrimary">#f7f7f7</item>
     </style>
     <style name="CustomEditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColorHint">@color/black</item>

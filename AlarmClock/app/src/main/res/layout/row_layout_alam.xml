@@ -31,18 +31,6 @@
         app:layout_constraintStart_toStartOf="@+id/monoBackground"
         app:srcCompat="@drawable/moon_extra"/>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/commentparts"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:scaleType="fitXY"-->
-<!--        app:srcCompat="@drawable/commentviewbg"-->
-<!--        app:layout_constraintVertical_weight="1"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/monoBackground"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
-
 
     <TextView
         android:id="@+id/title"
@@ -72,27 +60,7 @@
         app:layout_constraintEnd_toEndOf="@id/monoBackground"
         app:layout_constraintTop_toTopOf="@id/monoBackground" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/comments"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="ここにコメントが表示されます"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/commentparts"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/commentparts"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/commentparts"-->
-<!--        android:layout_marginLeft="30dp"-->
-        />
 
 
-
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/button_delete"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="70dp"-->
-    <!--        android:background="#00000000"-->
-    <!--        android:contentDescription="@string/del"-->
-    <!--        android:gravity="center_horizontal|center_vertical"-->
-    <!--        android:onClick="btnDel_onClick"-->
-    <!--        app:srcCompat="@drawable/ic_baseline_close_24" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,21 +4,16 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.TextView;
 
 
 import androidx.annotation.RequiresApi;
@@ -40,7 +35,6 @@ public class FootStepService extends Service implements SensorEventListener {
     int stepcount = 0;
     float a = 0.90f;
     private MediaPlayer mediaPlayer;
-    private Handler handler;
     private boolean isStop = false;
     private int hour;
     private int minutes;
@@ -58,7 +52,7 @@ public class FootStepService extends Service implements SensorEventListener {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //intentからNEED_STEPを受け取る。
         NEED_STEP = intent.getIntExtra("needfootstep",0);
-        NEED_STEP = 21; //テスト用
+        NEED_STEP = 2; //テスト用
         hour = intent.getIntExtra("hour",0);
         minutes = intent.getIntExtra("minutes",0);
         startSensor();

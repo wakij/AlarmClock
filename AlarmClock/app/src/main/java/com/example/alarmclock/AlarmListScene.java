@@ -22,15 +22,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class AlarmListScene extends Fragment implements LifecycleObserver {
+public class AlarmListScene extends Fragment{
     private DatabaseHelper helper;
     private RecyclerView recyclerView;
     private AlarmManager am;
@@ -40,12 +42,11 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
-        Log.e("info","List再開");
         return inflater.inflate(R.layout.alarm_list_scene, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view,savedInstanceState);
         recyclerView = view.findViewById(R.id.my_recycler_view);
@@ -53,12 +54,12 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rLayoutManager);
         am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        onShow();
-        onswiped();
+        makeAlarmList();
+        swipeSetting();
 
 
         ConstraintLayout alarmlistScene = view.findViewById(R.id.alarmlistbg);
-        InputStream inputStream = null;
+        InputStream inputStream;
         try {
             inputStream = requireActivity().openFileInput("backimg.png");
             Bitmap bit_backimg = BitmapFactory.decodeStream(inputStream);
@@ -71,14 +72,11 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         }
 
         ImageView setting_btn = view.findViewById(R.id.setting);
-        setting_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
-                fragmentTransaction.commit();
-            }
+        setting_btn.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.settingsContainer, new HelpeScene());
+            fragmentTransaction.commit();
         });
     }
 
@@ -86,13 +84,13 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
     public void onResume()
     {
         am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        onShow();
-        onswiped();
+        makeAlarmList();
+        swipeSetting();
         super.onResume();
     }
 
 
-    protected void onShow() {
+    protected void makeAlarmList() {
         //アラームリストを初期化
         alarmLists.clear();
         // データベースヘルパーを準備
@@ -136,7 +134,8 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
         }
     }
 
-    private void onswiped()
+//    スワイプしたときの処理
+    private void swipeSetting()
     {
         ItemSwipeController swipeController = new ItemSwipeController(0,ItemTouchHelper.LEFT){
             @Override
@@ -156,8 +155,6 @@ public class AlarmListScene extends Fragment implements LifecycleObserver {
                         if (am != null)
                         {
                             Intent intent = new Intent(getContext(), AlarmBroadcastReceiver.class);
-                            Log.e("intent1",intent.toString());
-                            Log.e("apple","id: " + String.valueOf(id));
                             PendingIntent pending = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                             am.cancel(pending);
                         }

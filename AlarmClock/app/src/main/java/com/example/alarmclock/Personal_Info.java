@@ -7,17 +7,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -26,21 +21,14 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.renderer.YAxisRenderer;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
 
 public class Personal_Info extends Fragment {
 
@@ -73,28 +61,9 @@ public class Personal_Info extends Fragment {
         TextView needstep = view.findViewById(R.id.needstep_text);
         needstep.setText(sharedPreferences.getInt("needfootstep", 0) + " 歩");
 
-        ImageView level_icon = view.findViewById(R.id.level_icon);
-
-        switch (level) {
-            case 1:
-                level_icon.setImageResource(R.drawable.alarmimg);
-                break;
-            case 2:
-                level_icon.setImageResource(R.drawable.alarmimg);
-                break;
-            case 3:
-                level_icon.setImageResource(R.drawable.dustbox);
-                break;
-            case 4:
-                level_icon.setImageResource(R.drawable.ic_baseline_account_circle_24);
-                break;
-            case 5:
-                level_icon.setImageResource(R.drawable.ic_baseline_unfold_more_24);
-        }
 
 //        グラフを描画
         mChart = view.findViewById(R.id.line_chart);
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
         alarmDataList = new ArrayList<>();
 

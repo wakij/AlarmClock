@@ -32,10 +32,10 @@ public class FAQ extends Fragment {
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rLayoutManager);
         ArrayList<RowLayout_FAQ> list = new ArrayList<RowLayout_FAQ>();
-        list.add(new RowLayout_FAQ("毎朝起きることができません","このアプリを使おう"));
-        list.add(new RowLayout_FAQ("レビューしたいです","google storeでお願いします"));
-        list.add(new RowLayout_FAQ("落単しそうです。助けてください","このアプリを使ってください"));
-        list.add(new RowLayout_FAQ("応援したいです","お金ください"));
+        list.add(new RowLayout_FAQ("毎朝起きることができません","このアプリを使おう!"));
+        list.add(new RowLayout_FAQ("未編集","未編集"));
+        list.add(new RowLayout_FAQ("未編集","未編集"));
+        list.add(new RowLayout_FAQ("未編集","未編集"));
         FAQ_Adapter adapter = new FAQ_Adapter(list);
         recyclerView.setAdapter(adapter);
     }

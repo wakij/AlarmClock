@@ -2,16 +2,15 @@ package com.example.alarmclock;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.media.Image;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
@@ -20,16 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 public class MusicPicker extends LinearLayout {
-    ImageView left_audio;
-    ImageView center_audio;
-    ImageView right_audio;
-
-//    int BLUE = Color.parseColor("#3E759F");
-//    int LIGHT_BLUE = Color.parseColor("#803E759F");
-//    int GREEN = Color.parseColor("#8CAA6A");
-//    int LIGHT_GREEN = Color.parseColor("#808CAA6A");
-//    int RED = Color.parseColor("#BD5252");
-//    int LIGHT_RED = Color.parseColor("#80BD5252");
 
     float lastDown;
     VelocityTracker mvelocitytracker;
@@ -37,30 +26,16 @@ public class MusicPicker extends LinearLayout {
     int mMinimumFlingVelocity;
     int mMaximumFlingVelocity;
     int previousScrollerX;
-    float mCurrentScrollOffset = 100;
+
+    int content_width;
+    int content_height;
+    int mSelectorWidth; //間隔
+    float mCurrentScrollOffset;
     float mInitialScrollOffset;
-    int mSelectorWidth = 200; //間隔
-    int mScrollLimitWidth = mSelectorWidth / 2;
-    int content_width = 600;
-    int content_height = 160;
-    int image_width = 100;
-    int image_height = 100;
+
 
     Scroller mFlingScroller;
-    Paint red_paint;
-    Paint blue_paint;
-    Paint green_paint;
-    Paint[] paint_list;
-    Paint light_red_paint;
-    Paint light_blue_paint;
-    Paint light_green_paint;
-    Paint[] light_paint_list;
     final int SNAP_SCROLL_DURATION = 300;
-
-    int left = 100;
-    int top = 0;
-    int right = left + 100;
-    int bottom = top + 100;
 
     int[] pos; //[0]:left_audio [1]:center_audio [2]:right_audio 0:左 1:中心 2:右
     final int LEFT_AUDIO = 0;
@@ -82,44 +57,70 @@ public class MusicPicker extends LinearLayout {
 
         pos = new int[]{0,1,2};
 
-        left_audio = findViewById(R.id.left_audio);
+        LinearLayout music_layout = findViewById(R.id.music_container);
 
-        center_audio = findViewById(R.id.center_audio);
+        music_layout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                music_layout.getViewTreeObserver().removeOnPreDrawListener(this);
+                content_width = music_layout.getWidth();
+                content_height = content_width / 4;
+                if (content_height > music_layout.getHeight())
+                {
+                    content_height = music_layout.getHeight();
+                }
+                ViewGroup.LayoutParams new_music_layout =  music_layout.getLayoutParams();
+                new_music_layout.height = content_height;
+                music_layout.setLayoutParams(new_music_layout);
+                mSelectorWidth = content_width / 3; //間隔
+                mCurrentScrollOffset = content_width / 6;
+                int childCount = music_layout.getChildCount();
+                for(int i=0;i < childCount;i++)
+                {
+                    ViewGroup.LayoutParams child_layout = music_layout.getChildAt(i).getLayoutParams();
+                    child_layout.height = content_height;
+                    child_layout.width = content_height;
+                    music_layout.getChildAt(i).setLayoutParams(child_layout);
+                }
 
-        right_audio = findViewById(R.id.right_audio);
+                return false;
+            }
+        });
+        ImageView left_audio = new ImageView(getContext());
+        ImageView center_audio = new ImageView(getContext());
+        ImageView right_audio = new ImageView(getContext());
+
+        left_audio.setImageResource(R.drawable.red_note);
+        center_audio.setImageResource(R.drawable.blue_note);
+        right_audio.setImageResource(R.drawable.yellow_note);
+
+        music_layout.addView(left_audio);
+        music_layout.addView(center_audio);
+        music_layout.addView(right_audio);
+
 
         audio_list = new ImageView[]{left_audio,center_audio,right_audio};
 
 
-        left_audio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                previousScrollerX = 0;
-                int shift_num = getNeedShiftNum(getPos(LEFT_AUDIO));
-                Log.e("shift_num",String.valueOf(shift_num));
-                mFlingScroller.startScroll(0,0,-mSelectorWidth * shift_num,0,SNAP_SCROLL_DURATION);
-                left_shift(shift_num);
-            }
+        left_audio.setOnClickListener(v -> {
+            previousScrollerX = 0;
+            int shift_num = getNeedShiftNum(getPos(LEFT_AUDIO));
+            mFlingScroller.startScroll(0,0,-mSelectorWidth * shift_num,0,SNAP_SCROLL_DURATION);
+            left_shift(shift_num);
         });
 
-        center_audio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                previousScrollerX = 0;
-                int shift_num = getNeedShiftNum(getPos(CENTER_AUDIO));
-                mFlingScroller.startScroll(0,0,-mSelectorWidth * shift_num,0,SNAP_SCROLL_DURATION);
-                left_shift(shift_num);
-            }
+        center_audio.setOnClickListener(v -> {
+            previousScrollerX = 0;
+            int shift_num = getNeedShiftNum(getPos(CENTER_AUDIO));
+            mFlingScroller.startScroll(0,0,-mSelectorWidth * shift_num,0,SNAP_SCROLL_DURATION);
+            left_shift(shift_num);
         });
 
-        right_audio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                previousScrollerX = 0;
-                int shift_num = getNeedShiftNum(getPos(RIGHT_AUDIO));
-                mFlingScroller.startScroll(0,0,-mSelectorWidth * shift_num,0,SNAP_SCROLL_DURATION);
-                left_shift(shift_num);
-            }
+        right_audio.setOnClickListener(v -> {
+            previousScrollerX = 0;
+            int shift_num = getNeedShiftNum(getPos(RIGHT_AUDIO));
+            mFlingScroller.startScroll(0,0,-mSelectorWidth * shift_num,0,SNAP_SCROLL_DURATION);
+            left_shift(shift_num);
         });
 
 
@@ -127,52 +128,12 @@ public class MusicPicker extends LinearLayout {
         ViewConfiguration viewConfiguration = ViewConfiguration.get(getContext());
         mMinimumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
         mMaximumFlingVelocity = viewConfiguration.getScaledMaximumFlingVelocity() / SELECTOR_MAX_FLING_VELOCITY_ADJUSTMENT;
-
         mFlingScroller = new Scroller(getContext(), null, true);
-
-//        paint_list = new Paint[3];
-
-//        red_paint = new Paint();
-//        red_paint.setStyle(Paint.Style.FILL);
-//        red_paint.setColor(RED);
-//        paint_list[0] = red_paint;
-
-//        blue_paint = new Paint();
-//        blue_paint.setStyle(Paint.Style.FILL);
-//        blue_paint.setColor(BLUE);
-//        paint_list[1] = blue_paint;
-
-//        green_paint = new Paint();
-//        green_paint.setStyle(Paint.Style.FILL);
-//        green_paint.setColor(GREEN);
-//        paint_list[2] = green_paint;
-
-//        light_paint_list = new Paint[3];
-//
-//        light_red_paint = new Paint();
-//        light_red_paint.setStyle(Paint.Style.FILL);
-//        light_red_paint.setColor(LIGHT_RED);
-//        light_paint_list[0] = light_red_paint;
-//
-//        light_blue_paint = new Paint();
-//        light_blue_paint.setStyle(Paint.Style.FILL);
-//        light_blue_paint.setColor(LIGHT_BLUE);
-//        light_paint_list[1] = light_blue_paint;
-//
-//        light_green_paint = new Paint();
-//        light_green_paint.setStyle(Paint.Style.FILL);
-//        light_green_paint.setColor(LIGHT_GREEN);
-//        light_paint_list[2] = light_green_paint;
+        invalidate();
     }
 
     public MusicPicker(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MusicPicker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
 
@@ -194,13 +155,9 @@ public class MusicPicker extends LinearLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 float currentMoveX = event.getX();
-                int deltaMoveX = (int) (currentMoveX - lastDown);
-//                scrollBy(deltaMoveX,0);
-//                invalidate();
                 lastDown = currentMoveX;
                 return true;
             case MotionEvent.ACTION_UP:
-                float offset = event.getX() - mInitialScrollOffset;
                 VelocityTracker velocityTracker = mvelocitytracker;
                 velocityTracker.computeCurrentVelocity(1000,mMaximumFlingVelocity);
                 int initialVelocity = (int) velocityTracker.getXVelocity();
@@ -235,7 +192,6 @@ public class MusicPicker extends LinearLayout {
         Scroller scroller = mFlingScroller;
         scroller.computeScrollOffset();
         int currentScrollerX = scroller.getCurrX();
-        int offset = currentScrollerX - scroller.getStartX();
         if (previousScrollerX == 0)
         {
             previousScrollerX = scroller.getStartX();
@@ -245,19 +201,6 @@ public class MusicPicker extends LinearLayout {
         invalidate();
     }
 
-
-    void fling(int velocityX)
-    {
-        previousScrollerX = 0;
-        if (velocityX > 0)
-        {
-            mFlingScroller.fling(0,0,velocityX,0,0,mSelectorWidth,0,0);
-        }else
-        {
-            mFlingScroller.fling(Integer.MAX_VALUE,0,velocityX,0,0,Integer.MAX_VALUE,0,0);
-        }
-        invalidate();
-    }
 
 
 //    指定された回数左にシフトする。
@@ -323,6 +266,7 @@ public class MusicPicker extends LinearLayout {
         return 0;
     }
 
+//    初期状態で一番左にあったものを取得
     ImageView getLeftAudio()
     {
         for (int i=0;i<pos.length;i++)
@@ -333,17 +277,6 @@ public class MusicPicker extends LinearLayout {
             }
         }
         return null;
-    }
-
-
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
-        int width = content_width;
-        int height = content_height;
-        setMeasuredDimension(width,height);
     }
 
     @Override
@@ -366,18 +299,18 @@ public class MusicPicker extends LinearLayout {
         super.onDraw(canvas);
 
         int x = (int) mCurrentScrollOffset;
-        int y = 80;
+        int y = content_height / 2;
         ImageView left_audio_image = getLeftAudio();
 
         for(ImageView audio_image:audio_list)
         {
             if (audio_image == left_audio_image)
             {
-                audio_image.layout(x - 80,y - 80,x + 80,y + 80);
+                audio_image.layout(x - content_height/2,y - content_height/2,x + content_height/2,y + content_height/2);
                 audio_image.setAlpha(1.0f);
             }else
             {
-                audio_image.layout(x - 70,y - 70,x + 70,y + 70);
+                audio_image.layout(x - (content_height/2 - 10),y - (content_height/2 - 10),x + (content_height/2 - 10),y + (content_height/2 - 10));
                 audio_image.setAlpha(0.5f);
             }
 
@@ -390,28 +323,5 @@ public class MusicPicker extends LinearLayout {
                 x -= content_width;
             }
         }
-
-//        left_audio.layout(x - 50,y - 50,x + 50,y + 50);
-//        left_audio.layout(x - 50,y - 50,x + 50,y + 50);
-//        x += mSelectorWidth;
-//        if (x < 0)
-//        {
-//            x += content_width;
-//        }else if (x > content_width)
-//        {
-//            x -= content_width;
-//        }
-//
-//        center_audio.layout(x - 50,y - 50,x + 50,y + 50);
-//        x += mSelectorWidth;
-//        if (x < 0)
-//        {
-//            x += content_width;
-//        }else if (x > content_width)
-//        {
-//            x -= content_width;
-//        }
-//        right_audio.layout(x - 50,y - 50,x + 50,y + 50);
-
     }
 }

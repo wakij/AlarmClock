@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,10 +17,6 @@ public class HelpeScene extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.help, container, false);
-
-//        webView = rootView.findViewById(R.id.webview);
-//        webView.setWebViewClient((new WebViewClient()));
-//        webView.loadUrl("https://www.android.com");
         return rootView;
     }
 
@@ -36,15 +31,11 @@ public class HelpeScene extends Fragment {
 
         ImageView bar_back_btn = view.findViewById(R.id.bar_back_button);
         bar_back_btn.setColorFilter(Color.parseColor("#FFFFFF"));
-        bar_back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView bar_title = view.findViewById(R.id.bar_title);
-                bar_title.setText("ヘルプ");
-                ImageView bar_back_btn = view.findViewById(R.id.bar_back_button);
-                bar_back_btn.setVisibility(View.INVISIBLE);
-                fragmentManager.popBackStack();
-            }
+        bar_back_btn.setOnClickListener(v -> {
+            TextView bar_title = view.findViewById(R.id.bar_title);
+            bar_title.setText("ヘルプ");
+            bar_back_btn.setVisibility(View.INVISIBLE);
+            fragmentManager.popBackStack();
         });
     }
 }

@@ -5,17 +5,17 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/comments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="おはよう"
-        android:textSize="20dp"
-        android:drawablePadding="11dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/comments"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        android:text="おはよう"-->
+<!--        android:textSize="20dp"-->
+<!--        android:drawablePadding="11dp"/>-->
 
     <com.example.alarmclock.spinner_timepicker
         android:id="@+id/spinner_time_picker"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/CustomTimePicker"
-        android:background="@drawable/rest_timebg"
+        android:background="#232121"
         android:timePickerMode="spinner">
 
         <ImageView

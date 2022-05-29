@@ -15,14 +15,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 
-
-//アプリが再起動された時に再設定を行うためのクラス
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static Handler handler;
 
@@ -36,13 +33,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction() != null) {
             if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
                 DatabaseHelper helper = new DatabaseHelper(context);
-
                 // データベースを検索する項目を定義
                 String[] cols = {DBDef.DBEntry._ID, DBDef.DBEntry.COLUMN_NAME_TIME, DBDef.DBEntry.SWITCH_CONDITION, DBDef.DBEntry.MEMO};
-
                 // 読み込みモードでデータベースをオープン
                 try (SQLiteDatabase db = helper.getReadableDatabase()) {
-
                     // データベースを検索
                     Cursor cursor = db.query(DBDef.DBEntry.TABLE_NAME, cols, null,
                             null, null, null, null, null);
@@ -99,7 +93,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             }
             NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel("default","おはようございます",NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel("default","Hello",NotificationManager.IMPORTANCE_DEFAULT);
                 channel.setDescription(memo);
                 channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE); //ロック画面に表示
                 if (notificationManager != null)

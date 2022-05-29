@@ -41,7 +41,6 @@ public class RowLayout_FAQ extends Fragment {
         answer_back = view.findViewById(R.id.answer_back);
         answer_text = view.findViewById(R.id.answer_text);
         answer_icon = view.findViewById(R.id.answer_icon);
-        minus_icon = view.findViewById(R.id.minus_icon);
         question_text.setText(question);
         answer_text.setText(answer);
         goneAnswer(); //answer部分を全て隠す

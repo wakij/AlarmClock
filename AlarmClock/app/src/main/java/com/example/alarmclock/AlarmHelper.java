@@ -2,14 +2,9 @@ package com.example.alarmclock;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -36,13 +31,12 @@ public class AlarmHelper {
         Calendar nowCalendar = Calendar.getInstance();
         nowCalendar.setTimeInMillis(System.currentTimeMillis());
 
-//        日付の調整
+        // 日付の調整
         int diff = calendar.compareTo(nowCalendar);
         if(diff <= 0){
             calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
         }
 
-        //明示的なBroadCast
         Intent intent = new Intent(context,
                 AlarmBroadcastReceiver.class);
 
@@ -64,7 +58,7 @@ public class AlarmHelper {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void setAlarm(AlarmManager am, Context context, String time, int id, String isSwitchOn, String memo)
     {
-        if (Boolean.valueOf(isSwitchOn))
+        if (Boolean.parseBoolean(isSwitchOn))
         {
             String[] hour_minutes = time.split(":");
             int hour = Integer.parseInt(hour_minutes[0]);

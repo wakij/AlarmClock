@@ -76,18 +76,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.CHART_TABLE);
         onCreate(db);
 
-//        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME2);
-//        onCreate(db);
-//
-//        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME3);
-//        onCreate(db);
-//
-//        db.execSQL("DROP TABLE IF EXISTS " + DBDef.DBEntry.TABLE_NAME4);
-//        onCreate(db);
-
-
-
-
     }
 
 
